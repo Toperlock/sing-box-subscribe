@@ -85,14 +85,14 @@
         "http_proxy": {
           "enabled": true,
           "server": "0.0.0.0",
-          "server_port": 2080
+          "server_port": 7890
         }
       }
     },
     {
       "type": "mixed",
       "listen": "0.0.0.0",
-      "listen_port": 2080,
+      "listen_port": 7890,
       "sniff": true,
       "users": []
     }
