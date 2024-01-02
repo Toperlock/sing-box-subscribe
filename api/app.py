@@ -109,10 +109,12 @@ def edit_temp_json():
 @app.route('/config/<path:url>', methods=['GET'])
 def config(url):
     
-    temp_json_data_str = os.environ['TEMP_JSON_DATA']
-    temp_json_data = json.loads(temp_json_data_str)
+    # temp_json_data_str = os.environ['TEMP_JSON_DATA']
+    # temp_json_data = json.loads(temp_json_data_str)
+    temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"prefix":"❤️","User-Agent":"clashmeta"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"prefix":"","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
     subscribe = temp_json_data['subscribes'][0]
     subscribe2 = temp_json_data['subscribes'][1]
+    subscribe3 = temp_json_data['subscribes'][2]
     query_string = request.query_string.decode('utf-8')
     #print (f"query_string: {query_string}")
     #print (f"url: {url}")
@@ -193,14 +195,18 @@ def config(url):
     else:
         full_url = unquote(full_url)
     print (full_url)
-    if "|" in full_url:
+    url_parts = full_url.split('|')
+    if len(url_parts) == 2 or len(url_parts) == 3:
         subscribe['url'] = full_url.split('url=', 1)[-1].split('|')[0] if full_url.startswith('url') else full_url.split('|')[0]
         subscribe2['url'] = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
         subscribe2['emoji'] = 1
         subscribe2['enabled'] = True
         subscribe2['prefix'] = ''
         subscribe2['User-Agent'] = 'v2rayng'
-    else:
+    if len(url_parts) == 3:
+        subscribe3['url'] = full_url.split('url=', 1)[-1].split('|')[2] if full_url.startswith('url') else full_url.split('|')[2]
+        subscribe3['enabled'] = True
+    if len(url_parts) == 1:
         subscribe['url'] = full_url.split('url=', 1)[-1] if full_url.startswith('url') else full_url
         subscribe['emoji'] = int(emoji_param) if emoji_param.isdigit() else subscribe.get('emoji', '')
         subscribe['tag'] = tag_param if tag_param else subscribe.get('tag', '')
