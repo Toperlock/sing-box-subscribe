@@ -5,6 +5,7 @@
             "tag": "tag_1",
             "enabled": true,
             "emoji": 1,
+            "subgroup": "",
             "prefix": "",
             "User-Agent":"v2rayng"
         },
@@ -13,6 +14,7 @@
             "tag": "tag_2",
             "enabled": false,
             "emoji": 0,
+            "subgroup": "命名/named",
             "prefix": "❤️",
             "User-Agent":"clashmeta"
         }

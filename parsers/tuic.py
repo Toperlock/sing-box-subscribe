@@ -5,7 +5,7 @@ def parse(data):
     server_info = urlparse(info)
     if server_info.path:
         server_info = server_info._replace(netloc=server_info.netloc + server_info.path)
-    _netloc = server_info.netloc.split("@")
+    _netloc = server_info.netloc.rsplit("@", 1)
     #_netloc = (tool.b64Decode(server_info.netloc)).decode().split("@")
     netquery = dict(
         (k, v if len(v) > 1 else v[0])

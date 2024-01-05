@@ -47,6 +47,8 @@ def process_subscribes(subscribes):
         if _nodes and len(_nodes) > 0:
             add_prefix(_nodes, subscribe)
             add_emoji(_nodes, subscribe)
+            if subscribe.get('subgroup'):
+                subscribe['tag'] = subscribe['subgroup']
             if not nodes.get(subscribe['tag']):
                 nodes[subscribe['tag']] = []
             nodes[subscribe['tag']] += _nodes
@@ -392,6 +394,18 @@ def pro_node_template(data_nodes, config_outbound, group):
 
 def combin_to_config(config, data):
     config_outbounds = config["outbounds"] if config.get("outbounds") else None
+    for group in data:
+        if 'tag' not in group:
+            for out in config_outbounds:
+                if out.get("outbounds"):
+                    if out['tag'] == 'proxy':
+                        if '{all}' in out["outbounds"]:
+                            index_of_all = out["outbounds"].index('{all}')
+                            out["outbounds"][index_of_all] = group
+                        else:
+                            out["outbounds"].append(group)
+            new_outbound = {'tag': group, 'type': 'selector', 'outbounds': ['{' + group + '}']}
+            config_outbounds.insert(-4, new_outbound)
     temp_outbounds = []
     if config_outbounds:
         # 提前处理all模板

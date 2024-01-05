@@ -93,7 +93,7 @@
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="8"><span style="font-weight: bold; color: black; margin: 5px 0; font-size: 14px;">机场提供的订阅链接能直接在浏览器打开，这脚本就能使用。请你自行检查是否可以</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="9" data-color="red"><span style="font-weight: bold; color: red; margin: 5px 0; font-size: 14px;">需要特殊环境才能打开的订阅链接，请你在 TEMP_JSON_DATA 修改 "User-Agent" 或者先行把机场订阅链接内容复制到gist里，脚本才会解析成功。或者本地运行脚本</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="10"><span style="font-weight: bold; color: black; margin: 5px 0; font-size: 14px;">全部都是 SSR 协议会报错，或者请删掉左边方框内 exclude_protocol 引号里面的 ssr 这个三个字符即可</span></h3>
-            <h3 style="margin: 8px 0; font-size: 14px;" data-translate="11" data-color="red"><span style="font-weight: bold; color: red; margin: 5px 0; font-size: 14px;">机场订阅里有hy2新协议，请修改 "User-Agent" 为：clashmeta</span></h3>
+            <h3 style="margin: 8px 0; font-size: 14px;" data-translate="11" data-color="red"><span style="font-weight: bold; color: red; margin: 5px 0; font-size: 14px;">机场订阅里有hy2新协议，请修改 "User-Agent" 为：clashmeta。球球你了，别塞文件大于1MB的clash，你只需要保留proxies字段，别写那破鸡巴规则了，vercel服务器解析超时了懂吗老弟</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="12"><span style="font-weight: bold; color: black; margin: 5px 0; font-size: 14px;">以上不是废话，没成功生成配置请你仔细阅读以上内容</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="13" data-color="red"><span style="font-weight: bold; color: red; margin: 5px 0; font-size: 14px;">因为没用数据库，不会返回配置文件链接。生成配置内容后复制到gist里当作 sing-box remote 链接</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="14"><span style="font-weight: bold; color: black; margin: 5px 0; font-size: 14px;">生成配置成功后请不要用第三方输入法复制内容，会有长度限制复制不全</span></h3>
@@ -105,7 +105,7 @@
         </div>
     </div>
     <script>
-        const initialTempJsonData = '{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"prefix":"❤️","User-Agent":"clashmeta"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}';
+        const initialTempJsonData = '{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"❤️","User-Agent":"clashmeta"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}';
         let tempJsonData = initialTempJsonData;
         document.querySelector('#temp-json-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -132,7 +132,7 @@
             "8": "subscription links provided by Service can be directly opened in the browser, and the script can use them. Please check if it works on your end.",
             "9": "For subscription links that require a special environment to open, please modify 'User-Agent' in TEMP_JSON_DATA, or copy the content of the airport subscription link to gist in advance for the script to parse successfully. Alternatively, run the script locally.",
             "10": "All SSR protocols will report errors, or please delete the three characters 'ssr' in the exclude_protocol quotation marks in the left box.",
-            "11": "If there is a new hy2 protocol in the sub link, please modify 'User-Agent' to: clashmeta.",
+            "11": "If there is a new hy2 protocol in the sub link, please modify 'User-Agent' to: clashmeta. Damn it, don’t plug in a crash with a file larger than 1MB. You only need to keep the proxies field. Don’t write those crappy rules. The vercel server parsing timed out. Do you understand?",
             "12": "The above is not nonsense; if you fail to generate the configuration successfully, please read the above content carefully.",
             "13": "Because there is no database used, it will not return a configuration file link. After generating the configuration content, copy it to gist as a sing-box remote link.",
             "14": "After successfully generating the configuration, please do not use third-party input methods to copy the content, as there may be length limitations and the copy may not be complete.",
