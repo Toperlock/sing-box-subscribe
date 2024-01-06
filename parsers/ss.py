@@ -18,6 +18,11 @@ def parse(data):
             remark = urllib.parse.unquote(param[param.find('#') + 1:])
             node['tag'] = remark
         param = param[:param.find('#')]
+    if param.find('?remarks=') > -1:
+        if param[param.find('?remarks=') + 9:] != '':
+            remark = urllib.parse.unquote(param[param.find('?remarks=') + 9:])
+            node['tag'] = remark
+        param = param[:param.find('?remarks=')]
     if param.find('plugin=obfs-local') > -1 or param.find('plugin=simple-obfs') > -1:
         if param.find('&', param.find('plugin')) > -1:
             plugin = urllib.parse.unquote(param[param.find('plugin'):param.find('&', param.find('plugin'))])
