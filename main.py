@@ -224,8 +224,9 @@ def get_content_from_url(url, n=6):
         # print('Lỗi khi tải link đăng ký, bỏ qua link đăng ký này')
         print('----------------------------')
         pass
-    response_text = response.text
-    response_encoding = response.encoding
+    response_content = response.content
+    response_text = response_content.decode('utf-8-sig')  # utf-8-sig 可以忽略 BOM
+    #response_encoding = response.encoding
     if response_text.isspace():
         print('没有从订阅链接获取到任何内容')
         # print('Không nhận được proxy nào từ link đăng ký')
@@ -401,17 +402,21 @@ def combin_to_config(config, data):
             for out in config_outbounds:
                 if out.get("outbounds"):
                     if out['tag'] == 'proxy':
+                        out["outbounds"] = [out["outbounds"]] if isinstance(out["outbounds"], str) else out["outbounds"]
                         if '{all}' in out["outbounds"]:
                             index_of_all = out["outbounds"].index('{all}')
                             out["outbounds"][index_of_all] = (group.rsplit("-", 1)[0]).rsplit("-", 1)[-1]
+                            i += 1
                         else:
-                            out["outbounds"].insert(i + 1, (group.rsplit("-", 1)[0]).rsplit("-", 1)[-1])
+                            out["outbounds"].insert(i - 1, (group.rsplit("-", 1)[0]).rsplit("-", 1)[-1])
             new_outbound = {'tag': (group.rsplit("-", 1)[0]).rsplit("-", 1)[-1], 'type': 'selector', 'outbounds': ['{' + group + '}']}
             config_outbounds.insert(-4, new_outbound)
         else:
             for out in config_outbounds:
-                if out['tag'] == 'proxy':
-                    out["outbounds"].append('{' + group + '}')
+                if out.get("outbounds"):
+                    if out['tag'] == 'proxy':
+                        out["outbounds"] = [out["outbounds"]] if isinstance(out["outbounds"], str) else out["outbounds"]
+                        out["outbounds"].append('{' + group + '}')
     temp_outbounds = []
     if config_outbounds:
         # 提前处理all模板

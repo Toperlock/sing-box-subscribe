@@ -177,23 +177,25 @@ def config(url):
 
     # 构建要删除的字符串列表
     params_to_remove = [
-        f'&prefix={quote(pre_param)}',
-        f'&ua={ua_param}',
-        f'&UA={UA_param}',
-        f'&file={quote(file_param).replace("/", "%2F")}',
-        f'&emoji={emoji_param}',
-        f'&tag={tag_param}',
+        f'prefix={quote(pre_param)}',
+        f'ua={ua_param}',
+        f'UA={UA_param}',
+        f'file={quote(file_param).replace("/", "%2F")}',
+        f'emoji={emoji_param}',
+        f'tag={tag_param}',
     ]
     # 从url中删除这些字符串
     for param in params_to_remove:
         if param in full_url:
             full_url = full_url.replace(param, '')
-    if full_url.endswith("%2F"):
-        full_url = full_url[:-len("%2F")]
     if request.args.get('url'):
         full_url = full_url
     else:
         full_url = unquote(full_url)
+    suffixes_to_remove = ["%2F", "/&", "&"]
+    for suffix in suffixes_to_remove:
+        if full_url.endswith(suffix):
+            full_url = full_url.rstrip(suffix)
     print (full_url)
     url_parts = full_url.split('|')
     if len(url_parts) == 2 or len(url_parts) == 3:
