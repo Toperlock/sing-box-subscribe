@@ -130,12 +130,12 @@ def parse(data):
     if item.get('protocol'):
         node['multiplex'] = {
             'enabled': True,
-            'protocol': item['protocol'],
-            'max_streams': int(item.get('max_streams', '0'))
+            'protocol': item['protocol']
         }
-        if item.get('max_connections'):
+        if item.get('max_streams'):
+            node['multiplex']['max_streams'] = int(item['max_streams'])
+        else:
             node['multiplex']['max_connections'] = int(item['max_connections'])
-        if item.get('min_streams'):
             node['multiplex']['min_streams'] = int(item['min_streams'])
         if item.get('padding') == True:
             node['multiplex']['padding'] = True

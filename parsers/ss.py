@@ -72,12 +72,12 @@ def parse(data):
         smux_dict = {k: v[0] for k, v in smux_dict.items() if v[0]}
         node['multiplex'] = {
             'enabled': True,
-            'protocol': smux_dict['protocol'],
-            'max_streams': int(smux_dict.get('max-streams', '0'))
+            'protocol': smux_dict['protocol']
         }
-        if smux_dict.get('max-connections'):
+        if smux_dict.get('max-streams'):
+            node['multiplex']['max_streams'] = int(smux_dict['max-streams'])
+        else:
             node['multiplex']['max_connections'] = int(smux_dict['max-connections'])
-        if smux_dict.get('min-streams'):
             node['multiplex']['min_streams'] = int(smux_dict['min-streams'])
         if smux_dict.get('padding') == 'True':
             node['multiplex']['padding'] = True

@@ -59,13 +59,13 @@ def parse(data):
     if netquery.get('protocol'):
         node['multiplex'] = {
             'enabled': True,
-            'protocol': netquery['protocol'],
-            'max_streams': int(netquery.get('max_streams', '0'))
+            'protocol': netquery['protocol']
         }
-        if netquery.get('max_connections'):
-            node['multiplex']['max_connections'] = int(netquery['max_connections'])
-        if netquery.get('min_streams'):
-            node['multiplex']['min_streams'] = int(netquery['min_streams'])
+        if netquery.get('max-streams'):
+            node['multiplex']['max_streams'] = int(netquery['max-streams'])
+        else:
+            node['multiplex']['max_connections'] = int(netquery['max-connections'])
+            node['multiplex']['min_streams'] = int(netquery['min-streams'])
         if netquery.get('padding') == 'True':
             node['multiplex']['padding'] = True
     return node
