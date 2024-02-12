@@ -22,6 +22,7 @@
       {
         "tag": "proxyDns",
         "address": "https://dns.cloudflare.com/dns-query",
+        "strategy": "ipv4_only",
         "address_resolver": "localDns",
         "detour": "proxy"
       },
