@@ -27,7 +27,7 @@
       },
       {
         "tag": "localDns",
-        "address": "quic://223.5.5.5",
+        "address": "h3://223.6.6.6/dns-query#h3=true",
         "detour": "direct"
       },
       {
