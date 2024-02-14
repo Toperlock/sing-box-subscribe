@@ -21,7 +21,7 @@
     "servers": [
       {
         "tag": "proxyDns",
-        "address": "https://cloudflare-dns.com/dns-query",
+        "address": "https://doh.libredns.gr/ads",
         "strategy": "ipv4_only",
         "address_resolver": "localDns",
         "detour": "proxy"
