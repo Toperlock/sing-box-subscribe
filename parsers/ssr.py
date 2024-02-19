@@ -7,8 +7,10 @@ def parse(data):
         proxy_str = tool.urlDecode(info).decode('utf-8')
     except:
         proxy_str = info
+    i = 0
     parts = proxy_str.split(':')
     if len(parts) == 5: #fuck
+        i = 1
         next_part, _, proxy_str = proxy_str.partition('=')
         parts.append(proxy_str)
         for ssr_obfs in ['plain', 'http_simple', 'http_post', 'random_head', 'tls1.2_ticket_auth']:
@@ -25,8 +27,12 @@ def parse(data):
         'obfs': parts[4]
     }
     password_params = parts[5].split('/?')
-    node['password'] = tool.urlDecode(password_params[0].split('remarks')[0]).decode('utf-8')
-    params = password_params[-1].split(password_params[0].split('remarks')[0])[-1].split('&')
+    if i == 0:
+        node['password'] = tool.urlDecode(password_params[0]).decode('utf-8')
+        params = password_params[1].split('&')
+    else: #fuck
+        node['password'] = tool.urlDecode(password_params[0].split('remarks')[0]).decode('utf-8')
+        params = password_params[-1].split(password_params[0].split('remarks')[0])[-1].split('&')
     pdict = {'obfsparam':'obfs_param','protoparam':'protocol_param','remarks':'tag'}
     for p in params:
         key_value = p.split('=')

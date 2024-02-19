@@ -110,6 +110,7 @@ def edit_temp_json():
 
 @app.route('/config/<path:url>', methods=['GET'])
 def config(url):
+    '''
     user_agent = request.headers.get('User-Agent')
     if 'TelegramBot (like TwitterBot)' in user_agent:
         return Response(json.dumps({'status': 'error', 'message': 'block'}, indent=4, ensure_ascii=False),
@@ -117,6 +118,7 @@ def config(url):
     if any(substring in url for substring in ['sing-box-subscribe.vercel.app', 'https:/https:/', 'xxxx', 
                                               '%E6%9C%BA%E5%9C%BA', '%E8%AE%A2%E9%98%85', '%E5%9C%B0%E5%9D%80']):
         return Response(json.dumps({'status': 'error', 'message_CN': '填写参数不符合规范'}, indent=4,ensure_ascii=False), content_type='application/json; charset=utf-8', status=500)
+    '''
     # temp_json_data_str = os.environ['TEMP_JSON_DATA']
     # temp_json_data = json.loads(temp_json_data_str)
     temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"❤️","User-Agent":"clashmeta"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
@@ -132,7 +134,7 @@ def config(url):
     index_of_colon = encoded_url.find(":")
 
     if not query_string:
-        if any(substring in encoded_url for substring in ['&emoji=', '&file=']):
+        if any(substring in encoded_url for substring in ['&emoji=', '&file=', '&eps=']):
             if '|' in encoded_url:
                 param = urlparse(encoded_url.rsplit('&', 1)[-1])
             else:
@@ -140,6 +142,8 @@ def config(url):
             request.args = dict(item.split('=') for item in param.path.split('&'))
             if request.args.get('prefix'):
                 request.args['prefix'] = unquote(request.args['prefix'])
+            if request.args.get('eps'):
+                request.args['eps'] = unquote(request.args['eps'])
             if request.args.get('file'):
                 index = request.args.get('file').find(":")
                 next_index = index + 2
@@ -147,11 +151,13 @@ def config(url):
                     if next_index < len(request.args['file']) and request.args['file'][next_index] != "/":
                         request.args['file'] = request.args['file'][:next_index-1] + "/" + request.args['file'][next_index-1:]
     else:
-        if any(substring in query_string for substring in ['&emoji=', '&file=']):
+        if any(substring in query_string for substring in ['&emoji=', '&file=', '&eps=']):
             param = urlparse(query_string.split('&', 1)[-1])
             request.args = dict(item.split('=') for item in param.path.split('&'))
             if request.args.get('prefix'):
                 request.args['prefix'] = unquote(request.args['prefix'])
+            if request.args.get('eps'):
+                request.args['eps'] = unquote(request.args['eps'])
             if request.args.get('file'):
                 index = request.args.get('file').find(":")
                 next_index = index + 2
@@ -184,6 +190,7 @@ def config(url):
     ua_param = request.args.get('ua', '')
     UA_param = request.args.get('UA', '')
     pre_param = request.args.get('prefix', '')
+    eps_param = request.args.get('eps', '')
 
     # 构建要删除的字符串列表
     params_to_remove = [
@@ -194,6 +201,7 @@ def config(url):
         f'file={file_param}',
         f'&emoji={emoji_param}',
         f'&tag={tag_param}',
+        f'&eps={quote(eps_param)}'
     ]
     # 从url中删除这些字符串
     for param in params_to_remove:
@@ -225,6 +233,7 @@ def config(url):
         subscribe['tag'] = tag_param if tag_param else subscribe.get('tag', '')
         subscribe['prefix'] = pre_param if pre_param else subscribe.get('prefix', '')
         subscribe['User-Agent'] = ua_param if ua_param else 'v2rayng'
+    temp_json_data['exclude_protocol'] = eps_param if eps_param else temp_json_data.get('exclude_protocol', '')
     temp_json_data['config_template'] = unquote(file_param) if file_param else temp_json_data.get('config_template', '')
     #print (f"Custom Page for {url} with link={full_url}, emoji={emoji_param}, file={file_param}, tag={tag_param}, UA={ua_param}, prefix={pre_param}")
     #page_content = f"生成的页面内容：{full_url}"

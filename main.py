@@ -43,7 +43,7 @@ def process_subscribes(subscribes):
     for subscribe in subscribes:
         if 'enabled' in subscribe and not subscribe['enabled']:
             continue
-        if 'sing-box-subscribe.vercel.app' in subscribe['url']:
+        if 'sing-box-subscribe-doraemon.vercel.app' in subscribe['url']:
             continue
         _nodes = get_nodes(subscribe['url'])
         if _nodes and len(_nodes) > 0:
@@ -196,6 +196,9 @@ def get_parser(node):
         eps = providers['exclude_protocol'].split(',')
         if len(eps) > 0:
             eps = [protocol.strip() for protocol in eps]
+            if 'hy2' in eps:
+                index = eps.index('hy2')
+                eps[index] = 'hysteria2'
             if proto in eps:
                 return None
     if not proto or proto not in parsers_mod.keys():

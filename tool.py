@@ -255,13 +255,13 @@ def replaceStr(nodelist,keywords):
 
 def proDuplicateNodeName(nodes):
     names = []
+    index = 2
     for key in nodes.keys():
         nodelist = nodes[key]
         for node in nodelist:
-            index = 2
             s = node['tag']
             while node['tag'] in names:
-                node['tag'] = s+str(index)
+                node['tag'] = s + ' ' + str(index)
                 index += 1
             names.append(node['tag'])
 

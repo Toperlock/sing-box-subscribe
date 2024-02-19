@@ -1,7 +1,7 @@
 # 操作说明去看[英文文档](https://github.com/Toperlock/sing-box-subscribe/blob/main/instructions/README.md)，中文文档操作说明不再提供
 
-# 请使用自己搭建的vercel服务器转换，当我的vecel Function Execution 达到 90% 时，我会停止网站的转换功能
-![image](https://github.com/Toperlock/sing-box-subscribe/assets/86833913/15c28b1a-6062-4e6d-b2a4-5c53fc271a92)
+# 免责声明：sing-box-subscribe.vercel.app域名目前已被其他人占用，与本项目无关。后果自负
+![image](https://github.com/Toperlock/sing-box-subscribe/assets/86833913/f9af80bc-f1b7-45dd-a2eb-e26910069f21)
 
 ### 使用 `/config/URL` 添加参数符号已修改，从原来的 `/&` 改为 `&`。有问题请提issue，不要打扰 `sing-box`
 
