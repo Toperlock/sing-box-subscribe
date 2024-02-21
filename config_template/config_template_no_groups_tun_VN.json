@@ -77,35 +77,8 @@
             ]
           }
         ],
-        "server": "dns_refused",
+        "server": "nblock",
         "disable_cache": true
-      },
-      {
-        "rule_set": "geosite-geolocation-!cn",
-        "query_type": [
-          "CNAME"
-        ],
-        "server": "proxyDns",
-        "disable_cache": false,
-        "rewrite_ttl": 20
-      },
-      {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "rule_set": "geosite-cn",
-            "invert": true
-          },
-          {
-            "query_type": [
-              "CNAME"
-            ]
-          }
-        ],
-        "server": "proxyDns",
-        "disable_cache": false,
-        "rewrite_ttl": 20
       },
       {
         "type": "logical",
@@ -497,14 +470,6 @@
     {
       "type": "block",
       "tag": "block"
-    },
-    {
-      "tag": "direct-out",
-      "type": "direct",
-      "domain_strategy": "prefer_ipv4",
-      "override_address": "127.0.0.1",
-      "override_port": 7891,
-      "detour": "proxy"
     },
     {
       "tag": "loop",
