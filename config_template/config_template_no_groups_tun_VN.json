@@ -673,7 +673,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""		
       },
       {
         "tag": "geosite-geolocation-!cn",
@@ -681,7 +681,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-category-ads-all",
@@ -689,7 +689,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "BlockHttpDNS",
@@ -697,7 +697,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/bm7/BlockHttpDNS.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-google",
@@ -705,7 +705,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-telegram",
@@ -713,7 +713,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-twitter",
@@ -721,7 +721,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/twitter.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-facebook",
@@ -729,7 +729,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/facebook.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-netflix",
@@ -737,7 +737,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/netflix.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-apple",
@@ -745,7 +745,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-bilibili",
@@ -753,7 +753,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/bilibili.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geoip-cn",
@@ -761,7 +761,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-private",
@@ -769,7 +769,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-openai",
@@ -777,7 +777,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/openai.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-youtube",
@@ -785,7 +785,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-google",
@@ -793,7 +793,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-github",
@@ -801,7 +801,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-telegram",
@@ -809,7 +809,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-twitter",
@@ -817,7 +817,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/twitter.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-facebook",
@@ -825,7 +825,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/facebook.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-instagram",
@@ -833,7 +833,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/instagram.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-bilibili",
@@ -841,7 +841,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-bahamut",
@@ -849,7 +849,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bahamut.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-spotify",
@@ -857,7 +857,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/spotify.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-tiktok",
@@ -865,7 +865,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/tiktok.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-netflix",
@@ -873,7 +873,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/netflix.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-disney",
@@ -881,7 +881,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/disney.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-apple",
@@ -889,7 +889,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-amazon",
@@ -897,7 +897,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/amazon.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-microsoft",
@@ -905,7 +905,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-category-games",
@@ -913,7 +913,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-games.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-hbo",
@@ -921,7 +921,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/hbo.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       },
       {
         "tag": "geosite-primevideo",
@@ -929,7 +929,7 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/primevideo.srs",
         "download_detour": "proxy",
-		    "update_interval": "12h"
+        "update_interval": ""
       }
     ]
   }
