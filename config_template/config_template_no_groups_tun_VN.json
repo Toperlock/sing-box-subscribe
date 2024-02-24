@@ -155,7 +155,8 @@
       "listen": "127.0.0.1",
       "listen_port": 7777,
       "detour": "loop-in",
-      "domain_strategy": "prefer_ipv4"
+      "domain_strategy": "prefer_ipv4",
+      "network": "tcp"
     }
   ],
   "outbounds": [
@@ -477,8 +478,7 @@
       "server_port": 7777,
       "udp_over_tcp": {"enabled": true,"version": 2},
       "domain_strategy": "prefer_ipv4",
-      "tcp_multi_path": true,
-      "network": "tcp"
+      "tcp_multi_path": true
     }
   ],
   "route": {
