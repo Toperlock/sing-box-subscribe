@@ -20,7 +20,8 @@ def parse(data):
         'down_mbps': int(re.search(r'\d+', netquery.get('downmbps', '100')).group()),
         'tls': {
             'enabled': True,
-            'server_name': netquery.get('sni', netquery.get('peer', ''))
+            'server_name': netquery.get('sni', netquery.get('peer', '')),
+            'insecure': False
         }
     }
     if netquery.get('insecure') in ['1', 'true'] or netquery.get('allowInsecure') == '1':
