@@ -415,7 +415,7 @@ For example, if you use the kernel to run sing-box on Windows, delete the tun fi
     {
       "type": "mixed",
       "listen": "127.0.0.1",
-      "listen_port": 2080, //This port must be consistent with the windows proxy port
+      "listen_port": 7890, //This port must be consistent with the windows proxy port
       "sniff": true,
       "set_system_proxy": true,
       "sniff_override_destination": false,
