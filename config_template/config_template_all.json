@@ -44,6 +44,16 @@
         "server": "localDns"
       },
       {
+        "process_name": [
+          "TencentMeeting",
+          "WeChat",
+          "Tailscale",
+          "olk",
+          "Foxmail"
+        ],
+        "server": "localDns"
+      },
+      {
         "rule_set": "geosite-category-ads-all",
         "server": "block"
       },
@@ -518,6 +528,16 @@
           "m-team",
           "hdarea",
           "hdtime"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "process_name": [
+          "TencentMeeting",
+          "WeChat",
+          "Tailscale",
+          "olk",
+          "Foxmail"
         ],
         "outbound": "direct"
       },
