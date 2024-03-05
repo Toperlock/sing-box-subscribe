@@ -39,7 +39,16 @@
         "domain": [
           "ghproxy.com",
           "cdn.jsdelivr.net",
-          "testingcf.jsdelivr.net"
+          "testingcf.jsdelivr.net",
+          "cei.cn",
+          "yangtf.top"
+        ],
+        "server": "localDns"
+      },
+      {
+        "domain_suffix": [
+          "cei.cn",
+          "yangtf.top"
         ],
         "server": "localDns"
       },
