@@ -94,6 +94,8 @@ def parse(data):
             node['transport'] = {
                 'type':'http'
             }
+            if item.get('headers'):
+                node['transport']['headers'] = item['headers']
             if item.get('host'):
                 node['transport']['host'] = item['host']
             if item.get('path'):
