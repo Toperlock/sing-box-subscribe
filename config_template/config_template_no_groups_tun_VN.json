@@ -21,7 +21,7 @@
     "servers": [
       {
         "tag": "proxyDns",
-        "address": "https://dns.quad9.net/dns-query",
+        "address": "https://doh.libredns.gr/ads",
         "strategy": "ipv4_only",
         "address_resolver": "localDns",
         "detour": "proxy"
@@ -45,17 +45,17 @@
         "strategy": "ipv4_only"
       }
     ],
-    "rules": [
-      {
-        "inbound": "loop-in",
-        "server": "proxyDns",
-        "disable_cache": true
-      },      
+    "rules": [    
       {
         "outbound": "any",
         "server": "localDns",
         "disable_cache": true
       },
+      {
+        "inbound": "loop-in",
+        "server": "proxyDns",
+        "disable_cache": true
+      },        
       {
         "type": "logical",
         "mode": "or",
