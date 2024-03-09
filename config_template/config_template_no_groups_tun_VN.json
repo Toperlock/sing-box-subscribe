@@ -21,7 +21,7 @@
     "servers": [
       {
         "tag": "proxyDns",
-        "address": "https://dns.quad9.net/dns-query",
+        "address": "https://doh.libredns.gr/dns-query",
         "strategy": "ipv4_only",
         "address_resolver": "localDns",
         "detour": "proxy"
