@@ -110,15 +110,15 @@ def edit_temp_json():
 
 @app.route('/config/<path:url>', methods=['GET'])
 def config(url):
-    '''
     user_agent = request.headers.get('User-Agent')
-    if 'TelegramBot (like TwitterBot)' in user_agent:
+    rua_values = os.getenv('RUA')
+    if rua_values and any(rua_value in user_agent for rua_value in rua_values.split(',')):
         return Response(json.dumps({'status': 'error', 'message': 'block'}, indent=4, ensure_ascii=False),
                         content_type='application/json; charset=utf-8', status=403)
-    if any(substring in url for substring in ['sing-box-subscribe.vercel.app', 'https:/https:/', 'xxxx', 
-                                              '%E6%9C%BA%E5%9C%BA', '%E8%AE%A2%E9%98%85', '%E5%9C%B0%E5%9D%80']):
-        return Response(json.dumps({'status': 'error', 'message_CN': '填写参数不符合规范'}, indent=4,ensure_ascii=False), content_type='application/json; charset=utf-8', status=500)
-    '''
+    substrings = os.getenv('STR')
+    if substrings and any(substring in url for substring in substrings.split(',')):
+        return Response(json.dumps({'status': 'error', 'message_CN': '填写参数不符合规范'}, indent=4, ensure_ascii=False),
+                        content_type='application/json; charset=utf-8', status=403)
     # temp_json_data_str = os.environ['TEMP_JSON_DATA']
     # temp_json_data = json.loads(temp_json_data_str)
     temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"❤️","User-Agent":"clashmeta"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')

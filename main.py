@@ -260,7 +260,9 @@ def get_content_from_url(url, n=6):
             response_text = json.loads(response.text)
             return response_text
         except:
-            pass
+            response_text = re.sub(r'//.*', '', response_text)
+            response_text = json.loads(response_text)
+            return response_text
     else:
         try:
             response_text = tool.b64Decode(response_text)
