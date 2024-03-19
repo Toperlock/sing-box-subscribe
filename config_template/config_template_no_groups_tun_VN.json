@@ -61,9 +61,6 @@
         "mode": "or",
         "rules": [
           {
-            "rule_set": "BlockHttpDNS"
-          },
-          {
             "rule_set": "geosite-category-ads-all"
           },
           {
@@ -500,9 +497,6 @@
         "mode": "or",
         "rules": [
           {
-            "rule_set": "BlockHttpDNS"
-          },
-          {
             "domain_suffix": [
               ".mcdn.bilivideo.cn",
               ".szbdyd.com"
@@ -685,14 +679,6 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
-        "download_detour": "proxy",
-        "update_interval": "12h"
-      },
-      {
-        "tag": "BlockHttpDNS",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/bm7/BlockHttpDNS.srs",
         "download_detour": "proxy",
         "update_interval": "12h"
       },
