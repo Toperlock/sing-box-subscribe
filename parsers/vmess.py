@@ -31,6 +31,8 @@ def parse(data):
                     'insecure': True,
                     'server_name': netquery.get('peer', '')
                 }
+                if netquery.get('allowInsecure') == 0:
+                    node['tls']['insecure'] = False
                 if netquery.get('sni'):
                     node['tls']['server_name'] = netquery['sni']
                     node['tls']['utls'] = {
@@ -38,9 +40,10 @@ def parse(data):
                         'fingerprint': netquery.get('fp', 'chrome')
                     }
             if (netquery.get('obfs') == 'websocket') or (netquery.get('type') == 'ws'):
+                # matches = re.search(r'\?ed=(\d+)', netquery.get('path', '/'))
                 node['transport'] = {
                     'type': 'ws',
-                    'path': netquery.get('path', '').rsplit("?")[0],
+                    'path': netquery.get('path', '/').rsplit("?ed=", 1)[0],
                     'headers': {
                         'Host': netquery.get('host', '')  # 如果 'obfsParam' 不存在或解析失败，使用 'host' 字段
                     }
@@ -82,6 +85,8 @@ def parse(data):
             'insecure': True,
             'server_name': item.get('host', '') if item.get("net") not in ['h2', 'http'] else ''
         }
+        if item.get('verify_cert') == False:
+            node['tls']['insecure'] = False
         if item.get('sni'):
             node['tls']['server_name'] = item['sni']
         if item.get('fp'):
@@ -116,10 +121,11 @@ def parse(data):
                 }
             }
             if item.get('path'):
-                node['transport']['path'] = str(item['path']).rsplit("?")[0]
-            if '?ed=' in str(item.get('path', '')):
-                node['transport']['early_data_header_name'] = 'Sec-WebSocket-Protocol'
-                node['transport']['max_early_data'] = int(re.search(r'\d+', item.get('path').rsplit("?ed=")[1]).group())
+                matches = re.search(r'\?ed=(\d+)', item['path'])
+                node['transport']['path'] = item['path'].rsplit("?ed=", 1)[0] if matches else item['path']
+                if matches:
+                    node['transport']['early_data_header_name'] = 'Sec-WebSocket-Protocol'
+                    node['transport']['max_early_data'] = int(item['path'].rsplit("?ed=", 1)[1])
         elif item['net'] == 'quic':
             node['transport'] = {
                 'type':'quic'

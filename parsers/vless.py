@@ -8,7 +8,10 @@ def parse(data):
     except:
         netloc = server_info.netloc
     _netloc = netloc.split("@")
-    _netloc_parts = _netloc[1].rsplit(":", 1)
+    try:
+        _netloc_parts = _netloc[1].rsplit(":", 1)
+    except:
+        return None
     if _netloc_parts[1].isdigit(): #fuck
         server = re.sub(r"\[|\]", "", _netloc_parts[0])
         server_port = int(_netloc_parts[1])
@@ -65,9 +68,10 @@ def parse(data):
                 'type':'http'
             }
         elif netquery['type'] == 'ws':
+            matches = re.search(r'\?ed=(\d+)', netquery.get('path', '/'))
             node['transport'] = {
                 'type':'ws',
-                "path": netquery.get('path', '').rsplit("?")[0],
+                "path": netquery.get('path', '/').rsplit("?ed=", 1)[0] if matches else netquery.get('path', '/'),
                 "headers": {
                     "Host": '' if netquery.get('host') is None and netquery.get('sni') == 'None' else netquery.get('host', netquery.get('sni', ''))
                 }
@@ -76,9 +80,9 @@ def parse(data):
                 if node['tls']['server_name'] == '':
                     if node['transport']['headers']['Host']:
                         node['tls']['server_name'] = node['transport']['headers']['Host']
-            if '?ed=' in netquery.get('path', ''):
+            if matches:
                 node['transport']['early_data_header_name'] = 'Sec-WebSocket-Protocol'
-                node['transport']['max_early_data'] = int(re.search(r'\d+', netquery.get('path').rsplit("?ed=")[1]).group())
+                node['transport']['max_early_data'] = int(netquery.get('path', '/').rsplit("?ed=", 1)[1])
         elif netquery['type'] == 'grpc':
             node['transport'] = {
                 'type':'grpc',
@@ -86,9 +90,10 @@ def parse(data):
             }
     elif netquery.get('obfs'):  #shadowrocket
         if netquery['obfs'] == 'websocket':
+            matches = re.search(r'\?ed=(\d+)', netquery.get('path', '/'))
             node['transport'] = {
                 'type':'ws',
-                "path": netquery.get('path', '').rsplit("?")[0],
+                "path": netquery.get('path', '/').rsplit("?ed=", 1)[0] if matches else netquery.get('path', '/'),
                 "headers": {
                     "Host": '' if netquery.get('obfsParam') is None and netquery.get('sni') == 'None' else netquery.get('obfsParam', netquery.get('sni', ''))
                 }
@@ -97,9 +102,9 @@ def parse(data):
                 if node['tls']['server_name'] == '':
                     if node['transport']['headers']['Host']:
                         node['tls']['server_name'] = node['transport']['headers']['Host']
-            if '?ed=' in netquery.get('path', ''):
+            if matches:
                 node['transport']['early_data_header_name'] = 'Sec-WebSocket-Protocol'
-                node['transport']['max_early_data'] = int(re.search(r'\d+', netquery.get('path').rsplit("?ed=")[1]).group())
+                node['transport']['max_early_data'] = int(netquery.get('path', '/').rsplit("?ed=", 1)[1])
     if netquery.get('protocol'):
         node['multiplex'] = {
             'enabled': True,
