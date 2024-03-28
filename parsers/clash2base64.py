@@ -137,7 +137,7 @@ def clash2v2ray(share_link):
             "server": share_link['server'],
             "port": share_link['port'],
             "sni": share_link.get('sni', ''),
-            "skip_cert_verify": share_link.get('skip-cert-verify', False),
+            "allowInsecure": '1' if share_link.get('skip-cert-verify') == True else '0',
             "type": share_link.get('network', 'tcp'),
             "fp": share_link.get('client-fingerprint', ''),
             "alpn": quote(','.join(share_link.get('alpn', '')), 'utf-8'),
@@ -152,7 +152,7 @@ def clash2v2ray(share_link):
                     trojan_info["serviceName"] = server_parts[-2]
                 else:
                     trojan_info["serviceName"] = ''
-            link = "trojan://{password}@{server}:{port}?sni={sni}&skip_cert_verify={skip_cert_verify}&type={type}&serviceName={serviceName}&fp={fp}&alpn={alpn}".format(**trojan_info)
+            link = "trojan://{password}@{server}:{port}?sni={sni}&allowInsecure={allowInsecure}&type={type}&serviceName={serviceName}&fp={fp}&alpn={alpn}".format(**trojan_info)
         elif trojan_info['type'] == 'ws':
             if share_link.get('ws-opts'):
                 trojan_info["path"] = quote(share_link['ws-opts'].get('path', ''), 'utf-8')
@@ -160,9 +160,9 @@ def clash2v2ray(share_link):
             else:
                 trojan_info["path"] = ''
                 trojan_info["host"] = trojan_info["sni"]
-            link = "trojan://{password}@{server}:{port}?sni={sni}&skip_cert_verify={skip_cert_verify}&type={type}&host={host}&path={path}&fp={fp}&alpn={alpn}".format(**trojan_info)
+            link = "trojan://{password}@{server}:{port}?sni={sni}&allowInsecure={allowInsecure}&type={type}&host={host}&path={path}&fp={fp}&alpn={alpn}".format(**trojan_info)
         elif trojan_info['type'] == 'tcp':
-            link = "trojan://{password}@{server}:{port}?sni={sni}&skip_cert_verify={skip_cert_verify}&type={type}&fp={fp}&alpn={alpn}".format(**trojan_info)
+            link = "trojan://{password}@{server}:{port}?sni={sni}&allowInsecure={allowInsecure}&type={type}&fp={fp}&alpn={alpn}".format(**trojan_info)
         if share_link.get('smux',{}).get('enabled', '') == True:
             trojan_info["protocol"] = share_link['smux']['protocol']
             trojan_info["max_connections"] = share_link['smux'].get('max-connections','')
