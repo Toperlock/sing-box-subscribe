@@ -49,6 +49,7 @@ def process_subscribes(subscribes):
         if _nodes and len(_nodes) > 0:
             add_prefix(_nodes, subscribe)
             add_emoji(_nodes, subscribe)
+            nodefilter(_nodes, subscribe)
             if subscribe.get('subgroup'):
                 subscribe['tag'] = subscribe['tag'] + '-' + subscribe['subgroup'] + '-' + 'subgroup'
             if not nodes.get(subscribe['tag']):
@@ -118,6 +119,15 @@ def add_emoji(nodes, subscribe):
             node['tag'] = tool.rename(node['tag'])
             if node.get('detour'):
                 node['detour'] = tool.rename(node['detour'])
+
+
+def nodefilter(nodes, subscribe):
+    if subscribe.get('ex-node-name'):
+        ex_nodename = re.split(r'[,\|]', subscribe['ex-node-name'])
+        for exns in ex_nodename:
+            for node in nodes[:]:  # 遍历 nodes 的副本，以便安全地删除元素
+                if exns in node['tag']:
+                    nodes.remove(node)
 
 
 def get_nodes(url):

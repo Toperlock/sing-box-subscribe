@@ -40,7 +40,7 @@ def parse(data):
                         'fingerprint': netquery.get('fp', 'chrome')
                     }
             if (netquery.get('obfs') == 'websocket') or (netquery.get('type') == 'ws'):
-                # matches = re.search(r'\?ed=(\d+)', netquery.get('path', '/'))
+                # matches = re.search(r'\?ed=(\d+)$', netquery.get('path', '/'))
                 node['transport'] = {
                     'type': 'ws',
                     'path': netquery.get('path', '/').rsplit("?ed=", 1)[0],
@@ -121,7 +121,7 @@ def parse(data):
                 }
             }
             if item.get('path'):
-                matches = re.search(r'\?ed=(\d+)', item['path'])
+                matches = re.search(r'\?ed=(\d+)$', item['path'])
                 node['transport']['path'] = item['path'].rsplit("?ed=", 1)[0] if matches else item['path']
                 if matches:
                     node['transport']['early_data_header_name'] = 'Sec-WebSocket-Protocol'
@@ -135,7 +135,7 @@ def parse(data):
                 'type':'grpc',
                 'service_name':item.get('path', '')
             }
-    if item.get('protocol'):
+    if item.get('protocol') in ['smux', 'yamux', 'h2mux']:
         node['multiplex'] = {
             'enabled': True,
             'protocol': item['protocol']

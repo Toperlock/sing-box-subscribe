@@ -38,11 +38,11 @@ def parse(data):
     if netquery.get('security', '') not in ['None', 'none', ''] or netquery.get('tls') == '1':
         node['tls'] = {
             'enabled': True,
-            'insecure': True,
+            'insecure': False,
             'server_name': ''
         }
-        if netquery.get('allowInsecure') == '0':
-            node['tls']['insecure'] = False
+        if netquery.get('allowInsecure') == '1':
+            node['tls']['insecure'] = True
         node['tls']['server_name'] = netquery.get('sni', '') or netquery.get('peer', '')
         if node['tls']['server_name'] == 'None':
             node['tls']['server_name'] = ''
@@ -68,7 +68,7 @@ def parse(data):
                 'type':'http'
             }
         elif netquery['type'] == 'ws':
-            matches = re.search(r'\?ed=(\d+)', netquery.get('path', '/'))
+            matches = re.search(r'\?ed=(\d+)$', netquery.get('path', '/'))
             node['transport'] = {
                 'type':'ws',
                 "path": netquery.get('path', '/').rsplit("?ed=", 1)[0] if matches else netquery.get('path', '/'),
@@ -90,7 +90,7 @@ def parse(data):
             }
     elif netquery.get('obfs'):  #shadowrocket
         if netquery['obfs'] == 'websocket':
-            matches = re.search(r'\?ed=(\d+)', netquery.get('path', '/'))
+            matches = re.search(r'\?ed=(\d+)$', netquery.get('path', '/'))
             node['transport'] = {
                 'type':'ws',
                 "path": netquery.get('path', '/').rsplit("?ed=", 1)[0] if matches else netquery.get('path', '/'),
@@ -105,7 +105,7 @@ def parse(data):
             if matches:
                 node['transport']['early_data_header_name'] = 'Sec-WebSocket-Protocol'
                 node['transport']['max_early_data'] = int(netquery.get('path', '/').rsplit("?ed=", 1)[1])
-    if netquery.get('protocol'):
+    if netquery.get('protocol') in ['smux', 'yamux', 'h2mux']:
         node['multiplex'] = {
             'enabled': True,
             'protocol': netquery['protocol']

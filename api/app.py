@@ -121,7 +121,7 @@ def config(url):
                         content_type='application/json; charset=utf-8', status=403)
     # temp_json_data_str = os.environ['TEMP_JSON_DATA']
     # temp_json_data = json.loads(temp_json_data_str)
-    temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"❤️","User-Agent":"clashmeta"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
+    temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
     subscribe = temp_json_data['subscribes'][0]
     subscribe2 = temp_json_data['subscribes'][1]
     subscribe3 = temp_json_data['subscribes'][2]
@@ -134,7 +134,7 @@ def config(url):
     index_of_colon = encoded_url.find(":")
 
     if not query_string:
-        if any(substring in encoded_url for substring in ['&emoji=', '&file=', '&eps=']):
+        if any(substring in encoded_url for substring in ['&emoji=', '&file=', '&eps=', '&enn=']):
             if '|' in encoded_url:
                 param = urlparse(encoded_url.rsplit('&', 1)[-1])
             else:
@@ -144,6 +144,8 @@ def config(url):
                 request.args['prefix'] = unquote(request.args['prefix'])
             if request.args.get('eps'):
                 request.args['eps'] = unquote(request.args['eps'])
+            if request.args.get('enn'):
+                request.args['enn'] = unquote(request.args['enn'])
             if request.args.get('file'):
                 index = request.args.get('file').find(":")
                 next_index = index + 2
@@ -151,13 +153,15 @@ def config(url):
                     if next_index < len(request.args['file']) and request.args['file'][next_index] != "/":
                         request.args['file'] = request.args['file'][:next_index-1] + "/" + request.args['file'][next_index-1:]
     else:
-        if any(substring in query_string for substring in ['&emoji=', '&file=', '&eps=']):
+        if any(substring in query_string for substring in ['&emoji=', '&file=', '&eps=', '&enn=']):
             param = urlparse(query_string.split('&', 1)[-1])
             request.args = dict(item.split('=') for item in param.path.split('&'))
             if request.args.get('prefix'):
                 request.args['prefix'] = unquote(request.args['prefix'])
             if request.args.get('eps'):
                 request.args['eps'] = unquote(request.args['eps'])
+            if request.args.get('enn'):
+                request.args['enn'] = unquote(request.args['enn'])
             if request.args.get('file'):
                 index = request.args.get('file').find(":")
                 next_index = index + 2
@@ -191,6 +195,7 @@ def config(url):
     UA_param = request.args.get('UA', '')
     pre_param = request.args.get('prefix', '')
     eps_param = request.args.get('eps', '')
+    enn_param = request.args.get('enn', '')
 
     # 构建要删除的字符串列表
     params_to_remove = [
@@ -201,9 +206,11 @@ def config(url):
         f'file={file_param}',
         f'&emoji={emoji_param}',
         f'&tag={tag_param}',
-        f'&eps={quote(eps_param)}'
+        f'&eps={quote(eps_param)}',
+        f'&enn={quote(enn_param)}'
     ]
     # 从url中删除这些字符串
+    full_url = full_url.replace(',', '%2C')
     for param in params_to_remove:
         if param in full_url:
             full_url = full_url.replace(param, '')
@@ -218,20 +225,24 @@ def config(url):
     url_parts = full_url.split('|')
     if len(url_parts) > 1:
         subscribe['url'] = full_url.split('url=', 1)[-1].split('|')[0] if full_url.startswith('url') else full_url.split('|')[0]
+        subscribe['ex-node-name'] = enn_param
         subscribe2['url'] = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
         subscribe2['emoji'] = 1
         subscribe2['enabled'] = True
         subscribe2['subgroup'] = ''
         subscribe2['prefix'] = ''
+        subscribe2['ex-node-name'] = enn_param
         subscribe2['User-Agent'] = 'v2rayng'
         if len(url_parts) == 3:
             subscribe3['url'] = full_url.split('url=', 1)[-1].split('|')[2] if full_url.startswith('url') else full_url.split('|')[2]
             subscribe3['enabled'] = True
+            subscribe3['ex-node-name'] = enn_param
     if len(url_parts) == 1:
         subscribe['url'] = full_url.split('url=', 1)[-1] if full_url.startswith('url') else full_url
         subscribe['emoji'] = int(emoji_param) if emoji_param.isdigit() else subscribe.get('emoji', '')
         subscribe['tag'] = tag_param if tag_param else subscribe.get('tag', '')
         subscribe['prefix'] = pre_param if pre_param else subscribe.get('prefix', '')
+        subscribe['ex-node-name'] = enn_param
         subscribe['User-Agent'] = ua_param if ua_param else 'v2rayng'
     temp_json_data['exclude_protocol'] = eps_param if eps_param else temp_json_data.get('exclude_protocol', '')
     temp_json_data['config_template'] = unquote(file_param) if file_param else temp_json_data.get('config_template', '')

@@ -22,9 +22,9 @@ For example, the website I built [https://sing-box-subscribe.vercel.app](https:/
 https://xxxxxxx.vercel.app/config/https://xxxxxxsubscribe?token=123456&file=https://github.com/Toperlock/sing-box-subscribe/raw/main/config_template/config_template_groups_rule_set_tun.json
 ```
 
-### 2024.2.16 Update: Support adding `emoji`, `tag`, `prefix`, `ua`, `file`, `eps` parameters after the link. Use `&` to connect multiple parameters. The usage is the same as the parameters in `providers.json`
+### 2024.2.16 Update: Support adding `emoji`, `tag`, `prefix`, `ua`, `file`, `eps` , `enn` parameters after the link. Use `&` to connect multiple parameters. The usage is the same as the parameters in `providers.json`
 
-`/config/URL_LINK&emoji=1&prefix=♥&ua=v2rayng&eps=vmess,hy2&file=https://xxxxxxxxx.json`
+`/config/URL_LINK&emoji=1&prefix=♥&ua=v2rayng&eps=vmess,hy2&enn=网站,剩余流量&file=https://xxxxxxxxx.json`
 
 The above example shows: enable emoji, add ♥ before the node name, use v2rayng user agent, and use `https://xxxxxxxxx.json` as the generated sing-box configuration template
 
@@ -210,6 +210,7 @@ In this file, you can add subscription links and basic settings.
             "emoji": 1, //Add flag emoji
             "subgroup": "",
             "prefix": "", //Do not add node name prefix
+            "ex-node-name": "网站|流量|过期", //Filter nodes containing keywords
             "User-Agent":"clashmeta" //Set browser UA
         },
         {
@@ -269,6 +270,8 @@ In this file, you can add subscription links and basic settings.
 - `subgroup`: Optional. Name the subscription link and generate an outbound.
 
 - `prefix`: Optional. Set a custom prefix that will be added to the beginning of the node names. If not set, no prefix will be added.
+
+- `ex-node-name`: Optional. Filter nodes containing keywords. Multiple keywords are separated by "|"
 
 - `User-Agent`: Optional. You can customize UA, such as setting UA to "clash.meta" or "sing-box"
 
