@@ -21,7 +21,7 @@
     "servers": [
       {
         "tag": "remote",
-        "address": "https://dns.google/dns-query",
+        "address": "https://8.8.8.8/dns-query",
         "detour": "Proxy"
       },
       {
