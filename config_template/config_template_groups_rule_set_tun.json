@@ -26,7 +26,7 @@
       },
       {
         "tag": "local",
-        "address": "https://dns.alidns.com/dns-query",
+        "address": "https://223.5.5.5/dns-query",
         "detour": "direct"
       },
       {
