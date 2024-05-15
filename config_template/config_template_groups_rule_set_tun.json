@@ -166,7 +166,7 @@
       },
       {
         "rule_set": "geosite-geolocation-!cn",
-        "outbound": "Global"
+        "outbound": "Proxy"
       },
       {
         "rule_set": "geosite-private",
@@ -178,7 +178,7 @@
       },
       {
         "rule_set": ["geoip-cn", "geosite-cn"],
-        "outbound": "China"
+        "outbound": "direct"
       }
     ],
     "rule_set": [
