@@ -6,9 +6,9 @@
     "experimental": {
       "clash_api": {
         "external_controller": "0.0.0.0:9090",
-        "external_ui": "sbui",
+        "external_ui": "ui",
         "secret": "147159yy",
-        "external_ui_download_url": "https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+        "external_ui_download_url": "https://github-go.yangyuanzx.us.kg/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
         "external_ui_download_detour": "direct",
         "default_mode": "rule"
       },
