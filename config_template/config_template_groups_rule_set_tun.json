@@ -95,13 +95,14 @@
       "tag":"OpenAI",
       "type":"selector",
       "outbounds":[
+        "HongKong",
         "TaiWan",
         "Singapore",
         "Japan",
         "America",
         "Others"
       ],
-      "default": "America"
+      "default": "HongKong"
     },
     {
       "tag":"Google",
