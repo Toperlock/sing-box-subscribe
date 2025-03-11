@@ -307,7 +307,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇹🇼|🇨🇳|TW|tw|台湾|臺灣|台||湾|Taiwan"]}
+        {"action":"include","keywords":["🇹🇼|🇨🇳|TW|tw|台湾|臺灣|台|湾|Taiwan"]}
       ]
     },
     {
