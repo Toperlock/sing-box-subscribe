@@ -551,18 +551,18 @@
 		"final": "proxy",
 		"rules": [
       {
-        "inbound": ["loop-in","tun"],
-        "action": "resolve",
-				"server": "proxyDns",
-        "strategy": "ipv4_only"
-      },	
-      {
         "inbound": [
           "tun",
           "mixed-in"
         ],
         "action": "sniff"
-      },	
+      },
+      {
+        "inbound": ["loop-in","tun"],
+        "action": "resolve",
+				"server": "proxyDns",
+        "strategy": "ipv4_only"
+      },			
 			{
 				"type": "logical",
 				"mode": "or",
@@ -628,12 +628,6 @@
 					"geosite-cn"
 				],
 				"outbound": "China"
-			},
-			{
-				"inbound": [
-					"mixed-in"
-				],
-				"outbound": "loop"
 			},
 			{
 				"domain": [
@@ -742,7 +736,13 @@
 			{
 				"rule_set": "geosite-geolocation-!cn",
 				"outbound": "Global"
-			}
+			},
+			{
+				"inbound": [
+					"mixed-in"
+				],
+				"outbound": "loop"
+			}			
 		],
 		"rule_set": [
 			{
