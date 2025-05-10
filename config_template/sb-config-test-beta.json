@@ -528,12 +528,6 @@
 		"final": "proxy",
 		"rules": [
       {
-        "inbound": ["loop-in","tun"],
-        "action": "resolve",
-				"server": "proxyDns",
-        "strategy": "ipv4_only"
-      },	
-      {
         "inbound": [
           "tun",
           "mixed-in"
@@ -591,6 +585,12 @@
 				],
 				"outbound": "loop"
 			},
+      {
+        "inbound": ["loop-in","tun"],
+        "action": "resolve",
+				"server": "proxyDns",
+        "strategy": "ipv4_only"
+      },			
 			{
 				"domain": [
 					"clash.razord.top",
