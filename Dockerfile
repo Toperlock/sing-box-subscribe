@@ -1,4 +1,5 @@
-FROM python:3.11-slim
+##FROM python:3.11-slim
+FROM --platform=$BUILDPLATFORM python:3.9-slim
 COPY . /sing-box-subscribe
 WORKDIR /sing-box-subscribe
 RUN \
