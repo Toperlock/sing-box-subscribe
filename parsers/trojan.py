@@ -1,4 +1,4 @@
-import tool,json,re,urllib,sys
+import tool,re
 from urllib.parse import urlparse, parse_qs, unquote
 def parse(data):
     info = data[:]
@@ -6,7 +6,7 @@ def parse(data):
     if server_info.path:
       server_info = server_info._replace(netloc=server_info.netloc + server_info.path, path="")
     if '@' in server_info.netloc:
-        _netloc = server_info.netloc.split("@")
+        _netloc = server_info.netloc.rsplit("@", 1)
     else:
         return None
     netquery = dict(
@@ -21,11 +21,11 @@ def parse(data):
         'password': _netloc[0],
         'tls': {
             'enabled': True,
-            'insecure': True
+            'insecure': False
         }
     }
-    if netquery.get('allowInsecure') == '0' :
-        node['tls']['insecure'] = False
+    if netquery.get('allowInsecure') == '1':
+        node['tls']['insecure'] = True
     if netquery.get('alpn'):
         node['tls']['alpn'] = netquery.get('alpn').strip('{}').split(',')
     if netquery.get('sni'):
@@ -43,10 +43,11 @@ def parse(data):
                 'path':netquery.get('path', '/')
             }
         if netquery['type'] == 'ws':
+            matches = re.search(r'\?ed=(\d+)$', netquery.get('path', '/'))
             if netquery.get('host'):
                 node['transport'] = {
                      'type':'ws',
-                     'path':netquery.get('path', '/'),
+                     'path':netquery.get('path', '/').rsplit("?ed=", 1)[0] if matches else netquery.get('path', '/'),
                      'headers': {
                          'Host': netquery.get('host')
                     }
@@ -56,7 +57,7 @@ def parse(data):
                 'type':'grpc',
                 'service_name':netquery.get('serviceName', '')
             }
-    if netquery.get('protocol'):
+    if netquery.get('protocol') in ['smux', 'yamux', 'h2mux']:
         node['multiplex'] = {
             'enabled': True,
             'protocol': netquery['protocol']

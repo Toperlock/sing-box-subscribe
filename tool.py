@@ -1,5 +1,8 @@
-import urllib.parse,base64,requests,paramiko,random,string,re,chardet
-from paramiko import SSHClient
+import base64,requests,random,string,re,chardet,urllib.parse
+import warnings
+from cryptography.utils import CryptographyDeprecationWarning
+with warnings.catch_warnings(action="ignore", category=CryptographyDeprecationWarning):
+    import paramiko
 from scp import SCPClient
 
 def get_encoding(file):
@@ -16,12 +19,12 @@ regex_patterns = {
     '🇹🇼': re.compile(r'台湾|台灣|臺灣|台北|台中|新北|彰化|台|CHT|HINET|TW|Taiwan|TAIWAN'),
     '🇲🇴': re.compile(r'澳门|澳門|(\s|-)?MO\d*|CTM|MAC|Macao|Macau'),
     '🇸🇬': re.compile(r'新加坡|狮城|獅城|沪新|京新|泉新|穗新|深新|杭新|广新|廣新|滬新|SG|Singapore|SINGAPORE'),
-    '🇯🇵': re.compile(r'日本|东京|大阪|埼玉|京日|苏日|沪日|广日|上日|穗日|川日|中日|泉日|杭日|深日|JP|Japan|JAPAN'),
+    '🇯🇵': re.compile(r'日本|东京|東京|大阪|埼玉|京日|苏日|沪日|广日|上日|穗日|川日|中日|泉日|杭日|深日|JP|Japan|JAPAN'),
     '🇺🇸': re.compile(r'美国|美國|京美|硅谷|凤凰城|洛杉矶|西雅图|圣何塞|芝加哥|哥伦布|纽约|广美|(\s|-)?(?<![AR])US\d*|USA|America|United States'),
-    '🇰🇷': re.compile(r'韩国|韓國|首尔|韩|韓|春川|KOR|KR|Kr|(?<!North\s)Korea'),
+    '🇰🇷': re.compile(r'韩国|韓國|首尔|首爾|韩|韓|春川|KOR|KR|Kr|(?<!North\s)Korea'),
     '🇰🇵': re.compile(r'朝鲜|KP|North Korea'),
     '🇷🇺': re.compile(r'俄罗斯|俄羅斯|毛子|俄国|RU|RUS|Russia'),
-    '🇮🇳': re.compile(r'印度|孟买|\bIN|IND|India|INDIA|Mumbai'),
+    '🇮🇳': re.compile(r'印度|孟买|(\s|-)?IN(?!FO)\d*|IND|India|INDIA|Mumbai'),
     '🇮🇩': re.compile(r'印尼|印度尼西亚|雅加达|ID|IDN|Indonesia'),
     '🇬🇧': re.compile(r'英国|英國|伦敦|UK|England|United Kingdom|Britain'),
     '🇩🇪': re.compile(r'德国|德國|法兰克福|(\s|-)?DE\d*|(\s|-)?GER\d*|🇩🇪|German|GERMAN'),
@@ -32,7 +35,7 @@ regex_patterns = {
     '🇻🇦': re.compile(r'梵蒂冈|梵蒂岡|(\s|-)?VA\d*|Vatican City'),
     '🇧🇪': re.compile(r'比利时|比利時|(\s|-)?BE\d*|Belgium'),
     '🇦🇺': re.compile(r'澳大利亚|澳洲|墨尔本|悉尼|(\s|-)?AU\d*|Australia|Sydney'),
-    '🇨🇦': re.compile(r'加拿大|蒙特利尔|温哥华|多伦多|滑铁卢|楓葉|枫叶|CA|CAN|Waterloo|Canada|CANADA'),
+    '🇨🇦': re.compile(r'加拿大|蒙特利尔|温哥华|多伦多|多倫多|滑铁卢|楓葉|枫叶|CA|CAN|Waterloo|Canada|CANADA'),
     '🇲🇾': re.compile(r'马来西亚|马来|馬來|MY|Malaysia|MALAYSIA'),
     '🇲🇻': re.compile(r'马尔代夫|馬爾代夫|(\s|-)?MV\d*|Maldives'),
     '🇹🇷': re.compile(r'土耳其|伊斯坦布尔|(\s|-)?TR\d|TR_|TUR|Turkey'),
@@ -104,7 +107,7 @@ regex_patterns = {
     '🇬🇮': re.compile(r'直布罗陀|直布羅陀|(\s|-)(?<!CN2)?GI(?!A)\d*|Gibraltar'),
     '🇸🇲': re.compile(r'圣马力诺|聖馬利諾|(\s|-)?SM\d*|San Marino'),
     '🇳🇵': re.compile(r'尼泊尔|(\s|-)?NP\d*|Nepal'),
-    '🇫🇴': re.compile(r'法罗群岛|法羅群島|(\s|-)?FO\d*|Faroe Islands'),
+    '🇫🇴': re.compile(r'法罗群岛|法羅群島|(\s|-)(?<!IN)?FO\d*|Faroe Islands'),
     '🇦🇽': re.compile(r'奥兰群岛|奧蘭群島|(\s|-)?AX\d*|Åland'),
     '🇸🇮': re.compile(r'斯洛文尼亚|斯洛文尼亞|(\s|-)?SI\d*|Slovenia'),
     '🇦🇱': re.compile(r'阿尔巴尼亚|阿爾巴尼亞|(\s|-)?AL\d*|Albania'),
@@ -166,13 +169,8 @@ def rename(input_str):
                 return country_code + ' ' + input_str
     return input_str
 
-def urlDecode(str):
-    str = str.strip()
-    str += (len(str)%4)*'='
-    return base64.urlsafe_b64decode(str)
-
 def b64Decode(str):
-    str = str.strip()
+    str = urllib.parse.unquote(str.strip())
     str += (len(str)%4)*'='
     return base64.urlsafe_b64decode(str)
 
@@ -211,10 +209,16 @@ def is_ip(str):
     return re.search(r'^\d+\.\d+\.\d+\.\d+$',str)
 
 def get_protocol(s):
-    m = re.search(r'^(.+?)://', s)
+    try:
+        m = re.search(r'^(.+?)://', s)
+    except Exception as e:
+        return None
     if m:
         if m.group(1) == 'hy2':
             s = re.sub(r'^(.+?)://', 'hysteria2://', s)
+            m = re.search(r'^(.+?)://', s)
+        if m.group(1) == 'wireguard':
+            s = re.sub(r'^(.+?)://', 'wg://', s)
             m = re.search(r'^(.+?)://', s)
         if m.group(1) == 'http2':
             s = re.sub(r'^(.+?)://', 'http://', s)
@@ -223,7 +227,6 @@ def get_protocol(s):
             s = re.sub(r'^(.+?)://', 'socks://', s)
             m = re.search(r'^(.+?)://', s)
         return m.group(1)
-    return None
 
 def checkKeywords(keywords,str):
     if not keywords:
@@ -261,7 +264,7 @@ def proDuplicateNodeName(nodes):
             index = 2
             s = node['tag']
             while node['tag'] in names:
-                node['tag'] = s+str(index)
+                node['tag'] = s + ' ' + str(index)
                 index += 1
             names.append(node['tag'])
 
@@ -311,7 +314,7 @@ class ConfigSSH:
             if k in server.keys():
                 self.server[k] = server[k]
     def connect(self):
-        ssh = SSHClient()
+        ssh = paramiko.SSHClient()
         ssh.load_system_host_keys()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=self.server['ip'],port=22, username=self.server['user'], password=self.server['password'])

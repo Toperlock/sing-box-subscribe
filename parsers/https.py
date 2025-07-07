@@ -1,5 +1,5 @@
-import tool,json,re,urllib,sys
-from urllib.parse import urlparse, parse_qs, unquote
+import tool,re
+from urllib.parse import urlparse,unquote
 def parse(data):
     info = data[:]
     server_info = urlparse(info)

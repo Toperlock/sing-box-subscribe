@@ -4,48 +4,52 @@ from urllib.parse import quote, unquote
 def clash2v2ray(share_link):
     link = ''
     if share_link['type'] == 'vmess':
-        vmess_info = {
-            "v": "2",
-            "ps": share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8'),
-            "add": share_link['server'],
-            "port": share_link['port'],
-            "id": share_link['uuid'],
-            "aid": share_link['alterId'],
-            "net": share_link.get('network', 'tcp'),
-            "scy": share_link.get('cipher', 'auto'),
-            "type": "none",
-            "host": share_link.get('ws-opts', {}).get('headers', {}).get('Host', '') or share_link.get('ws-headers', {}).get('Host', ''),
-            "path": share_link.get('ws-path', '') or share_link.get('ws-opts', {}).get('path', ''),
-            "tls": ''
-        }
-        if share_link.get('skip-cert-verify') == True:
-            vmess_info['verify_cert'] = True
-        if share_link.get('tls') and share_link['tls'] != False:
-            vmess_info['tls'] = 'tls'
-            vmess_info["sni"] = share_link.get('servername', '')
-        if vmess_info['net'] == 'grpc':
-            vmess_info["type"] = share_link.get('grpc-opts', {}).get('grpc-mode')
-            if share_link.get('grpc-opts', {}).get('grpc-service-name') != '/':
-                vmess_info["path"] = share_link.get('grpc-opts', {}).get('grpc-service-name')
-            else:
-                vmess_info["path"] = ''
-        elif vmess_info['net'] == 'h2':
-            vmess_info['host'] = share_link.get('h2-opts', {}).get('host', [])
-            vmess_info["path"] = share_link.get('h2-opts', {}).get('path', '')
-        elif vmess_info['net'] == 'http':
-            vmess_info["host"] = share_link.get('http-opts', {}).get('headers', {}).get('Host', [])
-            vmess_info["path"] = share_link.get('http-opts', {}).get('path', [])
-        if share_link.get('smux',{}).get('enabled', '') == True:
-            vmess_info["protocol"] = share_link['smux']['protocol']
-            vmess_info["max_connections"] = share_link['smux'].get('max-connections','')
-            vmess_info["min_streams"] = share_link['smux'].get('min-streams','')
-            vmess_info["max_streams"] = share_link['smux'].get('max-streams','')
-            vmess_info["padding"] = share_link['smux'].get('padding','')
+        try:
+            vmess_info = {
+                "v": "2",
+                "ps": share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8'),
+                "add": share_link['server'],
+                "port": share_link['port'],
+                "id": share_link['uuid'],
+                "aid": share_link['alterId'],
+                "net": share_link.get('network', 'tcp'),
+                "scy": share_link.get('cipher', 'auto'),
+                "type": "none",
+                "host": share_link.get('ws-opts', {}).get('headers', {}).get('Host', '') or share_link.get('ws-headers', {}).get('Host', ''),
+                "path": share_link.get('ws-path', '') or share_link.get('ws-opts', {}).get('path', ''),
+                "tls": ''
+            }
+            if share_link.get('skip-cert-verify') == False:
+                vmess_info['verify_cert'] = False
+            if share_link.get('tls') and share_link['tls'] != False:
+                vmess_info['tls'] = 'tls'
+                vmess_info["sni"] = share_link.get('servername', '')
+            if vmess_info['net'] == 'grpc':
+                vmess_info["type"] = share_link.get('grpc-opts', {}).get('grpc-mode')
+                if share_link.get('grpc-opts', {}).get('grpc-service-name') != '/':
+                    vmess_info["path"] = share_link.get('grpc-opts', {}).get('grpc-service-name')
+                else:
+                    vmess_info["path"] = ''
+            elif vmess_info['net'] == 'h2':
+                vmess_info['host'] = share_link.get('h2-opts', {}).get('host', [])
+                vmess_info["path"] = share_link.get('h2-opts', {}).get('path', '')
+            elif vmess_info['net'] == 'http':
+                vmess_info["headers"] = share_link.get('http-opts', {}).get('headers', {})
+                vmess_info["host"] = share_link.get('http-opts', {}).get('headers', {}).get('Host', [])
+                vmess_info["path"] = share_link.get('http-opts', {}).get('path', [])
+            if share_link.get('smux',{}).get('enabled', '') == True:
+                vmess_info["protocol"] = share_link['smux']['protocol']
+                vmess_info["max_connections"] = share_link['smux'].get('max-connections','')
+                vmess_info["min_streams"] = share_link['smux'].get('min-streams','')
+                vmess_info["max_streams"] = share_link['smux'].get('max-streams','')
+                vmess_info["padding"] = share_link['smux'].get('padding','')
 
-        vmess_json = json.dumps(vmess_info).encode('utf-8')
-        vmess_base64 = base64.b64encode(vmess_json).decode('utf-8')
-        link = f"vmess://{vmess_base64}"
-        return link
+            vmess_json = json.dumps(vmess_info).encode('utf-8')
+            vmess_base64 = base64.b64encode(vmess_json).decode('utf-8')
+            link = f"vmess://{vmess_base64}"
+            return link
+        except:
+            pass
         # TODO
     elif share_link['type'] == 'ss':
         ss_info = {
@@ -106,6 +110,8 @@ def clash2v2ray(share_link):
             ss_info["max_streams"] = share_link['smux'].get('max-streams','')
             ss_info["padding"] = share_link['smux'].get('padding','')
             link += "&protocol={protocol}&max-connections={max_connections}&min-streams={min_streams}&max-streams={max_streams}&padding={padding}#{name}".format(**ss_info)
+        elif share_link.get("udp-over-tcp") == True:
+            link += "&uot=1#{name}".format(**ss_info)
         else:
             link += f"#{ss_info['name']}"
         return link
@@ -132,9 +138,8 @@ def clash2v2ray(share_link):
             "password": share_link['password'],
             "server": share_link['server'],
             "port": share_link['port'],
-            "allowInsecure": share_link.get('allowInsecure', '1'),
             "sni": share_link.get('sni', ''),
-            "skip_cert_verify": '1' if share_link.get('skip-cert-verify') else "",
+            "allowInsecure": '1' if share_link.get('skip-cert-verify') == True else '0',
             "type": share_link.get('network', 'tcp'),
             "fp": share_link.get('client-fingerprint', ''),
             "alpn": quote(','.join(share_link.get('alpn', '')), 'utf-8'),
@@ -149,7 +154,7 @@ def clash2v2ray(share_link):
                     trojan_info["serviceName"] = server_parts[-2]
                 else:
                     trojan_info["serviceName"] = ''
-            link = "trojan://{password}@{server}:{port}?allowInsecure={allowInsecure}&sni={sni}&skip_cert_verify={skip_cert_verify}&type={type}&serviceName={serviceName}&fp={fp}&alpn={alpn}".format(**trojan_info)
+            link = "trojan://{password}@{server}:{port}?sni={sni}&allowInsecure={allowInsecure}&type={type}&serviceName={serviceName}&fp={fp}&alpn={alpn}".format(**trojan_info)
         elif trojan_info['type'] == 'ws':
             if share_link.get('ws-opts'):
                 trojan_info["path"] = quote(share_link['ws-opts'].get('path', ''), 'utf-8')
@@ -157,9 +162,9 @@ def clash2v2ray(share_link):
             else:
                 trojan_info["path"] = ''
                 trojan_info["host"] = trojan_info["sni"]
-            link = "trojan://{password}@{server}:{port}?allowInsecure={allowInsecure}&sni={sni}&skip_cert_verify={skip_cert_verify}&type={type}&host={host}&path={path}&fp={fp}&alpn={alpn}".format(**trojan_info)
+            link = "trojan://{password}@{server}:{port}?sni={sni}&allowInsecure={allowInsecure}&type={type}&host={host}&path={path}&fp={fp}&alpn={alpn}".format(**trojan_info)
         elif trojan_info['type'] == 'tcp':
-            link = "trojan://{password}@{server}:{port}?allowInsecure={allowInsecure}&sni={sni}&skip_cert_verify={skip_cert_verify}&type={type}&fp={fp}&alpn={alpn}".format(**trojan_info)
+            link = "trojan://{password}@{server}:{port}?sni={sni}&allowInsecure={allowInsecure}&type={type}&fp={fp}&alpn={alpn}".format(**trojan_info)
         if share_link.get('smux',{}).get('enabled', '') == True:
             trojan_info["protocol"] = share_link['smux']['protocol']
             trojan_info["max_connections"] = share_link['smux'].get('max-connections','')
@@ -180,7 +185,7 @@ def clash2v2ray(share_link):
             "fp": share_link.get('client-fingerprint', ''),
             "type": share_link.get('network', 'tcp'),
             "flow": share_link.get('flow', ''),
-            'allowInsecure': '0' if share_link.get('skip-cert-verify') == False else '1',
+            'allowInsecure': '1' if share_link.get('skip-cert-verify') == True else '0',
             "name": quote(share_link['name'], 'utf-8')
         }
         if share_link.get('tls') == False:
@@ -255,10 +260,11 @@ def clash2v2ray(share_link):
         return link
         # TODO
     elif share_link['type'] == 'hysteria2':
-        link = "hysteria2://{auth}@{server}:{port}?insecure={allowInsecure}&obfs={obfs}&obfs-password={obfspassword}&pinSHA256={fingerprint}&sni={sni}&alpn={alpn}&upmbps={upmbps}&downmbps={downmbps}#{name}".format(
+        link = "hysteria2://{auth}@{server}:{port}{ports}?insecure={allowInsecure}&obfs={obfs}&obfs-password={obfspassword}&pinSHA256={fingerprint}&sni={sni}&alpn={alpn}&upmbps={upmbps}&downmbps={downmbps}#{name}".format(
         auth = share_link.get('password', share_link.get('auth', '')),
         server = share_link['server'],
         port = share_link['port'],
+        ports=",{}".format(share_link['ports']) if share_link.get('ports') else '',
         allowInsecure = '0' if share_link.get('skip-cert-verify', '') == False else '1',
         obfs = share_link.get('obfs', 'none'),
         obfspassword = share_link.get('obfs-password', ''),
@@ -334,6 +340,22 @@ def clash2v2ray(share_link):
         link = f"socks://{base_link}"
         if share_link.get('name'):
             link += f"#{share_link['name']}"
+        return link
+        # TODO
+    elif share_link['type'] == 'anytls':
+        link = "anytls://{auth}@{server}:{port}?idleSessionCheckInterval={idleSessionCheckInterval}&idleSessionTimeout={idleSessionTimeout}&minIdleSession={minIdleSession}&alpn={alpn}&fp={fp}&insecure={allowInsecure}&peer={sni}#{name}".format(
+        server = share_link['server'],
+        port = share_link['port'],
+        auth = share_link['password'],
+        idleSessionCheckInterval = share_link.get('idle-session-check-interval', ''),
+        idleSessionTimeout = share_link.get('idle-session-timeout', ''),
+        minIdleSession = share_link.get('min-idle-session', ''),
+        alpn = quote(','.join(share_link.get('alpn', '')), 'utf-8'),
+        fp = share_link.get('client-fingerprint', ''),
+        allowInsecure = '1' if share_link.get('skip-cert-verify', '') == True else '0',
+        sni = share_link.get('sni', ''),
+        name = share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8')
+        )
         return link
         # TODO
     return link

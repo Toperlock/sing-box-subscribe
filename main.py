@@ -1,9 +1,11 @@
-import json, os, tool, time, requests, sys, urllib, importlib, argparse, yaml, ruamel.yaml
+import json, os, tool, time, requests, sys, importlib, argparse, yaml, ruamel.yaml
 import re
 from datetime import datetime
 from urllib.parse import urlparse
+from collections import OrderedDict
 from api.app import TEMP_DIR
 from parsers.clash2base64 import clash2v2ray
+from gh_proxy_helper import set_gh_proxy
 
 parsers_mod = {}
 providers = None
@@ -43,12 +45,13 @@ def process_subscribes(subscribes):
     for subscribe in subscribes:
         if 'enabled' in subscribe and not subscribe['enabled']:
             continue
-        if 'sing-box-subscribe.vercel.app' in subscribe['url']:
+        if 'sing-box-subscribe-doraemon.vercel.app' in subscribe['url']:
             continue
         _nodes = get_nodes(subscribe['url'])
         if _nodes and len(_nodes) > 0:
             add_prefix(_nodes, subscribe)
             add_emoji(_nodes, subscribe)
+            nodefilter(_nodes, subscribe)
             if subscribe.get('subgroup'):
                 subscribe['tag'] = subscribe['tag'] + '-' + subscribe['subgroup'] + '-' + 'subgroup'
             if not nodes.get(subscribe['tag']):
@@ -120,6 +123,15 @@ def add_emoji(nodes, subscribe):
                 node['detour'] = tool.rename(node['detour'])
 
 
+def nodefilter(nodes, subscribe):
+    if subscribe.get('ex-node-name'):
+        ex_nodename = re.split(r'[,\|]', subscribe['ex-node-name'])
+        for exns in ex_nodename:
+            for node in nodes[:]:  # 遍历 nodes 的副本，以便安全地删除元素
+                if exns in node['tag']:
+                    nodes.remove(node)
+
+
 def get_nodes(url):
     if url.startswith('sub://'):
         url = tool.b64Decode(url[6:]).decode('utf-8')
@@ -184,7 +196,10 @@ def parse_content(content):
         factory = get_parser(t)
         if not factory:
             continue
-        node = factory(t)
+        try:
+            node = factory(t)
+        except Exception as e:  #节点解析失败，跳过
+            pass
         if node:
             nodelist.append(node)
     return nodelist
@@ -196,6 +211,9 @@ def get_parser(node):
         eps = providers['exclude_protocol'].split(',')
         if len(eps) > 0:
             eps = [protocol.strip() for protocol in eps]
+            if 'hy2' in eps:
+                index = eps.index('hy2')
+                eps[index] = 'hysteria2'
             if proto in eps:
                 return None
     if not proto or proto not in parsers_mod.keys():
@@ -203,12 +221,12 @@ def get_parser(node):
     return parsers_mod[proto].parse
 
 
-def get_content_from_url(url, n=6):
+def get_content_from_url(url, n=10):
     UA = ''
     print('处理: \033[31m' + url + '\033[0m')
     # print('Đang tải link đăng ký: \033[31m' + url + '\033[0m')
     prefixes = ["vmess://", "vless://", "ss://", "ssr://", "trojan://", "tuic://", "hysteria://", "hysteria2://",
-                "hy2://", "wg://", "http2://", "socks://", "socks5://"]
+                "hy2://", "wg://", "wireguard://", "http2://", "socks://", "socks5://"]
     if any(url.startswith(prefix) for prefix in prefixes):
         response_text = tool.noblankLine(url)
         return response_text
@@ -230,9 +248,12 @@ def get_content_from_url(url, n=6):
         # print('Lỗi khi tải link đăng ký, bỏ qua link đăng ký này')
         print('----------------------------')
         pass
-    response_content = response.content
-    response_text = response_content.decode('utf-8-sig')  # utf-8-sig 可以忽略 BOM
-    #response_encoding = response.encoding
+    try:
+        response_content = response.content
+        response_text = response_content.decode('utf-8-sig')  # utf-8-sig 可以忽略 BOM
+        #response_encoding = response.encoding
+    except:
+        return ''
     if response_text.isspace():
         print('没有从订阅链接获取到任何内容')
         # print('Không nhận được proxy nào từ link đăng ký')
@@ -257,7 +278,9 @@ def get_content_from_url(url, n=6):
             response_text = json.loads(response.text)
             return response_text
         except:
-            pass
+            response_text = re.sub(r'//.*', '', response_text)
+            response_text = json.loads(response_text)
+            return response_text
     else:
         try:
             response_text = tool.b64Decode(response_text)
@@ -408,7 +431,7 @@ def combin_to_config(config, data):
             i += 1
             for out in config_outbounds:
                 if out.get("outbounds"):
-                    if out['tag'] == 'proxy':
+                    if out['tag'] == 'Proxy':
                         out["outbounds"] = [out["outbounds"]] if isinstance(out["outbounds"], str) else out["outbounds"]
                         if '{all}' in out["outbounds"]:
                             index_of_all = out["outbounds"].index('{all}')
@@ -417,15 +440,17 @@ def combin_to_config(config, data):
                         else:
                             out["outbounds"].insert(i, (group.rsplit("-", 1)[0]).rsplit("-", 1)[-1])
             new_outbound = {'tag': (group.rsplit("-", 1)[0]).rsplit("-", 1)[-1], 'type': 'selector', 'outbounds': ['{' + group + '}']}
-            config_outbounds.insert(-4, new_outbound)
-        else:
-            for out in config_outbounds:
-                if out.get("outbounds"):
-                    if out['tag'] == 'proxy':
-                        out["outbounds"] = [out["outbounds"]] if isinstance(out["outbounds"], str) else out["outbounds"]
-                        out["outbounds"].append('{' + group + '}')
+            config_outbounds.insert(-2, new_outbound)
+            if 'subgroup' not in group:
+                for out in config_outbounds:
+                    if out.get("outbounds"):
+                        if out['tag'] == 'Proxy':
+                            out["outbounds"] = [out["outbounds"]] if isinstance(out["outbounds"], str) else out["outbounds"]
+                            out["outbounds"].append('{' + group + '}')
     temp_outbounds = []
     if config_outbounds:
+        # 获取 "type": "direct"的"tag"值
+        direct_item = next((item for item in config_outbounds if item.get('type') == 'direct'), None)
         # 提前处理all模板
         for po in config_outbounds:
             # 处理出站
@@ -462,9 +487,11 @@ def combin_to_config(config, data):
                     else:
                         t_o.append(oo)
                 if len(t_o) == 0:
+                    t_o.append(direct_item['tag'])  # outbound内容为空时 添加直连 direct
                     print('发现 {} 出站下的节点数量为 0 ，会导致sing-box无法运行，请检查config模板是否正确。'.format(
                         po['tag']))
                     # print('Sing-Box không chạy được vì không tìm thấy bất kỳ proxy nào trong outbound của {}. Vui lòng kiểm tra xem mẫu cấu hình có đúng không!!'.format(po['tag']))
+                    """
                     config_path = json.loads(temp_json_data).get("save_config_path", "config.json")
                     CONFIG_FILE_NAME = config_path
                     config_file_path = os.path.join('/tmp', CONFIG_FILE_NAME)
@@ -473,6 +500,7 @@ def combin_to_config(config, data):
                         print(f"已删除文件：{config_file_path}")
                         # print(f"Các tập tin đã bị xóa: {config_file_path}")
                     sys.exit()
+                    """
                 po['outbounds'] = t_o
                 if po.get('filter'):
                     del po['filter']
@@ -484,6 +512,20 @@ def combin_to_config(config, data):
     asod = providers.get("auto_set_outbounds_dns")
     if asod and asod.get('proxy') and asod.get('direct') and asod['proxy'] in dns_tags and asod['direct'] in dns_tags:
         set_proxy_rule_dns(config)
+    # 提取 wireguard 类型内容
+    wireguard_items = [item for item in config['outbounds'] if item.get('type') == 'wireguard']
+    if wireguard_items:
+        endpoints = []
+        for item in wireguard_items:
+            endpoints.append(item)
+        new_config = OrderedDict()
+        for key, value in config.items():
+            new_config[key] = value
+            if key == 'outbounds':  # 在 outbounds 后面插入 endpoint
+                new_config['endpoints'] = endpoints
+        config = new_config
+        # 更新 outbounds，移除 wireguard 类型
+        config['outbounds'] = [item for item in config['outbounds'] if item.get('type') != 'wireguard']
     return config
 
 
@@ -538,8 +580,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--temp_json_data', type=parse_json, help='临时内容')
     parser.add_argument('--template_index', type=int, help='模板序号')
+    parser.add_argument('--gh_proxy_index', type=str, help='github加速链接')
     args = parser.parse_args()
     temp_json_data = args.temp_json_data
+    gh_proxy_index = args.gh_proxy_index
     if temp_json_data and temp_json_data != '{}':
         providers = json.loads(temp_json_data)
     else:
@@ -564,6 +608,17 @@ if __name__ == '__main__':
         # print ('Mẫu cấu hình sử dụng: \033[33m' + template_list[uip] + '.json\033[0m')
         config = load_json(config_template_path)
     nodes = process_subscribes(providers["subscribes"])
+
+    # 处理github加速
+    if hasattr(args, 'gh_proxy_index') and str(args.gh_proxy_index).isdigit():
+        gh_proxy_index = int(args.gh_proxy_index)
+        print(gh_proxy_index)
+        urls = [item["url"] for item in config["route"]["rule_set"]]
+        new_urls = set_gh_proxy(urls, gh_proxy_index)
+        for item, new_url in zip(config["route"]["rule_set"], new_urls):
+            item["url"] = new_url
+
+
     if providers.get('Only-nodes'):
         combined_contents = []
         for sub_tag, contents in nodes.items():

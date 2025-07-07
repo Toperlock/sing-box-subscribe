@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file, jsonify, Response
-from urllib.parse import quote, urlparse, parse_qs, unquote
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, Response
+from urllib.parse import quote, urlparse, unquote
 import json
 import os
 import sys
 import subprocess
-import argparse  # 添加 argparse 模块
 import tempfile
 import shutil
 import tempfile  # 导入 tempfile 模块
@@ -110,16 +109,18 @@ def edit_temp_json():
 
 @app.route('/config/<path:url>', methods=['GET'])
 def config(url):
-    user_agent = request.headers.get('User-Agent')
-    if 'TelegramBot (like TwitterBot)' in user_agent:
+    user_agent = request.headers.get('User-Agent') or ""
+    rua_values = os.getenv('RUA')
+    if rua_values and any(rua_value in user_agent for rua_value in rua_values.split(',')):
         return Response(json.dumps({'status': 'error', 'message': 'block'}, indent=4, ensure_ascii=False),
                         content_type='application/json; charset=utf-8', status=403)
-    if any(substring in url for substring in ['sing-box-subscribe.vercel.app', 'https:/https:/', 'xxxx', 
-                                              '%E6%9C%BA%E5%9C%BA', '%E8%AE%A2%E9%98%85', '%E5%9C%B0%E5%9D%80']):
-        return Response(json.dumps({'status': 'error', 'message_CN': '填写参数不符合规范'}, indent=4,ensure_ascii=False), content_type='application/json; charset=utf-8', status=500)
+    substrings = os.getenv('STR')
+    if substrings and any(substring in url for substring in substrings.split(',')):
+        return Response(json.dumps({'status': 'error', 'message_CN': '填写参数不符合规范'}, indent=4, ensure_ascii=False),
+                        content_type='application/json; charset=utf-8', status=403)
     # temp_json_data_str = os.environ['TEMP_JSON_DATA']
     # temp_json_data = json.loads(temp_json_data_str)
-    temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"❤️","User-Agent":"clashmeta"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
+    temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
     subscribe = temp_json_data['subscribes'][0]
     subscribe2 = temp_json_data['subscribes'][1]
     subscribe3 = temp_json_data['subscribes'][2]
@@ -132,7 +133,7 @@ def config(url):
     index_of_colon = encoded_url.find(":")
 
     if not query_string:
-        if any(substring in encoded_url for substring in ['&emoji=', '&file=']):
+        if any(substring in encoded_url for substring in ['&emoji=', '&file=', '&eps=', '&enn=']):
             if '|' in encoded_url:
                 param = urlparse(encoded_url.rsplit('&', 1)[-1])
             else:
@@ -140,6 +141,10 @@ def config(url):
             request.args = dict(item.split('=') for item in param.path.split('&'))
             if request.args.get('prefix'):
                 request.args['prefix'] = unquote(request.args['prefix'])
+            if request.args.get('eps'):
+                request.args['eps'] = unquote(request.args['eps'])
+            if request.args.get('enn'):
+                request.args['enn'] = unquote(request.args['enn'])
             if request.args.get('file'):
                 index = request.args.get('file').find(":")
                 next_index = index + 2
@@ -147,11 +152,15 @@ def config(url):
                     if next_index < len(request.args['file']) and request.args['file'][next_index] != "/":
                         request.args['file'] = request.args['file'][:next_index-1] + "/" + request.args['file'][next_index-1:]
     else:
-        if any(substring in query_string for substring in ['&emoji=', '&file=']):
+        if any(substring in query_string for substring in ['&emoji=', '&file=', '&eps=', '&enn=']):
             param = urlparse(query_string.split('&', 1)[-1])
             request.args = dict(item.split('=') for item in param.path.split('&'))
             if request.args.get('prefix'):
                 request.args['prefix'] = unquote(request.args['prefix'])
+            if request.args.get('eps'):
+                request.args['eps'] = unquote(request.args['eps'])
+            if request.args.get('enn'):
+                request.args['enn'] = unquote(request.args['enn'])
             if request.args.get('file'):
                 index = request.args.get('file').find(":")
                 next_index = index + 2
@@ -184,6 +193,9 @@ def config(url):
     ua_param = request.args.get('ua', '')
     UA_param = request.args.get('UA', '')
     pre_param = request.args.get('prefix', '')
+    eps_param = request.args.get('eps', '')
+    enn_param = request.args.get('enn', '')
+    gh_proxy_param = request.args.get('gh', '')
 
     # 构建要删除的字符串列表
     params_to_remove = [
@@ -194,8 +206,12 @@ def config(url):
         f'file={file_param}',
         f'&emoji={emoji_param}',
         f'&tag={tag_param}',
+        f'&gh={gh_proxy_param}',
+        f'&eps={quote(eps_param)}',
+        f'&enn={quote(enn_param)}'
     ]
     # 从url中删除这些字符串
+    full_url = full_url.replace(',', '%2C')
     for param in params_to_remove:
         if param in full_url:
             full_url = full_url.replace(param, '')
@@ -210,32 +226,40 @@ def config(url):
     url_parts = full_url.split('|')
     if len(url_parts) > 1:
         subscribe['url'] = full_url.split('url=', 1)[-1].split('|')[0] if full_url.startswith('url') else full_url.split('|')[0]
+        subscribe['ex-node-name'] = enn_param
         subscribe2['url'] = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
         subscribe2['emoji'] = 1
         subscribe2['enabled'] = True
         subscribe2['subgroup'] = ''
         subscribe2['prefix'] = ''
+        subscribe2['ex-node-name'] = enn_param
         subscribe2['User-Agent'] = 'v2rayng'
         if len(url_parts) == 3:
             subscribe3['url'] = full_url.split('url=', 1)[-1].split('|')[2] if full_url.startswith('url') else full_url.split('|')[2]
             subscribe3['enabled'] = True
+            subscribe3['ex-node-name'] = enn_param
     if len(url_parts) == 1:
         subscribe['url'] = full_url.split('url=', 1)[-1] if full_url.startswith('url') else full_url
         subscribe['emoji'] = int(emoji_param) if emoji_param.isdigit() else subscribe.get('emoji', '')
         subscribe['tag'] = tag_param if tag_param else subscribe.get('tag', '')
         subscribe['prefix'] = pre_param if pre_param else subscribe.get('prefix', '')
+        subscribe['ex-node-name'] = enn_param
         subscribe['User-Agent'] = ua_param if ua_param else 'v2rayng'
+    temp_json_data['exclude_protocol'] = eps_param if eps_param else temp_json_data.get('exclude_protocol', '')
     temp_json_data['config_template'] = unquote(file_param) if file_param else temp_json_data.get('config_template', '')
     #print (f"Custom Page for {url} with link={full_url}, emoji={emoji_param}, file={file_param}, tag={tag_param}, UA={ua_param}, prefix={pre_param}")
     #page_content = f"生成的页面内容：{full_url}"
     #return page_content
     try:
         selected_template_index = '0'
+        selected_gh_proxy_index = ''
         if file_param.isdigit():
             temp_json_data['config_template'] = ''
             selected_template_index = str(int(file_param) - 1)
+        if gh_proxy_param.isdigit():
+            selected_gh_proxy_index = str(int(gh_proxy_param) - 1)
         temp_json_data = json.dumps(json.dumps(temp_json_data, indent=4, ensure_ascii=False), indent=4, ensure_ascii=False)
-        subprocess.check_call([sys.executable, 'main.py', '--template_index', selected_template_index, '--temp_json_data', temp_json_data])
+        subprocess.check_call([sys.executable, 'main.py', '--template_index', selected_template_index, '--temp_json_data', temp_json_data, '--gh_proxy_index', selected_gh_proxy_index])
         CONFIG_FILE_NAME = json.loads(os.environ['TEMP_JSON_DATA']).get("save_config_path", "config.json")
         if CONFIG_FILE_NAME.startswith("./"):
             CONFIG_FILE_NAME = CONFIG_FILE_NAME[2:]
@@ -324,4 +348,4 @@ def download_config():
         return str(e)  # 或者适当处理异常，例如返回一个错误页面
 """
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

@@ -1,4 +1,4 @@
-import tool,json,re,urllib,sys
+import tool,json,re,urllib
 from urllib.parse import parse_qs
 def parse(data):
     param = data[5:]
@@ -13,6 +13,11 @@ def parse(data):
         'password':None
     }
     flag = 0
+    if param.find('uot') > -1:
+        node["udp_over_tcp"] = {
+            'enabled': True,
+            'version': 2
+        }
     if param.find('#') > -1:
         if param[param.find('#') + 1:] != '':
             remark = urllib.parse.unquote(param[param.find('#') + 1:])
@@ -84,7 +89,7 @@ def parse(data):
             node['multiplex']['padding'] = True
     try: #fuck
         param = param.split('?')[0]
-        matcher = tool.urlDecode(param) #保留'/'测试能不能解码
+        matcher = tool.b64Decode(param) #保留'/'测试能不能解码
     except:
         param = param.split('/')[0].split('?')[0] #不能解码说明'/'不是base64内容
     if param.find('@') > -1:
@@ -96,7 +101,7 @@ def parse(data):
         else:
             return None
         try:
-          matcher = re.match(r'(.*?):(.*)', tool.urlDecode(param).decode('utf-8'))
+          matcher = re.match(r'(.*?):(.*)', tool.b64Decode(param).decode('utf-8'))
           if matcher:
               node['method'] = matcher.group(1)
               node['password'] = matcher.group(2)
@@ -110,7 +115,7 @@ def parse(data):
           else:
               return None
     else:
-        matcher = re.match(r'(.*?):(.*)@(.*):(.*)', tool.urlDecode(param).decode('utf-8'))
+        matcher = re.match(r'(.*?):(.*)@(.*):(.*)', tool.b64Decode(param).decode('utf-8'))
         if matcher:
             node['method'] = matcher.group(1)
             node['password'] = matcher.group(2)

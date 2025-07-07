@@ -1,4 +1,4 @@
-import tool,json,re,urllib,sys
+import tool,re
 from urllib.parse import urlparse, parse_qs, unquote
 def parse(data):
     info = data[:]
