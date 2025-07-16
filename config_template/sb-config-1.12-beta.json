@@ -5,12 +5,12 @@
   },
   "experimental": {
   "clash_api":{
-   "default_mode":"rule"
+   "default_mode":"Rule"
     },
   "cache_file": {
     "enabled": true,
     "store_fakeip": false,
-    "store_rdrc": true
+    "store_rdrc": false
     }
   },
   "dns": {
