@@ -14,10 +14,11 @@
     }
   },
   "dns": {
+    "final": "google",
     "servers": [
       {
         "tag": "google",
-        "type": "tls",
+        "type": "tcp",
         "server": "1.1.1.1",
         "detour": "Proxy"
       },
@@ -36,39 +37,43 @@
     "rules": [
       {
         "clash_mode": "direct",
-        "server": "local"
+        "server": "local",
+        "strategy": "prefer_ipv4"
       },
       {
         "clash_mode": "global",
-        "server": "google"
+        "server": "google",
+        "strategy": "ipv4_only"
+      },
+      {
+        "domain_suffix": [
+          "googleapis.cn"
+        ],
+        "server": "google",
+        "strategy": "ipv4_only"
       },
       {
         "rule_set": "geosite-cn",
-        "server": "local"
+        "server": "local",
+        "strategy": "prefer_ipv4"
       },
       {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "rule_set": "geosite-geolocation-!cn",
-            "invert": true
-          },
-          {
-            "rule_set": "geoip-cn"
-          }
+        "action": "reject",
+        "rule_set": [
+          "geosite-category-ads-all"
+        ]
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
         ],
-        "server": "google",
-        "client_subnet": "114.114.114.114/24"
-      },
-      {
         "rule_set": "geosite-openai",
         "server": "fakeip"
       }
     ],
-    "independent_cache": true,
     "strategy": "prefer_ipv4"
-  },
+ },
   "inbounds": [
     {
       "tag": "tun-in",
@@ -274,7 +279,8 @@
   ],
   "route": {
     "default_domain_resolver": {
-      "server": "local"
+      "server": "local",
+      "strategy": "prefer_ipv4"
     },
     "auto_detect_interface": true,
     "final": "Proxy",
