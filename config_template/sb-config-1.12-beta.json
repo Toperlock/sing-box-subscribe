@@ -1,7 +1,7 @@
 {
   "log": {
     "level": "error",
-    "timestamp": true
+    "timestamp": false
   },
   "experimental": {
   "clash_api":{
@@ -314,14 +314,6 @@
           }
         ],
         "action": "hijack-dns"
-      },
-      {
-        "action": "reject",
-        "domain_suffix": [
-          "appcenter.ms",
-          "firebase.io",
-          "crashlytics.com"
-        ]
       },
       {
         "action": "route",
