@@ -112,9 +112,23 @@
       ]
     },
     {
+      "tag":"Google",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "HongKong",
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "South Korea",
+        "America",
+        "Others"
+      ]
+    },
+    {
       "tag":"Telegram",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -128,7 +142,7 @@
     {
       "tag":"Twitter",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -142,7 +156,7 @@
     {
       "tag":"Facebook",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -156,7 +170,7 @@
     {
       "tag":"OpenAI",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "TaiWan",
         "Singapore",
@@ -170,7 +184,7 @@
     {
       "tag":"Global",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[ 
         "HongKong",
         "TaiWan",
@@ -185,7 +199,7 @@
     {
       "tag":"HongKong",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -196,7 +210,7 @@
     {
       "tag":"TaiWan",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -207,7 +221,7 @@
     {
       "tag":"Singapore",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -218,7 +232,7 @@
     {
       "tag":"Japan",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -229,7 +243,7 @@
     {
       "tag":"America",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -240,7 +254,7 @@
     {
       "tag":"South Korea",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -251,7 +265,7 @@
     {
       "tag":"Others",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "{all}"
       ],
@@ -337,15 +351,16 @@
         "domain_suffix": [
           "googleapis.cn"
         ],
-        "outbound": "Proxy"
+        "outbound": "Google"
       },
       {
-        "rule_set": "geosite-category-ads-all",
+        "rule_set":      "geosite-category-ads-all",
         "clash_mode": "rule",
         "action": "reject"
       },
       {
-        "rule_set": "geosite-category-ads-all",
+        "rule_set":
+      "geosite-category-ads-all",
         "clash_mode": "global",
         "outbound": "Proxy"
       },
@@ -363,18 +378,18 @@
       },
       {
         "rule_set": ["geosite-youtube", "geoip-google", "geosite-google"],
-        "outbound": "Proxy"
+        "outbound": "Google"
       },
       {
-        "rule_set": ["geoip-telegram", "geosite-telegram"],
+        "rule_set": ["geoip-telegram","geosite-telegram"],
         "outbound": "Telegram"
       },
       {
-        "rule_set": ["geoip-twitter", "geosite-twitter"],
+        "rule_set": ["geoip-twitter","geosite-twitter"],
         "outbound": "Twitter"
       },
       {
-        "rule_set":["geoip-facebook", "geosite-facebook"],
+        "rule_set":["geoip-facebook","geosite-facebook"],
         "outbound": "Facebook"
       },
       {
@@ -386,7 +401,7 @@
         "outbound": "Global"
       },
       {
-        "rule_set": ["geoip-cn", "geosite-cn"],
+        "rule_set": ["geoip-cn","geosite-cn"],
         "outbound": "direct"
       }
     ],
