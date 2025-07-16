@@ -326,6 +326,14 @@
         ]
       },
       {
+        "action": "reject",
+        "domain_suffix": [
+          "appcenter.ms",
+          "firebase.io",
+          "crashlytics.com"
+        ]
+      },
+      {
         "action": "route",
         "domain_suffix": [
           "googleapis.cn"
