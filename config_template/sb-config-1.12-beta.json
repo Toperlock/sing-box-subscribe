@@ -311,15 +311,6 @@
       },
       {
         "action": "reject",
-        "network": [
-          "udp"
-        ],
-        "protocol": [
-          "quic"
-        ]
-      },
-      {
-        "action": "reject",
         "domain_suffix": [
           "appcenter.ms",
           "firebase.io",
