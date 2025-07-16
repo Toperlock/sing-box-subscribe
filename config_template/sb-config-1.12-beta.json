@@ -110,6 +110,7 @@
         "Singapore",
         "Japan",
         "America",
+        "South Korea",
         "Others"
       ]
     },
@@ -122,6 +123,7 @@
         "Singapore",
         "Japan",
         "America",
+        "South Korea",
         "Others"
       ]
     },
@@ -134,6 +136,7 @@
         "Singapore",
         "Japan",
         "America",
+        "South Korea",
         "Others"
       ]
     },
@@ -146,6 +149,7 @@
         "Singapore",
         "Japan",
         "America",
+        "South Korea",
         "Others"
       ]
     },
@@ -158,6 +162,7 @@
         "Singapore",
         "Japan",
         "America",
+        "South Korea",
         "Others",
         "direct"
       ]
@@ -219,7 +224,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇰🇷|KR|kt|韩国|韩|South Korea"|Korea]}
+        {"action":"include","keywords":["🇰🇷|KR|kt|韩国|韩|South Korea|Korea"]}
       ]
     },
     {
@@ -229,7 +234,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|America|🇰🇷|KR|kt|韩国|韩|South Korea"|Korea"]}
+        {"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|America|🇰🇷|KR|kt|韩国|韩|South Korea|Korea"]}
       ]
     },
     {
