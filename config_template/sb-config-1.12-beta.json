@@ -43,14 +43,6 @@
         "server": "google"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "rule_set": "geosite-cn",
-        "server": "fakeip"
-      },
-      {
         "rule_set": "geosite-cn",
         "server": "local"
       },
@@ -367,7 +359,7 @@
       },
       {
         "rule_set": ["geoip-cn", "geosite-cn"],
-        "outbound": "China"
+        "outbound": "direct"
       }
     ],
     "rule_set": [
