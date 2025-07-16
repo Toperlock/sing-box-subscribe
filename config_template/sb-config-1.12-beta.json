@@ -331,6 +331,22 @@
         "action": "hijack-dns"
       },
       {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set":"geosite-youtube"
+          },
+          {
+            "network":"udp"
+          },
+          {
+            "protocol":"quic"
+          }
+        ],
+        "action": "reject"
+      },
+      {
         "action": "route",
         "domain_suffix": [
           "googleapis.cn"
