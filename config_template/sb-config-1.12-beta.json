@@ -5,7 +5,7 @@
   },
   "experimental": {
   "clash_api":{
-   "default_mode":"Rule"
+   "default_mode":"rule"
     },
   "cache_file": {
     "enabled": true,
