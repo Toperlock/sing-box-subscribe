@@ -347,8 +347,18 @@
         "outbound": "Facebook"
       },
       {
-        "rule_set": "geosite-geolocation-!cn",
-        "outbound": "Global"
+        "action": "route",
+        "outbound": "direct",
+        "rule_set": [
+          "geosite-cn"
+        ]
+      },
+      {
+        "action": "route",
+        "outbound": "direct",
+        "rule_set": [
+          "geoip-cn"
+        ]
       }
     ],
     "rule_set": [
