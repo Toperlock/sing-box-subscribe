@@ -112,20 +112,6 @@
       ]
     },
     {
-      "tag":"Google",
-      "type":"selector",
-      "interrupt_exist_connections": true ,
-      "outbounds":[
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "South Korea",
-        "Others"
-      ]
-    },
-    {
       "tag":"Telegram",
       "type":"selector",
       "interrupt_exist_connections": true ,
@@ -351,7 +337,7 @@
         "domain_suffix": [
           "googleapis.cn"
         ],
-        "outbound": "Google"
+        "outbound": "Proxy"
       },
       {
         "rule_set": "geosite-category-ads-all",
@@ -377,7 +363,7 @@
       },
       {
         "rule_set": ["geosite-youtube", "geoip-google", "geosite-google"],
-        "outbound": "Google"
+        "outbound": "Proxy"
       },
       {
         "rule_set": ["geoip-telegram", "geosite-telegram"],
