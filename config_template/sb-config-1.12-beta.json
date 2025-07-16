@@ -4,14 +4,6 @@
     "timestamp": true
   },
   "experimental": {
-    "clash_api": {
-      "external_controller": "127.0.0.1:9090",
-      "external_ui": "ui",
-      "secret": "",
-      "external_ui_download_url": "https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
-      "external_ui_download_detour": "direct",
-      "default_mode": "rule"
-    },
   "cache_file": {
     "enabled": true,
     "store_fakeip": true,
@@ -367,22 +359,6 @@
       {
         "rule_set": "geosite-bahamut",
         "outbound": "Bahamut"
-      },
-      {
-        "rule_set": "geosite-spotify",
-        "outbound": "Spotify"
-      },
-      {
-        "rule_set": "geosite-tiktok",
-        "outbound": "TikTok"
-      },
-      {
-        "rule_set": ["geoip-netflix", "geosite-netflix"],
-        "outbound": "Netflix"
-      },
-      {
-        "rule_set": "geosite-disney",
-        "outbound": "Disney+"
       },
       {
         "rule_set": ["geosite-category-games", "geosite-dmm"],
