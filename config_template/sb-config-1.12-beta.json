@@ -264,7 +264,20 @@
     "rules": [
       {
         "inbound": ["tun-in", "mixed-in"],
-        "action": "sniff"
+        "action": "sniff",
+        "sniffer": [
+          "dns",
+          "dtls",
+          "http",
+          "ssh",
+          "tls",
+          "quic",
+          "ntp",
+          "bittorrent",
+          "stun",
+          "rdp"
+        ],
+        "timeout": "300ms"
       },
       {
         "type": "logical",
