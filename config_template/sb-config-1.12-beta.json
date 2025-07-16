@@ -4,6 +4,7 @@
     "timestamp": true
   },
   "experimental": {
+  "clash_api":{"default_mode":"rule"},
   "cache_file": {
     "enabled": true,
     "store_fakeip": true,
