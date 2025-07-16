@@ -55,21 +55,6 @@
         "server": "local"
       },
       {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "rule_set": "geosite-geolocation-!cn",
-            "invert": true
-          },
-          {
-            "rule_set": "geoip-cn"
-          }
-        ],
-        "server": "google",
-        "client_subnet": "114.114.114.114/24"
-      },
-      {
         "query_type": [
           "A",
           "AAAA"
@@ -224,7 +209,17 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇺🇸|US|us|美国|美|United States"]}
+        {"action":"include","keywords":["🇺🇸|US|us|美国|美|United States|America"]}
+      ]
+    },
+    {
+      "tag":"South Korea",
+      "type":"selector",
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇰🇷|KR|kt|韩国|韩|South Korea"|Korea]}
       ]
     },
     {
@@ -280,6 +275,22 @@
         "action": "hijack-dns"
       },
       {
+        "action": "reject",
+        "network": [
+          "udp"
+        ],
+        "protocol": [
+          "quic"
+        ]
+      },
+      {
+        "action": "route",
+        "domain_suffix": [
+          "googleapis.cn"
+        ],
+        "outbound": "Google"
+      },
+      {
         "rule_set": "geosite-category-ads-all",
         "clash_mode": "rule",
         "action": "reject"
@@ -296,15 +307,6 @@
       {
         "clash_mode": "global",
         "outbound": "Proxy"
-      },
-      {
-        "domain": [
-          "clash.razord.top",
-          "yacd.metacubex.one",
-          "yacd.haishan.me",
-          "d.metacubex.one"
-        ],
-        "outbound": "direct"
       },
       {
         "ip_is_private": true,
