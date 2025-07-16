@@ -122,18 +122,6 @@
       ]
     },
     {
-      "tag":"OpenAI",
-      "type":"selector",
-      "outbounds":[
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others"
-      ],
-      "default": "America"
-    },
-    {
       "tag":"Google",
       "type":"selector",
       "outbounds":[
@@ -182,15 +170,6 @@
       ]
     },
     {
-      "tag":"BiliBili",
-      "type":"selector",
-      "outbounds":[
-        "direct",
-        "HongKong",
-        "TaiWan"
-      ]
-    },
-    {
       "tag":"Bahamut",
       "type":"selector",
       "outbounds":[
@@ -210,81 +189,6 @@
         "Others"
       ],
       "default": "America"
-    },
-    {
-      "tag":"TikTok",
-      "type":"selector",
-      "outbounds":[
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America"
-      ],
-      "default": "Japan"
-    },
-    {
-      "tag":"Netflix",
-      "type":"selector",
-      "outbounds":[
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others"
-      ]
-    },
-    {
-      "tag":"Disney+",
-      "type":"selector",
-      "outbounds":[
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others"
-      ]
-    },
-    {
-      "tag":"Apple",
-      "type":"selector",
-      "outbounds":[
-        "direct",
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others"
-      ]
-    },
-    {
-      "tag":"Microsoft",
-      "type":"selector",
-      "outbounds":[
-        "direct",
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others"
-      ]
-    },
-    {
-      "tag":"Games",
-      "type":"selector",
-      "outbounds":[
-        "direct",
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others"
-      ]
     },
     {
       "tag":"Streaming",
@@ -309,14 +213,6 @@
         "America",
         "Others",
         "direct"
-      ]
-    },
-    {
-      "tag":"China",
-      "type":"selector",
-      "outbounds":[
-        "direct",
-        "Proxy"
       ]
     },
     {
@@ -453,10 +349,6 @@
         "outbound": "direct"
       },
       {
-        "rule_set": "geosite-openai",
-        "outbound": "OpenAI"
-      },
-      {
         "rule_set": ["geosite-youtube", "geoip-google", "geosite-google", "geosite-github"],
         "outbound": "Google"
       },
@@ -471,10 +363,6 @@
       {
         "rule_set":["geoip-facebook", "geosite-facebook"],
         "outbound": "Facebook"
-      },
-      {
-        "rule_set": "geosite-bilibili",
-        "outbound": "BiliBili"
       },
       {
         "rule_set": "geosite-bahamut",
@@ -497,14 +385,6 @@
         "outbound": "Disney+"
       },
       {
-        "rule_set": ["geoip-apple", "geosite-apple", "geosite-amazon"],
-        "outbound": "Apple"
-      },
-      {
-        "rule_set": "geosite-microsoft",
-        "outbound": "Microsoft"
-      },
-      {
         "rule_set": ["geosite-category-games", "geosite-dmm"],
         "outbound": "Games"
       },
@@ -515,10 +395,6 @@
       {
         "rule_set": "geosite-geolocation-!cn",
         "outbound": "Global"
-      },
-      {
-        "rule_set": ["geoip-cn", "geosite-cn"],
-        "outbound": "China"
       }
     ],
     "rule_set": [
@@ -527,13 +403,6 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-openai",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
         "download_detour": "direct"
       },
       {
@@ -607,13 +476,6 @@
         "download_detour": "direct"
       },
       {
-        "tag": "geosite-bilibili",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs",
-        "download_detour": "direct"
-      },
-      {
         "tag": "geosite-bahamut",
         "type": "remote",
         "format": "binary",
@@ -625,69 +487,6 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/spotify.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-tiktok",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/tiktok.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-netflix",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/netflix.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-netflix",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/netflix.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-disney",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/disney.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-amazon",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/amazon.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-microsoft",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-category-games",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-games.srs",
         "download_detour": "direct"
       },
       {
