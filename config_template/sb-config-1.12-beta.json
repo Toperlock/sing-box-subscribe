@@ -361,10 +361,6 @@
         "outbound": "Bahamut"
       },
       {
-        "rule_set": ["geosite-category-games", "geosite-dmm"],
-        "outbound": "Games"
-      },
-      {
         "rule_set": ["geosite-hbo", "geosite-primevideo"],
         "outbound": "Streaming"
       },
