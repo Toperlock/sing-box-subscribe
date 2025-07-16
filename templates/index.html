@@ -85,7 +85,6 @@
             <h3 style="margin: 8px 0; font-size: 14px;"><a href="https://github.com/Toperlock/sing-box-subscribe/tree/main/instructions#steps-for-page-manipulation" target="_blank" rel="noopener noreferrer">Please be sure to: Click to view operation instructions!!!</a></h3>
             <h3 style="margin: 8px 0; font-size: 14px;"><a href="https://github.com/Toperlock/sing-box-subscribe#providersjson%E6%96%87%E4%BB%B6" target="_blank" rel="noopener noreferrer">请务必：点击查看参数含义</a></h3>
             <h3 style="margin: 8px 0; font-size: 14px;"><a href="https://github.com/Toperlock/sing-box-subscribe/tree/main/instructions#providersjson-file" target="_blank" rel="noopener noreferrer">Please be sure to: Click to view parameter meanings.</a></h3>
-            <h3 style="margin: 8px 0; font-size: 14px;" data-translate="1" data-color="red"><span style="font-weight: bold; color: red; margin: 5px 0; font-size: 14px;">2024-1-10：我的vercel免费套餐容量要被你们占满了，有github账号的请fork本项目使用自己搭建的订阅转换网站，不然后续我会决定关闭此网站</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="2"><span style="font-weight: bold; color: black; margin: 5px 0; font-size: 14px;">前提：在此网页正确填写订阅链接，生成配置失败是因为同一时间别人也在生成配置，导致你填写的内容被复原。建议使用/config/URL的形式</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="3" data-color="red"><span style="font-weight: bold; color: red; margin: 5px 0; font-size: 14px;">“groups_rule_set_tun.json”模板是给 sing-box 1.8.0+ 使用的。</span></h3>
             <h3 style="margin: 8px 0; font-size: 14px;" data-translate="4"><span style="font-weight: bold; color: black; margin: 5px 0; font-size: 14px;">填写订阅地址在引号 “” 内，注意订阅地址末尾不要有换行，这很容易被忽视！！！（为什么很喜欢填到enable为false的url里面？why？？？？看不懂false的意思吗？？？）</span></h3>
@@ -102,7 +101,7 @@
         </div>
     </div>
     <script>
-        const initialTempJsonData = '{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"❤️","User-Agent":"clashmeta"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}';
+        const initialTempJsonData = '{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":0,"subgroup":"命名/named","prefix":"","User-Agent":"ClashMeta"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"","config_template":"","Only-nodes":true}';
         let tempJsonData = initialTempJsonData;
         document.querySelector('#temp-json-form').addEventListener('submit', async (e) => {
             e.preventDefault();
