@@ -1,6 +1,6 @@
 {
   "log": {
-    "level": "debug",
+    "level": "error",
     "timestamp": true
   },
   "experimental": {
