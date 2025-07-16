@@ -4,7 +4,9 @@
     "timestamp": true
   },
   "experimental": {
-  "clash_api":{"default_mode":"rule"},
+  "clash_api":{
+   "default_mode":"rule"
+    },
   "cache_file": {
     "enabled": true,
     "store_fakeip": true,
@@ -16,7 +18,7 @@
       {
         "tag": "google",
         "type": "tls",
-        "server": "8.8.8.8",
+        "server": "1.1.1.1",
         "detour": "Proxy"
       },
       {
