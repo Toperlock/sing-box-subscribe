@@ -258,6 +258,7 @@
       "server": "local"
     },
     "auto_detect_interface": true,
+    "final": "Proxy",
     "rules": [
       {
         "inbound": ["tun-in", "mixed-in"],
@@ -326,8 +327,7 @@
       {
         "rule_set": "geosite-geolocation-!cn",
         "outbound": "Global"
-      },
-      "final": "Proxy"
+      }
     ],
     "rule_set": [
       {
