@@ -161,6 +161,19 @@
       ]
     },
     {
+      "tag":"OpenAI",
+      "type":"selector",
+      "outbounds":[
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "South Korea",
+        "America",
+        "Others"
+      ],
+      "default": "America"
+    },
+    {
       "tag":"Global",
       "type":"selector",
       "outbounds":[ 
@@ -354,6 +367,10 @@
         "outbound": "Facebook"
       },
       {
+        "rule_set": "geosite-openai",
+        "outbound": "OpenAI"
+      },
+      {
         "rule_set": "geosite-geolocation-!cn",
         "outbound": "Global"
       },
@@ -438,6 +455,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/facebook.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-openai",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
         "download_detour": "direct"
       },
       {
