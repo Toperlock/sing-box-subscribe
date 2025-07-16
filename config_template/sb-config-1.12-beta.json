@@ -284,6 +284,7 @@
       ],
       "url": "http://cp.cloudflare.com/",
       "interval": "60m",
+      "idle_timeout": "60m",
       "tolerance": 50
     },
     {
