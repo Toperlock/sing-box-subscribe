@@ -18,13 +18,13 @@
     "servers": [
       {
         "tag": "google",
-        "type": "tcp",
+        "type": "https",
         "server": "1.1.1.1",
         "detour": "Proxy"
       },
       {
         "tag": "local",
-        "type": "https",
+        "type": "h3",
         "server": "223.5.5.5"
       },
       {
@@ -72,7 +72,7 @@
         "server": "fakeip"
       }
     ],
-    "strategy": "prefer_ipv4"
+    "strategy": "ipv4_only"
  },
   "inbounds": [
     {
@@ -104,6 +104,7 @@
     {
       "tag":"Proxy",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "auto",
         "direct",
@@ -113,6 +114,7 @@
     {
       "tag":"Google",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -126,6 +128,7 @@
     {
       "tag":"Telegram",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -139,6 +142,7 @@
     {
       "tag":"Twitter",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -152,6 +156,7 @@
     {
       "tag":"Facebook",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "HongKong",
         "TaiWan",
@@ -165,6 +170,7 @@
     {
       "tag":"OpenAI",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "TaiWan",
         "Singapore",
@@ -178,6 +184,7 @@
     {
       "tag":"Global",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[ 
         "HongKong",
         "TaiWan",
@@ -192,6 +199,7 @@
     {
       "tag":"HongKong",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -202,6 +210,7 @@
     {
       "tag":"TaiWan",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -212,6 +221,7 @@
     {
       "tag":"Singapore",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -222,6 +232,7 @@
     {
       "tag":"Japan",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -232,6 +243,7 @@
     {
       "tag":"America",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -242,6 +254,7 @@
     {
       "tag":"South Korea",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -252,6 +265,7 @@
     {
       "tag":"Others",
       "type":"selector",
+      "interrupt_exist_connections": true ,
       "outbounds":[
         "{all}"
       ],
@@ -268,8 +282,8 @@
       "filter":[
         {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效|官网"]}
       ],
-      "url": "http://www.gstatic.com/generate_204",
-      "interval": "10m",
+      "url": "http://cp.cloudflare.com/",
+      "interval": "60m",
       "tolerance": 50
     },
     {
@@ -345,7 +359,7 @@
         "outbound": "direct"
       },
       {
-        "rule_set": ["geosite-youtube", "geoip-google", "geosite-google", "geosite-github"],
+        "rule_set": ["geosite-youtube", "geoip-google", "geosite-google"],
         "outbound": "Google"
       },
       {
@@ -403,13 +417,6 @@
         "download_detour": "direct"
       },
       {
-        "tag": "geosite-github",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs",
-        "download_detour": "direct"
-      },
-      {
         "tag": "geoip-telegram",
         "type": "remote",
         "format": "binary",
@@ -456,13 +463,6 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-geolocation-!cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "direct"
       },
       {
