@@ -67,6 +67,10 @@
           "AAAA"
         ],
         "server": "fakeip"
+      },
+      {
+        "rule_set": "geosite-openai",
+        "server": "fakeip"
       }
     ],
     "independent_cache": true,
