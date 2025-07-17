@@ -1,1 +1,822 @@
-1
+proxies:
+- cipher: chacha20-ietf-poly1305
+  name: HK AKILE 01
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 17652
+  server: hk10.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK BAGE 02
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 36376
+  server: hk7.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK AKILE 03
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 12392
+  server: hk8.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK AKILE 04
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 40053
+  server: hk9.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK BAGE 05
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 21438
+  server: hk4.airwhite.top
+  type: ss
+  udp: true
+- name: HK Hytron 06
+  password: 8e001cee-f132-489d-ae3d-3a12b1048f5c
+  port: 443
+  server: jp3.552329a9-3408-9317-cb57-3e5511c790f0.5584fc1f.the-best-airport.com
+  skip-cert-verify: true
+  sni: new.download.the-best-airport.com
+  type: trojan
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK AKILE 07
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 30550
+  server: hk2.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK HNL 08
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 33999
+  server: hk5.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK BAGE 09
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 31495
+  server: hk3.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: HK HKT 10
+  port: 443
+  server: 3bd9.55dca.e048.f62-fef1f.yfjcs.com
+  servername: yfhk1.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: HK HKT 11
+  port: 443
+  server: 3bd9.55dca.e048.f61-fef1f.yfjcs.com
+  servername: yfhk1.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  name: HK HKT 12
+  port: 443
+  server: 3bd9.55dca.e048.f63-fef1f.yfjcs.com
+  servername: yfhk2.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: HK BAGE 13
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 41799
+  server: hk6.airwhite.top
+  type: ss
+  udp: true
+- name: HK HNSL 14
+  password: 8e001cee-f132-489d-ae3d-3a12b1048f5c
+  port: 443
+  server: us3.552329a9-3408-9317-cb57-3e5511c790f0.47253001.the-best-airport.com
+  skip-cert-verify: true
+  sni: new.download.the-best-airport.com
+  type: trojan
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: HK AKILE 15
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 13602
+  server: hk1.airwhite.top
+  type: ss
+  udp: true
+- name: HK Hytron 16
+  password: 8e001cee-f132-489d-ae3d-3a12b1048f5c
+  port: 443
+  server: hk8.552329a9-3408-9317-cb57-3e5511c790f0.b12b4427.the-best-airport.com
+  skip-cert-verify: true
+  sni: new.download.the-best-airport.com
+  type: trojan
+  udp: true
+- name: HK HNSL 17
+  password: 8e001cee-f132-489d-ae3d-3a12b1048f5c
+  port: 443
+  server: hk4.552329a9-3408-9317-cb57-3e5511c790f0.66dc3db5.the-best-airport.com
+  skip-cert-verify: true
+  sni: new.download.the-best-airport.com
+  type: trojan
+  udp: true
+- client-fingerprint: safari
+  flow: xtls-rprx-vision
+  name: HK HKT 18
+  port: 443
+  server: 3bd9.55dca.e048.f64-fef1f.yfjcs.com
+  servername: yfhk2.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: aes-256-gcm
+  client-fingerprint: chrome
+  name: HK CNSERVERS 19
+  password: 9bfdde71b4c0
+  plugin: v2ray-plugin
+  plugin-opts:
+    host: newroot2v1.dsjsapp.com
+    mode: websocket
+    mux: true
+    path: /cauejypbltqt
+    skip-cert-verify: false
+    tls: true
+  port: 636
+  server: 103.103.245.158
+  tfo: false
+  type: ss
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: SG AMAZON 01
+  port: 443
+  server: 3bd9.55dca.e048.f9-fef1f.yfjcs.com
+  servername: yfsg-1.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: safari
+  flow: xtls-rprx-vision
+  name: SG AMAZON 02
+  port: 443
+  server: 3bd9.55dca.e048.f7-fef1f.yfjcs.com
+  servername: b295-23ap29-6bh.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  name: SG AMAZON 03
+  port: 443
+  server: 3bd9.55dca.e048.f8-fef1f.yfjcs.com
+  servername: yfsg-1.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: ios
+  flow: xtls-rprx-vision
+  name: SG AMAZON 04
+  port: 443
+  server: 3bd9.55dca.e048.f10-fef1f.yfjcs.com
+  servername: yfsg-1.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: SG ORACLE 05
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 38363
+  server: sg2.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: SG ORACLE 06
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 21373
+  server: sg1.airwhite.top
+  type: ss
+  udp: true
+- mport: 20000-55000
+  name: SG ORACLE 07
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 168.138.184.187
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- name: SG Tencent 08
+  network: ws
+  port: '8880'
+  server: 185.251.80.168
+  servername: kjgx.laoyoutiao.link
+  type: vless
+  udp: true
+  uuid: fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf
+  ws-opts:
+    headers:
+      Host: kjgx.laoyoutiao.link
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/70.0.3538.67 Safari/537.36
+    path: Telegram@WangCai2/?ed=2560
+  xudp: true
+- client-fingerprint: safari
+  flow: xtls-rprx-vision
+  name: JP AMAZON 01
+  port: 443
+  server: 3bd9.55dca.e048.f3-fef1f.yfjcs.com
+  servername: yfjp.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: JP AMAZON 02
+  port: 443
+  server: 3bd9.55dca.e048.f2-fef1f.yfjcs.com
+  servername: yfjp.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- mport: 20000-55000
+  name: JP ORACLE 03
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 138.2.2.120
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: JP ORACLE 04
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 39470
+  server: jp3.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: JP AKILE 05
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 30937
+  server: jp6.airwhite.top
+  type: ss
+  udp: true
+- name: JP ORACLE 06
+  network: ws
+  port: 8880
+  server: 77.105.163.177
+  servername: ip.langmanshanxi.top
+  skip-cert-verify: false
+  tls: false
+  type: vless
+  udp: true
+  uuid: 583ceab3-4022-4553-9158-9bedc625ad4e
+  ws-opts:
+    headers:
+      Host: ip.langmanshanxi.top
+    path: "/Telegram\U0001F1E8\U0001F1F3 @WangCai2 /?ed=2560"
+- cipher: chacha20-ietf-poly1305
+  name: JP AKILE 07
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 29343
+  server: jp1.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: JP ORACLE 08
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 48417
+  server: jp2.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: JP AMAZON 09
+  port: 443
+  server: 3bd9.55dca.e048.f1-fef1f.yfjcs.com
+  servername: yfjp.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: JP AKILE 10
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 26077
+  server: jp5.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: ios
+  flow: xtls-rprx-vision
+  name: JP AMAZON 11
+  port: 443
+  server: 3bd9.55dca.e048.f4-fef1f.yfjcs.com
+  servername: yfjp.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- mport: 20000-55000
+  name: US AS40676 01
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 208.87.242.79
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 02
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 108.181.23.249
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 03
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 208.87.242.215
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 04
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 108.181.23.241
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 05
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 108.181.22.153
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 06
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 108.181.23.255
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 07
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 208.87.242.207
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- client-fingerprint: safari
+  flow: xtls-rprx-vision
+  name: US ORACLE 08
+  port: 443
+  server: 64.181.255.250
+  servername: b295-23ae29-6bh.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: chrome
+  name: US AMAZON 09
+  network: ws
+  port: '443'
+  server: duke.ns.cloudflare.com
+  servername: edmz.ambercc.filegear-sg.me
+  tls: true
+  type: vless
+  udp: true
+  uuid: ee6774c0-9b19-4ff1-8b30-2da4b71977e2
+  ws-opts:
+    headers:
+      Host: edmz.ambercc.filegear-sg.me
+      User-Agent: Mozilla/5.0 (Linux; Android 5.1; A37f Build/LMY47V) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36
+    path: /?ed=2560
+  xudp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: US ORACLE 10
+  port: 443
+  server: 165.1.68.155
+  servername: 767w1-38dc0-9ocf2.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: US ORACLE 11
+  port: 443
+  server: 192.9.142.185
+  servername: b295-23ae29-6bh.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: US ORACLE 12
+  port: 443
+  server: 192.9.247.127
+  servername: b295-23ae29-6bh.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: US ORACLE 13
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 31371
+  server: mg1.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US ORACLE 14
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 37712
+  server: mg2.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: safari
+  flow: ''
+  name: US AS40676 15
+  network: ws
+  port: 443
+  server: 104.18.15.15
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+  ws-opts:
+    headers:
+      Host: yfjcus1.yfjc.sbs
+    path: /yfjc/us1
+- name: US ORACLE 16
+  network: ws
+  port: 8880
+  server: 45.80.110.177
+  servername: ip.langmanshanxi.top
+  skip-cert-verify: false
+  tls: false
+  type: vless
+  udp: true
+  uuid: 583ceab3-4022-4553-9158-9bedc625ad4e
+  ws-opts:
+    headers:
+      Host: ip.langmanshanxi.top
+    path: "/Telegram\U0001F1E8\U0001F1F3 @WangCai2"
+- cipher: chacha20-ietf-poly1305
+  name: US ORACLE 17
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 21726
+  server: mg9.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US AS 18
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 20608
+  server: mg5.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US AS 19
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 33704
+  server: mg8.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US Massivegrid 20
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 42352
+  server: mg7.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US ACCK 21
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 32003
+  server: jp4.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US ORACLE 22
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 42560
+  server: mg10.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US BAGE 23
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 38296
+  server: mg6.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US ORACLE 24
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 25477
+  server: mg4.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: US AS 25
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 46045
+  server: mg3.airwhite.top
+  type: ss
+  udp: true
+- mport: 20000-55000
+  name: US AS40676 26
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 208.87.242.189
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- alterId: 2
+  cipher: auto
+  client-fingerprint: chrome
+  name: US DIGITALOCEAN 27
+  network: ws
+  port: 30829
+  server: v29.heduian.link
+  skip-cert-verify: false
+  tfo: false
+  tls: false
+  type: vmess
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  ws-opts:
+    headers:
+      Host: ocbc.com
+    path: /oooo
+- alterId: 2
+  cipher: auto
+  client-fingerprint: chrome
+  name: US AUTC 28
+  network: ws
+  port: 30807
+  server: v7.heduian.link
+  skip-cert-verify: false
+  tfo: false
+  tls: false
+  type: vmess
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  ws-opts:
+    headers:
+      Host: ocbc.com
+    path: /oooo
+- cipher: 2022-blake3-aes-128-gcm
+  name: TW DCBG 01
+  password: 12xGRmcEy3TVETzE47MreA==
+  port: 34664
+  server: 183.240.187.198
+  tfo: false
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: TW ByteVirt 02
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 42137
+  server: tw.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: TW DCBG 03
+  port: 443
+  server: 3bd9.55dba.e048.f65-fef1f.yfjcs.com
+  servername: tw.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: AE ORACLE 01
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 37905
+  server: db.airwhite.top
+  type: ss
+  udp: true
+- mport: 20000-55000
+  name: AU ORACLE 01
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 192.9.176.249
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: AU ORACLE 02
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 48117
+  server: as.airwhite.top
+  type: ss
+  udp: true
+- mport: 20000-55000
+  name: BR ORACLE 01
+  password: 580fe918-41b6-4d85-9aba-19ae1685c066
+  port: 20000
+  ports: 20000-55000
+  server: 129.148.39.249
+  skip-cert-verify: true
+  sni: www.bing.com
+  type: hysteria2
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: BR ORACLE 02
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 32943
+  server: bx.airwhite.top
+  type: ss
+  udp: true
+- alterId: '0'
+  cipher: auto
+  name: BR ORACLE 03
+  network: ws
+  port: '80'
+  server: 162.159.137.178
+  skip-cert-verify: false
+  tls: false
+  type: vmess
+  udp: true
+  uuid: 88a25bf3-18af-486f-b194-d87e976c230b
+  ws-opts:
+    headers:
+      Host: 165067316419432025062817003642514.s15.chibaba.filegear-sg.me
+    path: /s15.html
+  xudp: true
+- cipher: chacha20-ietf-poly1305
+  name: CA CLOUDFLARENET 01
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 20357
+  server: jianada.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: CH CLOUDFLARENET 01
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 44024
+  server: ruishi.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: CL ORACLE 01
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 32001
+  server: zhili.airwhite.top
+  type: ss
+  udp: true
+- alterId: 0
+  cipher: auto
+  client-fingerprint: chrome
+  name: CN HAAC 01
+  port: 50002
+  server: 120.26.55.225
+  skip-cert-verify: false
+  tfo: false
+  tls: false
+  type: vmess
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+- client-fingerprint: safari
+  flow: xtls-rprx-vision
+  name: DE Advin 01
+  port: 443
+  server: 204.10.194.78
+  servername: yfnl1.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- client-fingerprint: safari
+  flow: xtls-rprx-vision
+  name: DE ORACLE 02
+  port: 443
+  server: 141.147.33.180
+  servername: 767w1-85dc0-9yjd.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: DE CLOUDFLARENET 03
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 25212
+  server: de.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: DE BAGE 04
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 25696
+  server: de2.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: DE Hetzner 05
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 49934
+  server: nierliya.airwhite.top
+  type: ss
+  udp: true
+- cipher: chacha20-ietf-poly1305
+  name: ES ORACLE 01
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 20252
+  server: xby.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: FR ORACLE 01
+  port: 443
+  server: 141.253.124.138
+  servername: b2-9fr2329-6bh.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
+- cipher: chacha20-ietf-poly1305
+  name: FR CLOUDFLARENET 02
+  password: 912d6779-c344-4b4b-b1f3-58954cc83413
+  port: 39965
+  server: fg.airwhite.top
+  type: ss
+  udp: true
+- client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  name: FR ORACLE 03
+  port: 443
+  server: 144.24.206.147
+  servername: b2-9fr5232-96bh.xn--4gq62f52gppi29k.com
+  skip-cert-verify: false
+  tls: true
+  type: vless
+  udp: true
+  uuid: 580fe918-41b6-4d85-9aba-19ae1685c066
