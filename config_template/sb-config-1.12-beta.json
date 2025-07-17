@@ -113,6 +113,7 @@
       "tag": "mixed-in",
       "type": "mixed",
       "listen": "127.0.0.1",
+      "tcp_fast_open": true,
       "listen_port": 7890
     }
   ],
@@ -287,7 +288,7 @@
       "url": "http://cp.cloudflare.com/",
       "interval": "60m",
       "idle_timeout": "60m",
-      "tolerance": 40
+      "tolerance": 50
     },
     {
       "type": "direct",
