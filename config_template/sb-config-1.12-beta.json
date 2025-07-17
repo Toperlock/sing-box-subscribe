@@ -362,17 +362,17 @@
             "rule_set":"geosite-youtube"
           },
           {
-            "network":"udp"
+            "protocol":"quic"
           },
           {
-            "protocol":"quic"
+            "network":"udp"
           }
         ],
         "action": "reject"
       },
       {
         "action": "route",
-        "domain_suffix": [
+        "domain_suffix":[
           "googleapis.cn"
         ],
         "outbound": "Google"
