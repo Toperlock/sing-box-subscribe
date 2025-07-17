@@ -18,7 +18,7 @@
     "servers":[
       {
         "tag":"google",
-        "type":"https",
+        "type":"tls",
         "server":"1.1.1.1",
         "detour":"Proxy"
       },
@@ -37,8 +37,7 @@
     "rules":[
       {
         "clash_mode":"direct",
-        "server":"local",
-        "strategy":"prefer_ipv4"
+        "server":"local"
       },
       {
         "clash_mode":"global",
