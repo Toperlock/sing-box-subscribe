@@ -322,7 +322,7 @@
       },
       {
         "clash_mode": "global",
-        "outbound": "Proxy"
+        "outbound": "Global"
       },
       {
         "type":"logical",
@@ -373,10 +373,14 @@
       },
       {
   "rule_set":"geosite-geolocation-!cn",
-        "outbound":"Global"
+        "outbound":"Proxy"
       },
       {
-        "rule_set":["geoip-cn","geosite-cn"],
+        "rule_set":"geosite-cn",
+        "outbound":"direct"
+      },
+      {
+        "rule_set":"geoip-cn",
         "outbound":"direct"
       }
     ],
