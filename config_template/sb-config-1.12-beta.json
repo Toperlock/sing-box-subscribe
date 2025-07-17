@@ -372,10 +372,6 @@
         "outbound":"OpenAI"
       },
       {
-  "rule_set":"geosite-geolocation-!cn",
-        "outbound":"Proxy"
-      },
-      {
         "rule_set":"geosite-cn",
         "outbound":"direct"
       },
