@@ -1,83 +1,83 @@
 {
-  "log": {
-    "level": "error",
+ "log":{
+    "level":"error",
     "timestamp": false
   },
-  "experimental": {
-  "clash_api":{
-   "default_mode":"rule"
-    },
-  "cache_file": {
-    "enabled": true,
-    "store_fakeip": false,
-    "store_rdrc": false
+ "experimental":{
+     "clash_api":{
+     "default_mode":"rule"
+     },
+   "cache_file":{
+     "enabled":true,
+     "store_fakeip":false,
+     "store_rdrc":false
     }
   },
-  "dns": {
-    "final": "google",
-    "servers": [
+ "dns":{
+    "final":"google",
+    "servers":[
       {
-        "tag": "google",
-        "type": "https",
-        "server": "1.1.1.1",
-        "detour": "Proxy"
+        "tag":"google",
+        "type":"https",
+        "server":"1.1.1.1",
+        "detour":"Proxy"
       },
       {
-        "tag": "local",
-        "type": "h3",
-        "server": "223.5.5.5"
+        "tag":"local",
+        "type":"h3",
+        "server":"223.5.5.5"
       },
       {
-        "tag": "fakeip",
-        "type": "fakeip",
-        "inet4_range": "198.18.0.0/15",
-        "inet6_range": "fc00::/18"
+        "tag":"fakeip",
+        "type":"fakeip",
+        "inet4_range":"198.18.0.0/15",
+        "inet6_range":"fc00::/18"
       }
     ],
-    "rules": [
+    "rules":[
       {
-        "clash_mode": "direct",
-        "server": "local",
-        "strategy": "prefer_ipv4"
+        "clash_mode":"direct",
+        "server":"local",
+        "strategy":"prefer_ipv4"
       },
       {
-        "clash_mode": "global",
-        "server": "google",
-        "strategy": "ipv4_only"
+        "clash_mode":"global",
+        "server":"google",
+        "strategy":"ipv4_only"
       },
       {
-        "domain_suffix": [
+        "domain_suffix":[
           "googleapis.cn"
         ],
-        "server": "google",
-        "strategy": "ipv4_only"
+        "server":"google",
+        "strategy":"ipv4_only"
       },
       {
-        "rule_set": "geosite-cn",
-        "server": "local",
-        "strategy": "prefer_ipv4"
+        "rule_set":"geosite-cn",
+        "server":"local",
+        "strategy":"prefer_ipv4"
       },
       {
-        "action": "reject",
-        "rule_set": [
+        "action":"reject",
+        "rule_set":[
           "geosite-category-ads-all"
         ]
       },
       {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
+        "type":"logical",
+        "mode":"and",
+        "rules":[
           {
-            "rule_set": "geosite-geolocation-!cn",
-            "invert": true
+"rule_set":"geosite-geolocation-!cn",
+            "invert":true
           },
           {
-            "rule_set": "geoip-cn"
+            "rule_set":"geoip-cn"
           }
         ],
-        "server": "google",
-        "strategy": "ipv4_only",
-        "client_subnet": "114.114.114.114/24"
+        "server":"google",
+        "strategy":"ipv4_only",
+    "client_subnet":"114.114.114.114/24"
       },
       {
         "query_type": [
@@ -88,7 +88,7 @@
         "server": "fakeip"
       }
     ],
-    "strategy": "ipv4_only"
+    "strategy":"ipv4_only"
  },
   "inbounds": [
     {
@@ -309,7 +309,7 @@
     }
   ],
   "route": {
-    "default_domain_resolver": {
+    "default_domain_resolver":{
       "server": "local",
       "strategy": "prefer_ipv4"
     },
@@ -317,7 +317,7 @@
     "final": "Proxy",
     "rules": [
       {
-        "inbound": ["tun-in", "mixed-in"],
+        "inbound": ["tun-in","mixed-in"],
         "action": "sniff",
         "sniffer": [
           "dns",
@@ -378,7 +378,7 @@
         "outbound": "Google"
       },
       {
-        "rule_set":    "geosite-category-ads-all",
+   "rule_set":"geosite-category-ads-all",
         "action": "reject"
       },
       {
@@ -399,7 +399,7 @@
         "outbound":"direct"
       },
       {
-        "rule_set":["geosite-youtube", "geoip-google", "geosite-google","geosite-github"],
+        "rule_set":["geosite-youtube","geoip-google", "geosite-google","geosite-github"],
         "outbound":"Google"
       },
       {
@@ -419,17 +419,17 @@
         "outbound":"OpenAI"
       },
       {
-        "rule_set": "geosite-geolocation-!cn",
+  "rule_set":"geosite-geolocation-!cn",
         "outbound":"Global"
       },
       {
-        "rule_set": ["geoip-cn","geosite-cn"],
+        "rule_set":["geoip-cn","geosite-cn"],
         "outbound":"direct"
       }
     ],
     "rule_set": [
       {
-        "tag": "geosite-category-ads-all",
+        "tag":"geosite-category-ads-all",
         "type":"remote",
         "format":"binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
