@@ -382,19 +382,6 @@
         "action": "reject"
       },
       {
-        "type":"logical",
-        "mode":"and",
-        "rules":[
-           {
- "rule_set":"geosite-category-ads-all"
-           },
-           {
-         "clash_mode": "global"
-           }
-        ],
-         "outbound": "Proxy"
-      },
-      {
         "ip_is_private":true,
         "outbound":"direct"
       },
