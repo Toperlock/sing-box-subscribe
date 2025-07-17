@@ -18,7 +18,7 @@
     "servers":[
       {
         "tag":"google",
-        "type":"https",
+        "type":"tls",
         "server":"1.1.1.1",
         "detour":"Proxy"
       },
@@ -301,7 +301,7 @@
       "url": "http://cp.cloudflare.com/",
       "interval": "60m",
       "idle_timeout": "60m",
-      "tolerance": 50
+      "tolerance": 40
     },
     {
       "type": "direct",
@@ -323,7 +323,6 @@
           "dns",
           "dtls",
           "http",
-          "ssh",
           "tls",
           "quic",
           "ntp",
@@ -363,6 +362,9 @@
           },
           {
             "protocol":"quic"
+          },
+          {
+            "network":"udp"
           }
         ],
         "action": "reject"
