@@ -355,8 +355,8 @@
         "outbound": "Proxy"
       },
       {
-        "type": "logical",
-        "mode": "and",
+        "type":"logical",
+        "mode":"and",
         "rules": [
           {
             "rule_set":"geosite-youtube"
@@ -378,54 +378,60 @@
         "outbound": "Google"
       },
       {
-        "rule_set":      "geosite-category-ads-all",
-        "clash_mode": "rule",
+        "rule_set":    "geosite-category-ads-all",
         "action": "reject"
       },
       {
-        "rule_set":
-      "geosite-category-ads-all",
-        "clash_mode": "global",
-        "outbound": "Proxy"
+        "type":"logical",
+        "mode":"and",
+        "rules":[
+           {
+ "rule_set":"geosite-category-ads-all"
+           },
+           {
+         "clash_mode": "global"
+           }
+        ],
+         "outbound": "Proxy"
       },
       {
-        "ip_is_private": true,
-        "outbound": "direct"
+        "ip_is_private":true,
+        "outbound":"direct"
       },
       {
-        "rule_set": ["geosite-youtube", "geoip-google", "geosite-google","geosite-github"],
-        "outbound": "Google"
+        "rule_set":["geosite-youtube", "geoip-google", "geosite-google","geosite-github"],
+        "outbound":"Google"
       },
       {
         "rule_set": ["geoip-telegram","geosite-telegram"],
-        "outbound": "Telegram"
+        "outbound":"Telegram"
       },
       {
         "rule_set": ["geoip-twitter","geosite-twitter"],
-        "outbound": "Twitter"
+        "outbound":"Twitter"
       },
       {
         "rule_set":["geoip-facebook","geosite-facebook"],
-        "outbound": "Facebook"
+        "outbound":"Facebook"
       },
       {
-        "rule_set": "geosite-openai",
-        "outbound": "OpenAI"
+        "rule_set":"geosite-openai",
+        "outbound":"OpenAI"
       },
       {
         "rule_set": "geosite-geolocation-!cn",
-        "outbound": "Global"
+        "outbound":"Global"
       },
       {
         "rule_set": ["geoip-cn","geosite-cn"],
-        "outbound": "direct"
+        "outbound":"direct"
       }
     ],
     "rule_set": [
       {
         "tag": "geosite-category-ads-all",
-        "type": "remote",
-        "format": "binary",
+        "type":"remote",
+        "format":"binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
         "download_detour": "direct"
       },
