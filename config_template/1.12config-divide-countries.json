@@ -19,7 +19,8 @@
       {
         "tag":"google",
         "type":"https",
-        "server":"8.8.8.8"
+        "server":"8.8.8.8",
+        "detour":"Proxy"
       },
       {
         "tag":"local",
