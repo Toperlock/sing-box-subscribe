@@ -52,6 +52,13 @@
         "strategy":"ipv4_only"
       },
       {
+        "domain_suffix":[
+          ".cn"
+        ],
+        "server":"local",
+        "strategy":"prefer_ipv4"
+      },
+      {
         "rule_set":"geosite-cn",
         "server":"local",
         "strategy":"prefer_ipv4"
@@ -377,6 +384,12 @@
       },
       {
         "rule_set":"geoip-cn",
+        "outbound":"direct"
+      },
+      {
+        "domain_suffix":[
+          ".cn"
+        ],
         "outbound":"direct"
       }
     ],
