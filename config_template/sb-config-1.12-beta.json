@@ -73,10 +73,7 @@
         "strategy":"prefer_ipv4"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type":["A","AAAA"],
         "rule_set": "geosite-openai",
         "server": "fakeip"
       }
@@ -318,9 +315,7 @@
         "mode": "or",
         "rules":[
           {
-            "port":53
-          },
-          {
+            "port":53,
             "protocol": "dns"
           }
         ],
@@ -339,12 +334,8 @@
         "mode":"and",
         "rules": [
           {
-            "rule_set":"geosite-youtube"
-          },
-          {
-            "protocol":"quic"
-          },
-          {
+            "rule_set":"geosite-youtube",
+            "protocol":"quic",
             "network":"udp"
           }
         ],
@@ -352,9 +343,7 @@
       },
       {
         "action": "route",
-        "domain_suffix":[
-          "googleapis.cn"
-        ],
+        "domain_suffix":"googleapis.cn"],
         "outbound": "Google"
       },
       {
@@ -382,12 +371,7 @@
         "outbound":"OpenAI"
       },
       {
-        "domain_suffix":[
-          ".cn"
-        ],
-        "outbound":"direct"
-      },
-      {
+        "domain_suffix":".cn",
         "rule_set":"geosite-cn",
         "outbound":"direct"
       },
