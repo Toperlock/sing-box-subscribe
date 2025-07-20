@@ -18,10 +18,7 @@
     "servers":[
       {
         "tag":"google",
-        "type":"https",
-        "tls": {
-          "enabled": true
-        },
+        "type":"tcp",
         "server":"8.8.8.8",
         "detour":"Proxy"
       },
