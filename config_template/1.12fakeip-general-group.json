@@ -1,0 +1,468 @@
+{
+ "log":{
+    "level":"error",
+    "timestamp": false
+ },
+ "experimental":{
+    "clash_api":{"default_mode":"rule"},
+    "cache_file":{
+     "enabled":true,
+     "store_fakeip": true,
+     "store_rdrc":false
+    }
+  },
+ "dns": {
+    "final":"google",
+    "servers":[
+       {
+        "tag":"google",
+        "type":"udp",
+        "server":"8.8.8.8",
+        "detour":"Proxy"
+      },
+      {
+        "tag":"local",
+        "type":"https",
+        "tls": {"enabled": true},
+        "server":"223.5.5.5"
+      },
+      {
+        "tag":"fakeip",
+        "type":"fakeip",
+        "inet4_range":"198.18.0.0/15",
+        "inet6_range":"fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "clash_mode": "direct",
+        "server": "local",
+        "strategy": "prefer_ipv4"
+      },
+      {
+        "clash_mode": "global",
+        "server": "fakeip",
+      },
+      {
+      "domain_suffix": "googleapis.cn",
+        "server": "fakeip"
+      },
+      {
+        "action": "reject",
+        "rule_set": "geosite-category-ads-all"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "domain_suffix": ".cn",
+            "rule_set": "geosite-cn"
+          }
+        ],
+        "server": "local",
+        "strategy": "prefer_ipv4"
+      },
+      {
+       "inbound":["tun-in","mixed-in"],
+       "query_type": ["A","AAAA"],
+        "server": "fakeip"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "tag": "tun-in",
+      "type": "tun",
+      "mtu": 9000,
+      "address": [
+        "172.19.0.0/30",
+        "fdfe:dcba:9876::0/126"
+      ],
+      "stack": "system",
+      "auto_route": true,
+      "strict_route": true,
+      "platform": {
+        "http_proxy": {
+          "enabled": false,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
+    },
+    {
+      "tag": "mixed-in",
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "tcp_fast_open": true,
+      "listen_port": 7890
+    }
+  ],
+  "outbounds": [
+    {
+     "tag":"Proxy",
+     "type":"selector",
+     "interrupt_exist_connections":true ,
+     "outbounds":[
+        "auto",
+        "direct",
+        "{all}"
+      ]
+    },
+    {
+      "tag":"Google",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "HongKong",
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "South Korea",
+        "America",
+        "Others"
+      ]
+    },
+    {
+      "tag":"Telegram",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "HongKong",
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "America",
+        "South Korea",
+        "Others"
+      ]
+    },
+    {
+      "tag":"Facebook",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "HongKong",
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "America",
+        "South Korea",
+        "Others"
+      ]
+    },
+    {
+      "tag":"OpenAI",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "South Korea",
+        "America",
+        "Others"
+      ],
+      "default": "America"
+    },
+    {
+      "tag":"Global",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[ 
+        "HongKong",
+        "TaiWan",
+        "Singapore",
+        "Japan",
+        "America",
+        "South Korea",
+        "Others",
+        "direct"
+      ]
+    },
+    {
+      "tag":"HongKong",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇭🇰|HK|hk|香港|港|HongKong"]}
+      ]
+    },
+    {
+      "tag":"TaiWan",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"]}
+      ]
+    },
+    {
+      "tag":"Singapore",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇸🇬|SG|sg|新加坡|狮|Singapore"]}
+      ]
+    },
+    {
+      "tag":"Japan",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇯🇵|JP|jp|日本|日|Japan"]}
+      ]
+    },
+    {
+      "tag":"America",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇺🇸|US|us|美国|美|United States|America"]}
+      ]
+    },
+    {
+      "tag":"South Korea",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["🇰🇷|KR|kt|韩国|韩|South Korea|Korea"]}
+      ]
+    },
+    {
+      "tag":"Others",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|America|🇰🇷|KR|kt|韩国|韩|South Korea|Korea"]}
+      ]
+    },
+    {
+      "tag":"auto",
+      "type":"urltest",
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效|官网"]}
+      ],
+      "url": "http://cp.cloudflare.com/",
+      "interval": "2h",
+      "idle_timeout": "2h",
+      "tolerance": 50
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "default_domain_resolver":{
+      "server": "local",
+      "strategy": "prefer_ipv4"
+    },
+    "auto_detect_interface": true,
+    "final": "Proxy",
+    "rules": [
+      {
+        "inbound": ["tun-in","mixed-in"],
+        "action": "sniff",
+        "sniffer": [
+          "dns",
+          "dtls",
+          "http",
+          "tls",
+          "quic",
+          "ntp",
+          "bittorrent",
+          "stun",
+          "rdp"
+        ],
+        "timeout": "300ms"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules":[
+          {
+            "port":53,
+            "protocol": "dns"
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "clash_mode": "direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "global",
+        "outbound": "Global"
+      },
+      {
+        "type":"logical",
+        "mode":"and",
+        "rules": [
+          {
+            "protocol":"quic",
+            "network":"udp"
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "action": "route",
+        "domain_suffix":"googleapis.cn",
+        "outbound": "Google"
+      },
+      {
+   "rule_set":"geosite-category-ads-all",
+        "action": "reject"
+      },
+      {
+        "action": "route",
+        "ip_is_private":true,
+        "outbound":"direct"
+      },
+      {
+        "action": "route",
+        "rule_set":["geosite-youtube","geoip-google", "geosite-google","geosite-github"],
+        "outbound":"Google"
+      },
+      {
+        "action": "route",
+        "rule_set": ["geoip-telegram","geosite-telegram"],
+        "outbound":"Telegram"
+      },
+      {
+        "action": "route",
+        "rule_set":["geoip-facebook","geosite-facebook"],
+        "outbound":"Facebook"
+      },
+      {
+        "action": "route",
+        "rule_set":"geosite-openai",
+        "outbound":"OpenAI"
+      },
+      {
+        "type":"logical",
+        "mode":"or",
+        "rules": [
+          {
+          "domain_suffix":".cn",
+          "rule_set":"geosite-cn",
+          "rule_set":"geoip-cn"
+          }
+        ],
+        "action": "route",
+        "outbound":"direct"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag":"geosite-category-ads-all",
+        "type":"remote",
+        "format":"binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-youtube",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-github",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-telegram",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-telegram",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-facebook",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/facebook.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-facebook",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/facebook.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-openai",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "download_detour": "direct"
+      }
+    ]
+  }
+}
