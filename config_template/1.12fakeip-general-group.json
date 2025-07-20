@@ -63,9 +63,9 @@
        "inbound":["tun-in","mixed-in"],
        "query_type": ["A","AAAA"],
         "server": "fakeip"
-      },
-       "strategy":"ipv4_only"
-    ]
+      }
+    ],
+        "strategy":"ipv4_only"
   },
   "inbounds": [
     {
