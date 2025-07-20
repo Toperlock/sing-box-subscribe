@@ -19,13 +19,20 @@
       {
         "tag":"google",
         "type":"https",
+        "tls": {
+          "enabled": true
+        },
         "server":"8.8.8.8",
         "detour":"Proxy"
       },
       {
         "tag":"local",
         "type":"https",
-        "server":"223.5.5.5"
+        "tls": {
+          "enabled": true
+        },
+        "server":"223.5.5.5",
+        "detour":"direct"
       },
       {
         "tag":"fakeip",
