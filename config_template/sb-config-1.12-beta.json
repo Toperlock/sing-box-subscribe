@@ -1,7 +1,8 @@
 {
  "log":{
     "level":"error",
-    "timestamp": false},
+    "timestamp": false
+ },
  "experimental":{
     "clash_api":{"default_mode":"rule"},
     "cache_file":{
