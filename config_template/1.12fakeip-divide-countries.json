@@ -64,8 +64,7 @@
        "query_type": ["A","AAAA"],
         "server": "fakeip"
       }
-    ],
-       "strategy":"ipv4_only"
+    ]
   },
   "inbounds": [
     {
