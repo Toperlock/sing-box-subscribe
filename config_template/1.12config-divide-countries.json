@@ -1,13 +1,11 @@
 {
- "log":{
+  "log":{
     "level":"error",
     "timestamp": false
-  },
+ },
  "experimental":{
-     "clash_api":{
-     "default_mode":"rule"
-     },
-   "cache_file":{
+    "clash_api":{"default_mode":"rule"},
+    "cache_file":{
      "enabled":true,
      "store_fakeip":false,
      "store_rdrc":false
@@ -18,19 +16,14 @@
     "servers":[
       {
         "tag":"google",
-        "type":"https",
-        "tls": {
-          "enabled": true
-        },
+        "type":"tcp",
         "server":"8.8.8.8",
         "detour":"Proxy"
       },
       {
         "tag":"local",
         "type":"https",
-        "tls": {
-          "enabled": true
-        },
+        "tls": {"enabled": true},
         "server":"223.5.5.5"
       },
       {
@@ -43,7 +36,8 @@
     "rules":[
       {
         "clash_mode":"direct",
-        "server":"local"
+        "server":"local",
+        "strategy":"prefer_ipv4"
       },
       {
         "clash_mode":"global",
@@ -51,35 +45,28 @@
         "strategy":"ipv4_only"
       },
       {
-        "domain_suffix":[
-          "googleapis.cn"
-        ],
+        "domain_suffix":"googleapis.cn",
         "server":"google",
         "strategy":"ipv4_only"
       },
       {
-        "action":"reject",
-        "rule_set":[
-          "geosite-category-ads-all"
-        ]
+         "action":"reject",
+   "rule_set":"geosite-category-ads-all"
       },
       {
-        "domain_suffix":[
-          ".cn"
+        "type":"logical",
+        "mode":"or",
+        "rules": [
+          {
+          "domain_suffix":".cn",
+          "rule_set":"geosite-cn"
+          }
         ],
         "server":"local",
         "strategy":"prefer_ipv4"
       },
       {
-        "rule_set":"geosite-cn",
-        "server":"local",
-        "strategy":"prefer_ipv4"
-      },
-      {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type":["A","AAAA"],
         "rule_set": "geosite-openai",
         "server": "fakeip"
       }
