@@ -327,9 +327,7 @@
         "mode": "or",
         "rules":[
           {
-            "port":53
-          },
-          {
+            "port":53,
             "protocol": "dns"
           }
         ],
@@ -348,12 +346,8 @@
         "mode":"and",
         "rules": [
           {
-            "rule_set":"geosite-youtube"
-          },
-          {
-            "protocol":"quic"
-          },
-          {
+            "rule_set":"geosite-youtube",
+            "protocol":"quic",
             "network":"udp"
           }
         ],
