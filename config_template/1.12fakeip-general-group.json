@@ -40,10 +40,6 @@
         "strategy": "prefer_ipv4"
       },
       {
-        "clash_mode": "global",
-        "server": "fakeip",
-      },
-      {
       "domain_suffix": "googleapis.cn",
         "server": "fakeip"
       },
@@ -67,7 +63,8 @@
        "inbound":["tun-in","mixed-in"],
        "query_type": ["A","AAAA"],
         "server": "fakeip"
-      }
+      },
+       "strategy":"ipv4_only"
     ]
   },
   "inbounds": [
