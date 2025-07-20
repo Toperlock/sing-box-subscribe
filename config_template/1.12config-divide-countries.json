@@ -292,7 +292,7 @@
     },
     "auto_detect_interface": true,
     "final": "Proxy",
-    "rules": [
+   "rules": [
       {
         "inbound": ["tun-in","mixed-in"],
         "action": "sniff",
@@ -342,43 +342,49 @@
       },
       {
         "action": "route",
-        "domain_suffix":[
-          "googleapis.cn"
-        ],
-        "outbound": "Proxy"
+        "domain_suffix":"googleapis.cn",
+        "outbound": "Google"
       },
       {
    "rule_set":"geosite-category-ads-all",
         "action": "reject"
       },
       {
+        "action": "route",
         "ip_is_private":true,
         "outbound":"direct"
       },
       {
+        "action": "route",
+        "rule_set":["geosite-youtube","geoip-google", "geosite-google","geosite-github"],
+        "outbound":"Google"
+      },
+      {
+        "action": "route",
         "rule_set": ["geoip-telegram","geosite-telegram"],
         "outbound":"Telegram"
       },
       {
+        "action": "route",
+        "rule_set":["geoip-facebook","geosite-facebook"],
+        "outbound":"Facebook"
+      },
+      {
+        "action": "route",
         "rule_set":"geosite-openai",
         "outbound":"OpenAI"
       },
       {
-  "rule_set":"geosite-geolocation-!cn",
-        "outbound":"Proxy"
-      },
-      {
-        "domain_suffix":[
-          ".cn"
+        "type":"logical",
+        "mode":"or",
+        "rules": [
+          {
+          "domain_suffix":".cn",
+          "rule_set":"geosite-cn",
+          "rule_set":"geoip-cn"
+          }
         ],
-        "outbound":"direct"
-      },
-      {
-        "rule_set":"geosite-cn",
-        "outbound":"direct"
-      },
-      {
-        "rule_set":"geoip-cn",
+        "action": "route",
         "outbound":"direct"
       }
     ],
