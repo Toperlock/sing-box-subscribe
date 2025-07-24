@@ -84,6 +84,7 @@
       ],
       "stack": "system",
       "auto_route": true,
+      "tcp_fast_open": true,
       "strict_route": true,
       "platform": {
         "http_proxy": {
@@ -98,7 +99,14 @@
       "type": "mixed",
       "listen": "127.0.0.1",
       "tcp_fast_open": true,
-      "listen_port": 7890
+      "listen_port": 7890,
+      "platform": {
+         "http_proxy": {
+          "enabled": false,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
     }
   ],
   "outbounds": [
