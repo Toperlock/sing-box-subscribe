@@ -98,21 +98,14 @@
       "type": "mixed",
       "listen": "127.0.0.1",
       "tcp_fast_open": true,
-      "listen_port": 7890,
-      "platform": {
-         "http_proxy": {
-          "enabled": false,
-          "server": "127.0.0.1",
-          "server_port": 7890
-        }
-      }
+      "listen_port": 7890
     }
   ],
   "outbounds": [
     {
      "tag":"Proxy",
      "type":"selector",
-     "interrupt_exist_connections":true ,
+     "interrupt_exist_connections":true,
      "outbounds":[
         "auto",
         "direct",
