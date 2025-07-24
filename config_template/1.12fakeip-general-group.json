@@ -76,7 +76,6 @@
         "fdfe:dcba:9876::0/126"
       ],
       "stack": "system",
-      "tcp_fast_open": true,
       "auto_route": true,
       "strict_route": true,
       "platform": {
