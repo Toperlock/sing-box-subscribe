@@ -84,7 +84,6 @@
       ],
       "stack": "system",
       "auto_route": true,
-      "tcp_fast_open": true,
       "strict_route": true,
       "platform": {
         "http_proxy": {
