@@ -35,16 +35,19 @@
     ],
     "rules":[
       {
+        "action": "route",
         "clash_mode":"direct",
         "server":"local",
         "strategy":"prefer_ipv4"
       },
       {
+        "action": "route",
         "clash_mode":"global",
         "server":"google",
         "strategy":"ipv4_only"
       },
       {
+        "action": "route",
         "domain_suffix":"googleapis.cn",
         "server":"google",
         "strategy":"ipv4_only"
@@ -54,6 +57,7 @@
    "rule_set":"geosite-category-ads-all"
       },
       {
+        "action": "route",
         "type":"logical",
         "mode":"or",
         "rules": [
@@ -70,8 +74,7 @@
         "rule_set": "geosite-openai",
         "server": "fakeip"
       }
-    ],
-    "strategy":"ipv4_only"
+    ]
  },
   "inbounds": [
     {
