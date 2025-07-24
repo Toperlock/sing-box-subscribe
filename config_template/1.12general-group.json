@@ -308,6 +308,7 @@
         "timeout": "300ms"
       },
       {
+        "action": "hijack-dns",
         "type": "logical",
         "mode": "or",
         "rules":[
@@ -315,18 +316,20 @@
             "port":53,
             "protocol": "dns"
           }
-        ],
-        "action": "hijack-dns"
+        ]
       },
       {
+        "action": "route",
         "clash_mode": "direct",
         "outbound": "direct"
       },
       {
+        "action": "route",
         "clash_mode": "global",
         "outbound": "Global"
       },
       {
+        "action": "reject",
         "type":"logical",
         "mode":"and",
         "rules": [
@@ -335,8 +338,7 @@
             "protocol":"quic",
             "network":"udp"
           }
-        ],
-        "action": "reject"
+        ]
       },
       {
         "action": "route",
@@ -344,8 +346,8 @@
         "outbound": "Google"
       },
       {
-   "rule_set":"geosite-category-ads-all",
-        "action": "reject"
+        "action": "reject",
+   "rule_set":"geosite-category-ads-all"
       },
       {
         "action": "route",
@@ -373,6 +375,7 @@
         "outbound":"OpenAI"
       },
       {
+        "action": "route",
         "type":"logical",
         "mode":"or",
         "rules": [
@@ -382,7 +385,6 @@
           "rule_set":"geoip-cn"
           }
         ],
-        "action": "route",
         "outbound":"direct"
       }
     ],
