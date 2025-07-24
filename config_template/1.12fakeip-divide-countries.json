@@ -201,7 +201,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇯🇵|JP|jp|日本|日|Japan|japan"]}
+        {"action":"include","keywords":["🇯🇵|JP|jp|日本|东京|日|Japan|japan"]}
       ]
     },
     { 
@@ -223,7 +223,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇺🇸|US|us|美国|美|United States|America"]}
+        {"action":"include","keywords":["🇺🇸|US|us|美国|凤凰城|西雅图|美|United States|America"]}
       ]
     },
     {
@@ -234,7 +234,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇨🇦|CA|ca|加拿大|Canada|canada"]}
+        {"action":"include","keywords":["🇨🇦|CA|ca|加拿大|渥太华|Canada|canada"]}
       ]
     },
     {
@@ -245,7 +245,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["🇰🇷|KR|kt|韩国|韩|South Korea|Korea"]}
+        {"action":"include","keywords":["🇰🇷|KR|kt|韩国|韩|首尔|South Korea|Korea"]}
       ]
     },
     {
@@ -256,7 +256,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|America|🇰🇷|KR|kt|韩国|韩|South Korea|Korea|🇨🇦|CA|ca|加拿大|Canada|🇦🇺|AU|au|澳大利亚|Australia|australia"]}
+        {"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|东京|日|🇺🇸|US|西雅图|凤凰城|us|美国|美|America|🇰🇷|KR|kr|首尔|韩国|韩|South Korea|Korea|🇨🇦|CA|ca|渥太华|加拿大|Canada|🇦🇺|AU|au|澳大利亚|Australia|australia"]}
       ]
     },
     {
@@ -266,7 +266,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效|官网"]}
+        {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效|官网|群|邀请|返利|循环|客服|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入"]}
       ],
       "url": "http://cp.cloudflare.com/",
       "interval": "2h",
