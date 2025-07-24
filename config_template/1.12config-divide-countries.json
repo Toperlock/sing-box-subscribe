@@ -73,7 +73,8 @@
         "query_type":["A","AAAA"],
         "rule_set": "geosite-openai",
         "server": "fakeip"
-      }
+      },
+     "strategy":"ipv4_only"
     ]
  },
   "inbounds": [
