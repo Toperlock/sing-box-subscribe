@@ -35,19 +35,26 @@
     ],
     "rules": [
       {
+        "action":"route",
         "clash_mode": "direct",
-        "server": "local",
-        "strategy": "prefer_ipv4"
+        "server": "local"
       },
       {
-      "domain_suffix": "googleapis.cn",
+        "action":"route",
+        "domain_suffix":"googleapis.cn",
         "server": "fakeip"
       },
       {
         "action": "reject",
-        "rule_set": "geosite-category-ads-all"
+   "rule_set":"geosite-category-ads-all"
       },
       {
+         "action":"route",
+   "rule_set":"geosite-geolocation-!cn",
+         "server":"fakeip"
+      },
+      {
+        "action":"route",
         "type": "logical",
         "mode": "or",
         "rules": [
@@ -56,12 +63,10 @@
             "rule_set": "geosite-cn"
           }
         ],
-        "server": "local",
-        "strategy": "prefer_ipv4"
+        "server": "local"
       },
       {
-       "inbound":["tun-in","mixed-in"],
-       "query_type": ["A","AAAA"],
+        "query_type": ["A","AAAA"],
         "server": "fakeip"
       }
     ]
@@ -308,10 +313,12 @@
         "action": "hijack-dns"
       },
       {
+        "action":"route",
         "clash_mode": "direct",
         "outbound": "direct"
       },
       {
+        "action":"route",
         "clash_mode": "global",
         "outbound": "Global"
       },
@@ -337,11 +344,6 @@
       },
       {
         "action": "route",
-        "ip_is_private":true,
-        "outbound":"direct"
-      },
-      {
-        "action": "route",
         "rule_set":["geosite-youtube","geoip-google", "geosite-google","geosite-github"],
         "outbound":"Google"
       },
@@ -361,6 +363,11 @@
         "outbound":"OpenAI"
       },
       {
+        "action": "route",
+  "rule_set":"geosite-geolocation-!cn",
+        "outbound":"Proxy"
+      },
+      {
         "type":"logical",
         "mode":"or",
         "rules": [
@@ -371,6 +378,11 @@
           }
         ],
         "action": "route",
+        "outbound":"direct"
+      },
+      {
+        "action": "route",
+        "ip_is_private":true,
         "outbound":"direct"
       }
     ],
@@ -443,6 +455,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-geolocation-!cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "direct"
       },
       {
