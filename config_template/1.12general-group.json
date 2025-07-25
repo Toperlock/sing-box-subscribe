@@ -57,6 +57,12 @@
    "rule_set":"geosite-category-ads-all"
       },
       {
+         "action":"route",
+   "rule_set":"geosite-geolocation-!cn",
+         "server":"google",
+         "strategy":"ipv4_only"
+      },
+      {
         "action": "route",
         "type":"logical",
         "mode":"or",
@@ -351,11 +357,6 @@
       },
       {
         "action": "route",
-        "ip_is_private":true,
-        "outbound":"direct"
-      },
-      {
-        "action": "route",
         "rule_set":["geosite-youtube","geoip-google", "geosite-google","geosite-github"],
         "outbound":"Google"
       },
@@ -376,6 +377,11 @@
       },
       {
         "action": "route",
+  "rule_set":"geosite-geolocation-!cn",
+        "outbound":"Proxy"
+      },
+      {
+        "action": "route",
         "type":"logical",
         "mode":"or",
         "rules": [
@@ -385,6 +391,11 @@
           "rule_set":"geoip-cn"
           }
         ],
+        "outbound":"direct"
+      },
+      {
+        "action": "route",
+        "ip_is_private":true,
         "outbound":"direct"
       }
     ],
@@ -457,6 +468,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-geolocation-!cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "direct"
       },
       {
