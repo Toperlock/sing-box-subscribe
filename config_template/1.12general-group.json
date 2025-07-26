@@ -289,7 +289,7 @@
       "tag": "direct"
     }
   ],
-  "route": {
+ "route": {
     "default_domain_resolver":{
       "server": "local",
       "strategy": "prefer_ipv4"
@@ -298,7 +298,6 @@
     "final": "Proxy",
     "rules": [
       {
-        "inbound": ["tun-in","mixed-in"],
         "action": "sniff",
         "sniffer": [
           "dns",
@@ -340,7 +339,8 @@
         "mode":"and",
         "rules": [
           {
-           "port":443,
+           "rule_set":"geosite-youtube",
+           "protocol":"quic",
            "network":"udp"
           }
         ]
