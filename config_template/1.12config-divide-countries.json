@@ -37,19 +37,18 @@
       {
         "action": "route",
         "clash_mode":"direct",
-        "server":"local"
+        "server":"local",
+        "strategy":"prefer_ipv4"
       },
       {
         "action": "route",
         "clash_mode":"global",
-        "server":"google",
-        "strategy":"ipv4_only"
+        "server":"google"
       },
       {
         "action": "route",
         "domain_suffix":"googleapis.cn",
-        "server":"google",
-        "strategy":"ipv4_only"
+        "server":"google"
       },
       {
          "action":"reject",
@@ -58,8 +57,7 @@
       {
          "action":"route",
    "rule_set":"geosite-geolocation-!cn",
-         "server":"google",
-         "strategy":"ipv4_only"
+         "server":"google"
       },
       {
         "action": "route",
@@ -71,7 +69,8 @@
           "rule_set":"geosite-cn"
           }
         ],
-        "server":"local"
+        "server":"local",
+        "strategy":"prefer_ipv4"
       },
       {
         "query_type":["A","AAAA"],
@@ -79,7 +78,10 @@
         "server": "fakeip"
       }
     ],
-        "strategy":"ipv4_only"
+       "disable_cache":true,
+       "disable_expire": false,
+       "independent_cache": false,
+       "strategy":"ipv4_only"
  },
   "inbounds": [
     {
@@ -113,7 +115,7 @@
     {
       "tag":"Proxy",
       "type":"selector",
-      "interrupt_exist_connections": true ,
+      "interrupt_exist_connections":true,
       "outbounds":[
         "auto",
         "HongKong",
@@ -261,7 +263,7 @@
       ],
       "filter":[
         {"action":"include","keywords":["🇰🇷|KR|kt|韩国|首尔|韩|South Korea|Korea"]}
-      ]
+     ]
     },
     {
       "tag":"Others",
@@ -285,7 +287,7 @@
       ],
       "url": "http://cp.cloudflare.com/",
       "interval": "0",
-      "idle_timeout": "300s",
+      "idle_timeout": "0",
       "tolerance": 50
     },
     {
@@ -342,8 +344,7 @@
         "rules": [
           {
             "rule_set":"geosite-youtube",
-            "protocol":"quic",
-            "network":"udp"
+            "protocol":"quic"
           }
         ],
         "action": "reject"
@@ -388,8 +389,7 @@
         "rules": [
           {
           "domain_suffix":".cn",
-          "rule_set":"geosite-cn",
-          "rule_set":"geoip-cn"
+     "rule_set":["geosite-cn","geoip-cn"]
           }
         ],
         "action": "route",
@@ -401,11 +401,11 @@
         "outbound":"direct"
       }
     ],
-    "rule_set": [
+   "rule_set": [
       {
         "tag":"geosite-category-ads-all",
-        "type":"remote",
-        "format":"binary",
+        "type": "remote",
+        "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
         "download_detour": "direct"
       },
@@ -413,35 +413,63 @@
         "tag": "geosite-youtube",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/youtube.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/google.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/google.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-github",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/github.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geoip-telegram",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/telegram.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-telegram",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/telegram.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-facebook",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/facebook.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-facebook",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/facebook.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-openai",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/Toperlock/sing-box-geosite@main/rule/OpenAI.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-geolocation-!cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/openai.srs",
         "download_detour": "direct"
       },
       {
@@ -455,7 +483,7 @@
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/cn.srs",
         "download_detour": "direct"
       },
       {
