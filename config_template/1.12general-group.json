@@ -17,7 +17,7 @@
       {
         "tag":"google",
         "type":"tcp",
-        "server":"8.8.8.8",
+        "server":"1.1.1.1",
         "detour":"Proxy"
       },
       {
@@ -279,9 +279,9 @@
       "filter":[
         {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效|官网|群|邀请|返利|循环|客服|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入"]}
       ],
-      "url": "http://cp.cloudflare.com/",
+      "url": "http://www.gstatic.com/generate_204",
       "interval": "0",
-      "idle_timeout": "30m",
+      "idle_timeout": "0",
       "tolerance": 50
     },
     {
@@ -291,8 +291,7 @@
   ],
  "route": {
     "default_domain_resolver":{
-      "server": "local",
-      "strategy": "prefer_ipv4"
+      "server": "local"
     },
     "auto_detect_interface": true,
     "final": "Proxy",
