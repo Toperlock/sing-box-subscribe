@@ -340,7 +340,6 @@
         "mode":"and",
         "rules": [
           {
-           "rule_set":"geosite-youtube",
            "port":443,
            "network":"udp"
           }
