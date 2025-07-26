@@ -78,7 +78,10 @@
         "server": "fakeip"
       }
     ],
-    "strategy":"ipv4_only"
+       "strategy":"ipv4_only",
+       "disable_cache":true,
+       "disable_expire":false,
+       "independent_cache":false
  },
   "inbounds": [
     {
