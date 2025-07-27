@@ -3,6 +3,7 @@
     "level":"error",
     "timestamp": false
  },
+ "certificate":{"store":"mozilla"},
  "experimental":{
     "clash_api":{"default_mode":"rule"},
     "cache_file":{
