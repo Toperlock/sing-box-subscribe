@@ -61,8 +61,8 @@
         "strategy":"prefer_ipv4"
       }
     ],
-       "disable_cache": false,
-       "disable_expire": true,
+       "disable_cache": true,
+       "disable_expire": false,
        "independent_cache": false,
        "strategy":"ipv4_only"
  },
