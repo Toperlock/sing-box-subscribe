@@ -289,7 +289,7 @@
           "quic",
           "ntp"
         ],
-        "timeout": "250ms"
+        "timeout": "300ms"
       },
       {
         "action": "hijack-dns",
