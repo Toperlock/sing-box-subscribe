@@ -62,8 +62,8 @@
       }
     ],
        "strategy":"ipv4_only",
-       "disable_cache":false,
-       "disable_expire":true,
+       "disable_cache":true,
+       "disable_expire":false,
        "independent_cache":false
  },
   "inbounds": [
@@ -318,8 +318,8 @@
         "mode":"and",
         "rules": [
           {
-           "rule_set":"geosite-youtube",
-           "protocol":"quic"
+          "port":443,
+          "network": "udp"
           }
         ]
       },
