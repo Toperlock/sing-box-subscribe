@@ -11,21 +11,26 @@ def parse(data):
     }
     if server_info.path:
         server_info = server_info._replace(netloc=server_info.netloc + server_info.path, path="")
-    ports_match = re.search(r',(\d{1,5})-(\d{1,5})', server_info.netloc)
     node = {
         'tag': unquote(server_info.fragment) or tool.genName() + '_hysteria2',
         'type': 'hysteria2',
         'server': re.sub(r"\[|\]", "", server_info.netloc.split("@")[-1].rsplit(":", 1)[0]),
-        "password": netquery['auth'] if netquery.get('auth') else server_info.netloc.split("@")[0].rsplit(":", 1)[-1],
+        "password": netquery.get('auth') or server_info.netloc.split("@")[0].rsplit(":", 1)[-1],
         'tls': {
             'enabled': True,
             'server_name': netquery.get('sni', netquery.get('peer', '')),
             'insecure': False
         }
     }
-    if ports_match:
-        start_port = int(ports_match.group(1))
-        end_port = int(ports_match.group(2))
+    ports_match = re.search(r',(\d{1,5})-(\d{1,5})', server_info.netloc)
+    mport_match = None
+    if not ports_match and 'mport' in netquery:
+        m = re.match(r'(\d{1,5})-(\d{1,5})', str(netquery['mport']))
+        if m:
+            mport_match = m
+    if ports_match or mport_match:
+        start_port = int((ports_match or mport_match).group(1))
+        end_port = int((ports_match or mport_match).group(2))
         if 1 <= start_port <= 65535 and 1 <= end_port <= 65535 and start_port <= end_port:
             node['server_ports'] = [f"{start_port}:{end_port}"]
     else:
