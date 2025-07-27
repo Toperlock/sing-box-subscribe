@@ -266,7 +266,7 @@
       ],
       "url": "http://cp.cloudflare.com/",
       "interval": "0",
-      "idle_timeout": "300s",
+      "idle_timeout": "0",
       "tolerance": 50
     },
     {
