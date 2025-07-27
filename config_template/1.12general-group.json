@@ -62,14 +62,7 @@
       },
       {
         "action": "route",
-        "type":"logical",
-        "mode":"or",
-        "rules": [
-          {
-          "domain_suffix":".cn",
-          "rule_set":"geosite-cn"
-          }
-        ],
+        "rule_set":"geosite-cn",
         "server":"local",
         "strategy":"prefer_ipv4"
       },
@@ -80,8 +73,8 @@
       }
     ],
        "strategy":"ipv4_only",
-       "disable_cache":true,
-       "disable_expire":false,
+       "disable_cache":false,
+       "disable_expire":true,
        "independent_cache":false
  },
   "inbounds": [
@@ -303,16 +296,12 @@
         "action": "sniff",
         "sniffer": [
           "dns",
-          "dtls",
           "http",
           "tls",
           "quic",
-          "ntp",
-          "bittorrent",
-          "stun",
-          "rdp"
+          "ntp"
         ],
-        "timeout": "300ms"
+        "timeout": "250ms"
       },
       {
         "action": "hijack-dns",
@@ -382,14 +371,7 @@
       },
       {
         "action": "route",
-        "type":"logical",
-        "mode":"or",
-        "rules": [
-          {
-           "domain_suffix":".cn",
-    "rule_set":["geosite-cn","geoip-cn"]
-          }
-        ],
+   "rule_set":["geosite-cn","geoip-cn"],
         "outbound":"direct"
       },
       {
