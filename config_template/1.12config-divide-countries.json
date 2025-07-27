@@ -26,12 +26,6 @@
         "type":"https",
         "tls": {"enabled": true},
         "server":"223.5.5.5"
-      },
-      {
-        "tag":"fakeip",
-        "type":"fakeip",
-        "inet4_range":"198.18.0.0/15",
-        "inet6_range":"fc00::/18"
       }
     ],
     "rules":[
@@ -65,15 +59,10 @@
         "rule_set":"geosite-cn",
         "server":"local",
         "strategy":"prefer_ipv4"
-      },
-      {
-        "query_type":["A","AAAA"],
-        "rule_set": "geosite-openai",
-        "server": "fakeip"
       }
     ],
-       "disable_cache":true,
-       "disable_expire": false,
+       "disable_cache": false,
+       "disable_expire": true,
        "independent_cache": false,
        "strategy":"ipv4_only"
  },
