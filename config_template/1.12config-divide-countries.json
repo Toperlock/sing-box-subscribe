@@ -62,14 +62,7 @@
       },
       {
         "action": "route",
-        "type":"logical",
-        "mode":"or",
-        "rules": [
-          {
-          "domain_suffix":".cn",
-          "rule_set":"geosite-cn"
-          }
-        ],
+        "rule_set":"geosite-cn",
         "server":"local",
         "strategy":"prefer_ipv4"
       },
@@ -386,15 +379,8 @@
         "outbound":"Proxy"
       },
       {
-        "type":"logical",
-        "mode":"or",
-        "rules": [
-          {
-          "domain_suffix":".cn",
-     "rule_set":["geosite-cn","geoip-cn"]
-          }
-        ],
         "action": "route",
+   "rule_set":["geosite-cn","geoip-cn"],
         "outbound":"direct"
       },
       {
