@@ -88,7 +88,6 @@
       ],
       "stack": "system",
       "auto_route": true,
-      "auto_redirect": true,
       "strict_route": true,
       "platform": {
         "http_proxy": {
