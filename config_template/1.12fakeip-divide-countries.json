@@ -53,7 +53,7 @@
       },
       {
         "action": "route",
-   "rule_set":["geosite-cn","geoip-cn"],
+        "rule_set":"geosite-cn",
         "server": "local"
       },
       {
