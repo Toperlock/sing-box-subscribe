@@ -56,8 +56,8 @@
       },
       {
         "action": "route",
-   "rule_set":["geosite-cn","geoip-cn"],
-         "server": "local"
+        "rule_set":"geosite-cn",
+        "server": "local"
       },
       {
         "query_type": ["A","AAAA"],
