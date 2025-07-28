@@ -44,11 +44,6 @@
         "server": "fakeip"
       },
       {
-         "action":"route",
-   "rule_set":"geosite-geolocation-!cn",
-         "server":"fakeip"
-      },
-      {
         "action": "reject",     "rule_set":"geosite-category-ads-all"
       },
       {
@@ -362,11 +357,6 @@
       },
       {
         "action": "route",
-  "rule_set":"geosite-geolocation-!cn",
-        "outbound":"Proxy"
-      },
-      {
-        "action": "route",
    "rule_set":["geosite-cn","geoip-cn"],
         "outbound":"direct"
       },
@@ -448,13 +438,6 @@
         "download_detour": "direct"
       },
       {
-        "tag": "geosite-geolocation-!cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
-        "download_detour": "direct"
-      },
-      {
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
@@ -465,7 +448,7 @@
         "tag": "geosite-cn",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/cn.srs",
         "download_detour": "direct"
       }
     ]
