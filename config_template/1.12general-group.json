@@ -312,10 +312,10 @@
         "type":"logical",
         "mode":"and",
         "rules": [
-          {
-          "port":443,
-          "protocol":"quic"
-          }
+         {
+         "rule_set":"geosite-youtube",
+         "protocol":"quic"
+         }
         ]
       },
       {
