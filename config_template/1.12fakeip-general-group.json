@@ -318,10 +318,10 @@
         "type":"logical",
         "mode":"and",
         "rules": [
-          {
-            "port":443,
-            "network":"udp"
-          }
+         {
+          "rule_set":"geosite-youtube",
+          "protocol":"quic"
+         }
         ],
         "action": "reject"
       },
