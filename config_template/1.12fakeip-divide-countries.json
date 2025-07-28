@@ -281,7 +281,6 @@
     "final": "Proxy",
    "rules": [
       {
-        "inbound": ["tun-in","mixed-in"],
         "action": "sniff",
         "sniffer": [
           "dns",
@@ -319,10 +318,10 @@
         "type":"logical",
         "mode":"and",
         "rules": [
-          {
-            "protocol":"quic",
-            "network":"udp"
-          }
+         {
+          "rule_set":"geosite-youtube",
+          "protocol":"quic"
+         }
         ],
         "action": "reject"
       },
