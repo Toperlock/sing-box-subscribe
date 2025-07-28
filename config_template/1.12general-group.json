@@ -319,7 +319,7 @@
         "rules": [
           {
           "port":443,
-          "network": "udp"
+          "protocol":"quic"
           }
         ]
       },
