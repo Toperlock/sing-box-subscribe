@@ -129,7 +129,7 @@
       ]
     },
     {
-      "tag":"Facebook",
+      "tag":"Meta",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -339,7 +339,7 @@
       },
       {
         "action": "route",
-        "rule_set":["geoip-facebook","geosite-facebook"],
+        "rule_set":["geoip-facebook","geosite-meta"],
         "outbound":"Facebook"
       },
       {
@@ -416,10 +416,10 @@
         "download_detour": "direct"
       },
       {
-        "tag": "geosite-facebook",
+        "tag": "geosite-meta",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/facebook.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/meta.srs",
         "download_detour": "direct"
       },
       {
