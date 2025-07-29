@@ -340,7 +340,7 @@
       {
         "action": "route",
         "rule_set":["geoip-facebook","geosite-meta"],
-        "outbound":"Facebook"
+        "outbound":"Meta"
       },
       {
         "action": "route",
