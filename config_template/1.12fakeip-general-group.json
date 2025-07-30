@@ -294,15 +294,8 @@
         "timeout": "300ms"
       },
       {
-        "type": "logical",
-        "mode": "or",
-        "rules":[
-          {
-            "port":53,
-            "protocol": "dns"
-          }
-        ],
-        "action": "hijack-dns"
+       "action": "hijack-dns",
+       "protocol": "dns"
       },
       {
         "action":"route",
