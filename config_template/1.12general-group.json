@@ -282,7 +282,9 @@
           "http",
           "tls",
           "quic",
-          "ntp"
+          "ntp",
+          "stun",
+          "dtls"
         ],
         "timeout": "300ms"
       },
