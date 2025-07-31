@@ -286,14 +286,12 @@
         "action": "sniff",
         "sniffer": [
           "dns",
-          "dtls",
           "http",
           "tls",
           "quic",
           "ntp",
-          "bittorrent",
           "stun",
-          "rdp"
+          "dtls"
         ],
         "timeout": "300ms"
       },
