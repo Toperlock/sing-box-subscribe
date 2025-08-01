@@ -353,7 +353,7 @@
         "outbound":"direct"
       }
     ],
-  "rule_set": [
+    "rule_set": [
       {
         "tag":"geosite-category-ads-all",
         "type": "remote",
@@ -372,7 +372,7 @@
         "tag": "geoip-google",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-google.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/google.srs",  
         "download_detour": "direct"
       },
       {
@@ -400,7 +400,7 @@
         "tag": "geoip-telegram",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-telegram.srs",
+        "url":"https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/telegram.srs",      
         "download_detour": "direct"
       },
       {
@@ -414,7 +414,7 @@
         "tag": "geoip-facebook",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-facebook.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/facebook.srs", 
         "download_detour": "direct"
       },
       {
