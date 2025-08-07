@@ -545,13 +545,7 @@
 					}
 				],
 				"action": "hijack-dns"
-			},
-      {
-        "inbound": ["loop-in","tun"],
-        "action": "resolve",
-				"server": "proxyDns",
-        "strategy": "ipv4_only"
-      },			
+			},		
       {
         "inbound": [
           "tun",
@@ -559,6 +553,12 @@
         ],
         "action": "sniff"
       },
+      {
+        "inbound": ["loop-in","tun"],
+        "action": "resolve",
+				"server": "proxyDns",
+        "strategy": "ipv4_only"
+      },			
 			{
 				"type": "logical",
 				"mode": "or",
