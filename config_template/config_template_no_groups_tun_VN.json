@@ -550,19 +550,6 @@
 		"auto_detect_interface": true,
 		"final": "proxy",
 		"rules": [
-      {
-        "inbound": [
-          "tun",
-          "mixed-in"
-        ],
-        "action": "sniff"
-      },
-      {
-        "inbound": ["loop-in","tun"],
-        "action": "resolve",
-				"server": "proxyDns",
-        "strategy": "ipv4_only"
-      },			
 			{
 				"type": "logical",
 				"mode": "or",
@@ -579,7 +566,20 @@
 					}
 				],
 				"action": "hijack-dns"
-			},
+			},			
+      {
+        "inbound": [
+          "tun",
+          "mixed-in"
+        ],
+        "action": "sniff"
+      },
+      {
+        "inbound": ["loop-in","tun"],
+        "action": "resolve",
+				"server": "proxyDns",
+        "strategy": "ipv4_only"
+      },			
 			{
 				"type": "logical",
 				"mode": "or",
@@ -1004,3 +1004,4 @@
 		]
 	}
 }
+
