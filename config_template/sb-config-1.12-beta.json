@@ -522,12 +522,6 @@
 		"final": "proxy",
 		"rules": [
 			{
-				"inbound": [
-          "loop-in","tun","mixed-in"
-				],
-				"action": "sniff"
-			},
-			{
 				"type": "logical",
 				"mode": "or",
 				"rules": [
@@ -544,6 +538,41 @@
 				],
 				"action": "hijack-dns"
 			},
+      {
+        "inbound": ["loop-in","tun"],
+        "action": "resolve",
+				"server": "proxyDns",
+        "strategy": "ipv4_only"
+      },			
+			{
+				"inbound": [
+          "loop-in","tun","mixed-in"
+				],
+				"action": "sniff"
+			},
+			{
+				"type": "logical",
+				"mode": "or",
+				"rules": [
+					{
+						"domain_keyword": "srdcloud"
+					},
+					{
+						"process_name": "Proxifier"
+					},
+					{
+						"ip_cidr": [
+							"132.0.0.0/8",
+							"192.168.0.0/16",
+							"10.0.0.0/8",
+							"127.0.0.0/8",
+							"172.16.0.0/12",
+							"100.64.0.0/10"
+						]
+					}
+				],
+				"outbound": "direct-out"
+			},			
       {
         "type": "logical",
         "mode": "or",
@@ -577,13 +606,6 @@
 					"geosite-cn"
 				],
 				"outbound": "China"
-			},
-			{
-				"inbound": [
-					"tun",
-					"mixed-in"
-				],
-				"outbound": "loop"
 			},
 			{
 				"domain": [
@@ -686,7 +708,14 @@
 			{
 				"rule_set": "geosite-geolocation-!cn",
 				"outbound": "Global"
-			}
+			},
+			{
+				"inbound": [
+					"tun",
+					"mixed-in"
+				],
+				"outbound": "loop"
+			}			
 		],
 		"rule_set": [
 			{
