@@ -545,20 +545,20 @@
 					}
 				],
 				"action": "hijack-dns"
-			},		
-      {
-        "inbound": [
-          "tun",
-          "mixed-in"
-        ],
-        "action": "sniff"
-      },
+			},
       {
         "inbound": ["loop-in","tun"],
         "action": "resolve",
 				"server": "proxyDns",
         "strategy": "ipv4_only"
       },			
+      {
+        "inbound": [
+          "tun",
+          "mixed-in"
+        ],
+        "action": "sniff"
+      },	
 			{
 				"type": "logical",
 				"mode": "or",
