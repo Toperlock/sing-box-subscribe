@@ -527,6 +527,13 @@
 		"auto_detect_interface": true,
 		"final": "proxy",
 		"rules": [
+      {
+        "inbound": [
+          "tun",
+          "mixed-in"
+        ],
+        "action": "sniff"
+      },
 			{
 				"type": "logical",
 				"mode": "or",
@@ -551,14 +558,7 @@
         "action": "resolve",
 				"server": "proxyDns",
         "strategy": "ipv4_only"
-      },			
-      {
-        "inbound": [
-          "tun",
-          "mixed-in"
-        ],
-        "action": "sniff"
-      },	
+      },				
 			{
 				"type": "logical",
 				"mode": "or",
