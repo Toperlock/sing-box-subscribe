@@ -97,8 +97,6 @@
      "type":"selector",
      "interrupt_exist_connections":true,
      "outbounds":[
-        "auto",
-        "direct",
         "HongKong",
         "TaiWan",
         "Singapore",
