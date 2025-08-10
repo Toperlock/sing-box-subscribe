@@ -169,6 +169,7 @@
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[ 
+        "auto",
         "{all}",
         "direct"
       ]
