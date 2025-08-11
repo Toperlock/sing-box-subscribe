@@ -529,8 +529,8 @@
 		"rules": [
       {
         "inbound": [
-          "tun",
-          "mixed-in"
+          "tun",		
+          "loop-in"
         ],
         "action": "sniff"
       },
@@ -554,7 +554,7 @@
 				"action": "hijack-dns"
 			},
       {
-        "inbound": ["loop-in","tun"],
+        "inbound": ["loop-in"],
         "action": "resolve",
 				"server": "proxyDns",
         "strategy": "ipv4_only"
