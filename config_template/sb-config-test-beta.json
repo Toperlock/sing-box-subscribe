@@ -552,13 +552,7 @@
 					}
 				],
 				"action": "hijack-dns"
-			},
-      {
-        "inbound": ["loop-in","tun"],
-        "action": "resolve",
-				"server": "proxyDns",
-        "strategy": "ipv4_only"
-      },				
+			},		
 			{
 				"type": "logical",
 				"mode": "or",
@@ -584,7 +578,19 @@
 					"geosite-cn"
 				],
 				"outbound": "China"
-			},	
+			},
+      {
+        "inbound": ["loop-in","tun"],
+        "action": "resolve",
+				"server": "proxyDns",
+        "strategy": "ipv4_only"
+      },
+			{
+				"inbound": [
+					"mixed-in"
+				],
+				"outbound": "loop"
+			},			
 			{
 				"domain": [
 					"clash.razord.top",
@@ -692,13 +698,7 @@
 			{
 				"rule_set": "geosite-geolocation-!cn",
 				"outbound": "Global"
-			},
-			{
-				"inbound": [
-					"mixed-in"
-				],
-				"outbound": "loop"
-			}			
+			}	
 		],
 		"rule_set": [
 			{
