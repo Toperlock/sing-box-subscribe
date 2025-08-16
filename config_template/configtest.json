@@ -156,16 +156,6 @@
       "default": "🇺🇸America"
     },
     {
-      "tag":"Global",
-      "type":"selector",
-      "interrupt_exist_connections":true,
-      "outbounds":[ 
-        "auto",
-        "{all}",
-        "direct"
-      ]
-    },
-    {
       "tag":"🇭🇰HongKong",
       "type":"selector",
       "interrupt_exist_connections":true,
@@ -240,6 +230,16 @@
       ],
       "filter":[
         {"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|东京|日|🇺🇸|US|凤凰城|西雅图|us|美国|美|America|🇰🇷|KR|kt|韩国|韩|South Korea|Korea"]}
+      ]
+    },
+    {
+      "tag":"Global",
+      "type":"selector",
+      "interrupt_exist_connections":true,
+      "outbounds":[ 
+        "auto",
+        "{all}",
+        "direct"
       ]
     },
     {
