@@ -70,8 +70,7 @@
       "mtu": 9000,
       "address": [
         "172.19.0.0/30",
-        "fdfe:dcba:9876::0/126"
-      ],
+        "fdfe:dcba:9876::0/126"],
       "stack": "system",
       "auto_route": true,
       "strict_route": true,
@@ -81,15 +80,8 @@
           "server": "127.0.0.1",
           "server_port": 7890
         }
-      }
-    },
-    {
-      "tag": "mixed-in",
-      "type": "mixed",
-      "listen": "127.0.0.1",
-      "tcp_fast_open": true,
-      "listen_port": 7890
-    }
+     }
+   }
   ],
   "outbounds": [
     {
@@ -173,7 +165,7 @@
       ]
     },
     {
-      "tag":"HongKong",
+      "tag":"🇭🇰HongKong",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -184,7 +176,7 @@
       ]
     },
     {
-      "tag":"TaiWan",
+      "tag":"🇹🇼TaiWan",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -195,7 +187,7 @@
       ]
     },
     {
-      "tag":"Singapore",
+      "tag":"🇸🇬Singapore",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -206,7 +198,7 @@
       ]
     },
     {
-      "tag":"Japan",
+      "tag":"🇯🇵Japan",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -217,7 +209,7 @@
       ]
     },
     {
-      "tag":"America",
+      "tag":"🇺🇸America",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -228,7 +220,7 @@
       ]
     },
     {
-      "tag":"South Korea",
+      "tag":"🇰🇷South Korea",
       "type":"selector",
       "interrupt_exist_connections":true,
       "outbounds":[
@@ -261,7 +253,7 @@
       "url": "http://www.gstatic.com/generate_204",
       "interval": "0",
       "idle_timeout": "0",
-      "tolerance": 60
+      "tolerance": 50
     },
     {
       "type": "direct",
