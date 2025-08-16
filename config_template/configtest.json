@@ -124,7 +124,8 @@
         "🇺🇸America",
         "🇰🇷South Korea",
         "Others"
-      ]
+      ],
+      "default": "🇸🇬Singapore"
     },
     {
       "tag":"Meta",
@@ -152,7 +153,7 @@
         "🇺🇸America",
         "Others"
       ],
-      "default": "America"
+      "default": "🇺🇸America"
     },
     {
       "tag":"Global",
