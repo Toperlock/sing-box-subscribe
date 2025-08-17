@@ -19,8 +19,6 @@
         "tag":"google",
         "type":"tcp",
         "server":"1.1.1.1",
-        "tcp_multi_path": true,
-        "tcp_fast_open": true,
         "detour":"Proxy"
       },
       {
