@@ -44,7 +44,7 @@
       },
       {
         "action": "route",
-        "domain_suffix":"googleapis.cn",
+        "rule_set":"geosite-googleplay"
         "server":"google"
       },
       {
@@ -318,7 +318,7 @@
       },
       {
         "action": "route",
-        "rule_set":["geosite-youtube","geoip-google", "geosite-google","geosite-github"],
+        "rule_set":["geosite-youtube", "geosite-google","geosite-github"],
         "outbound":"Google"
       },
       {
@@ -328,7 +328,7 @@
       },
       {
         "action": "route",
-        "rule_set":["geoip-facebook","geosite-meta"],
+        "rule_set":"geosite-meta",
         "outbound":"Meta"
       },
       {
@@ -352,42 +352,35 @@
         "tag":"geosite-category-ads-all",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-category-ads-all.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-category-ads-all.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-youtube",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-youtube.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-google",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/google.srs",  
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-youtube.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-googleplay",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-google-play@cn.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-google-play@cn.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-google",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-google.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-google.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-github",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-github.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-github.srs",
         "download_detour": "direct"
       },
       {
@@ -401,28 +394,21 @@
         "tag": "geosite-telegram",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-telegram.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-facebook",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/facebook.srs", 
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-telegram.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-meta",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-meta.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-meta.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-openai",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-openai.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-openai.srs",
         "download_detour": "direct"
       },
       {
@@ -436,7 +422,7 @@
         "tag": "geosite-cn",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set-unstable/geosite-cn.srs",
         "download_detour": "direct"
       }
     ]
