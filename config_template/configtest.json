@@ -308,17 +308,12 @@
         ]
       },
       {
-        "action": "route",
-        "rule_set":"geosite-googleplay",
-        "outbound": "Google"
-      },
-      {
         "action": "reject",
    "rule_set":"geosite-category-ads-all"
       },
       {
         "action": "route",
-        "rule_set":["geosite-youtube", "geosite-google","geosite-github"],
+        "rule_set":["geosite-youtube", "geosite-google","geosite-github","geosite-googleplay"],
         "outbound":"Google"
       },
       {
