@@ -313,7 +313,7 @@
       },
       {
         "action": "route",
-        "rule_set":["geosite-youtube", "geosite-google","geosite-github","geosite-googleplay"],
+        "rule_set":["geosite-youtube","geosite-google","geosite-github","geosite-googleplay"],
         "outbound":"Google"
       },
       {
