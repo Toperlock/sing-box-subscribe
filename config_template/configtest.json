@@ -44,7 +44,7 @@
       },
       {
         "action": "route",
-        "rule_set":"geosite-googleplay"
+        "rule_set":"geosite-googleplay",
         "server":"google"
       },
       {
