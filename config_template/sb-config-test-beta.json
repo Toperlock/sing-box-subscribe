@@ -585,7 +585,8 @@
                 "rules": [
                     {
                         "inbound": [
-                            "loop-in"
+                            "loop-in",
+                            "tun"
                         ]
                     },
                     {
