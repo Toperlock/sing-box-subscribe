@@ -109,7 +109,7 @@ def edit_temp_json():
 
 @app.route('/config/<path:url>', methods=['GET'])
 def config(url):
-    user_agent = request.headers.get('User-Agent')
+    user_agent = request.headers.get('User-Agent') or ""
     rua_values = os.getenv('RUA')
     if rua_values and any(rua_value in user_agent for rua_value in rua_values.split(',')):
         return Response(json.dumps({'status': 'error', 'message': 'block'}, indent=4, ensure_ascii=False),
@@ -195,6 +195,7 @@ def config(url):
     pre_param = request.args.get('prefix', '')
     eps_param = request.args.get('eps', '')
     enn_param = request.args.get('enn', '')
+    gh_proxy_param = request.args.get('gh', '')
 
     # 构建要删除的字符串列表
     params_to_remove = [
@@ -205,6 +206,7 @@ def config(url):
         f'file={file_param}',
         f'&emoji={emoji_param}',
         f'&tag={tag_param}',
+        f'&gh={gh_proxy_param}',
         f'&eps={quote(eps_param)}',
         f'&enn={quote(enn_param)}'
     ]
@@ -250,11 +252,14 @@ def config(url):
     #return page_content
     try:
         selected_template_index = '0'
+        selected_gh_proxy_index = ''
         if file_param.isdigit():
             temp_json_data['config_template'] = ''
             selected_template_index = str(int(file_param) - 1)
+        if gh_proxy_param.isdigit():
+            selected_gh_proxy_index = str(int(gh_proxy_param) - 1)
         temp_json_data = json.dumps(json.dumps(temp_json_data, indent=4, ensure_ascii=False), indent=4, ensure_ascii=False)
-        subprocess.check_call([sys.executable, 'main.py', '--template_index', selected_template_index, '--temp_json_data', temp_json_data])
+        subprocess.check_call([sys.executable, 'main.py', '--template_index', selected_template_index, '--temp_json_data', temp_json_data, '--gh_proxy_index', selected_gh_proxy_index])
         CONFIG_FILE_NAME = json.loads(os.environ['TEMP_JSON_DATA']).get("save_config_path", "config.json")
         if CONFIG_FILE_NAME.startswith("./"):
             CONFIG_FILE_NAME = CONFIG_FILE_NAME[2:]

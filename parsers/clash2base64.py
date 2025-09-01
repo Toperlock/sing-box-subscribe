@@ -342,4 +342,20 @@ def clash2v2ray(share_link):
             link += f"#{share_link['name']}"
         return link
         # TODO
+    elif share_link['type'] == 'anytls':
+        link = "anytls://{auth}@{server}:{port}?idleSessionCheckInterval={idleSessionCheckInterval}&idleSessionTimeout={idleSessionTimeout}&minIdleSession={minIdleSession}&alpn={alpn}&fp={fp}&insecure={allowInsecure}&peer={sni}#{name}".format(
+        server = share_link['server'],
+        port = share_link['port'],
+        auth = share_link['password'],
+        idleSessionCheckInterval = share_link.get('idle-session-check-interval', ''),
+        idleSessionTimeout = share_link.get('idle-session-timeout', ''),
+        minIdleSession = share_link.get('min-idle-session', ''),
+        alpn = quote(','.join(share_link.get('alpn', '')), 'utf-8'),
+        fp = share_link.get('client-fingerprint', ''),
+        allowInsecure = '1' if share_link.get('skip-cert-verify', '') == True else '0',
+        sni = share_link.get('sni', ''),
+        name = share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8')
+        )
+        return link
+        # TODO
     return link

@@ -95,7 +95,7 @@ def parse(data):
                 'fingerprint': item['fp']
             }
     if item.get("net"):
-        if item['net'] in ['h2', 'http']:
+        if item['net'] in ['h2', 'http', 'tcp']:
             node['transport'] = {
                 'type':'http'
             }

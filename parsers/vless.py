@@ -51,7 +51,9 @@ def parse(data):
                 'enabled': True,
                 'public_key': netquery.get('pbk'),
             }
-            if netquery.get('sid'):
+            # 处理 short_id，避免 fuck 'None' 或 null
+            sid = netquery.get('sid')
+            if isinstance(sid, str) and sid.strip().lower() != "none":
                 node['tls']['reality']['short_id'] = netquery['sid']
             node['tls']['utls'] = {
                 'enabled': True

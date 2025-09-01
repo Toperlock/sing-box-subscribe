@@ -32,6 +32,17 @@ docker build --tag 'sing-box' .
 docker run -p 5000:5000 sing-box:latest
 ```
 
+支持自定义GitHub加速链接（使用参数&gh=1 数字代表使用第一个github加速），默认不加此参数。只有原始GitHub文件链接或者已经使用以下GitHub加速链接才能替换
+
+```
+1. "https://gh-proxy.com/",
+2. "https://gh.sageer.me/",
+3. "https://ghproxy.com/",
+4. "https://mirror.ghproxy.com/",
+5. "https://cdn.jsdelivr.net",
+6. "https://testingcf.jsdelivr.net"
+```
+
 ### 根据已有的qx，surge，loon，clash规则列表自定义规则集[https://github.com/Toperlock/sing-box-geosite](https://github.com/Toperlock/sing-box-geosite)
 
 ### wechat规则集源文件写法：

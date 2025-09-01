@@ -1,4 +1,4 @@
-import base64,requests,random,string,re,chardet
+import base64,requests,random,string,re,chardet,urllib.parse
 import warnings
 from cryptography.utils import CryptographyDeprecationWarning
 with warnings.catch_warnings(action="ignore", category=CryptographyDeprecationWarning):
@@ -170,7 +170,7 @@ def rename(input_str):
     return input_str
 
 def b64Decode(str):
-    str = str.strip()
+    str = urllib.parse.unquote(str.strip())
     str += (len(str)%4)*'='
     return base64.urlsafe_b64decode(str)
 

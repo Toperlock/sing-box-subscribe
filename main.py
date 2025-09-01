@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 from collections import OrderedDict
 from api.app import TEMP_DIR
 from parsers.clash2base64 import clash2v2ray
+from gh_proxy_helper import set_gh_proxy
 
 parsers_mod = {}
 providers = None
@@ -448,6 +449,8 @@ def combin_to_config(config, data):
                             out["outbounds"].append('{' + group + '}')
     temp_outbounds = []
     if config_outbounds:
+        # 获取 "type": "direct"的"tag"值
+        direct_item = next((item for item in config_outbounds if item.get('type') == 'direct'), None)
         # 提前处理all模板
         for po in config_outbounds:
             # 处理出站
@@ -484,7 +487,7 @@ def combin_to_config(config, data):
                     else:
                         t_o.append(oo)
                 if len(t_o) == 0:
-                    t_o.append('Proxy')
+                    t_o.append(direct_item['tag'])  # outbound内容为空时 添加直连 direct
                     print('发现 {} 出站下的节点数量为 0 ，会导致sing-box无法运行，请检查config模板是否正确。'.format(
                         po['tag']))
                     # print('Sing-Box không chạy được vì không tìm thấy bất kỳ proxy nào trong outbound của {}. Vui lòng kiểm tra xem mẫu cấu hình có đúng không!!'.format(po['tag']))
@@ -577,8 +580,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--temp_json_data', type=parse_json, help='临时内容')
     parser.add_argument('--template_index', type=int, help='模板序号')
+    parser.add_argument('--gh_proxy_index', type=str, help='github加速链接')
     args = parser.parse_args()
     temp_json_data = args.temp_json_data
+    gh_proxy_index = args.gh_proxy_index
     if temp_json_data and temp_json_data != '{}':
         providers = json.loads(temp_json_data)
     else:
@@ -603,6 +608,17 @@ if __name__ == '__main__':
         # print ('Mẫu cấu hình sử dụng: \033[33m' + template_list[uip] + '.json\033[0m')
         config = load_json(config_template_path)
     nodes = process_subscribes(providers["subscribes"])
+
+    # 处理github加速
+    if hasattr(args, 'gh_proxy_index') and str(args.gh_proxy_index).isdigit():
+        gh_proxy_index = int(args.gh_proxy_index)
+        print(gh_proxy_index)
+        urls = [item["url"] for item in config["route"]["rule_set"]]
+        new_urls = set_gh_proxy(urls, gh_proxy_index)
+        for item, new_url in zip(config["route"]["rule_set"], new_urls):
+            item["url"] = new_url
+
+
     if providers.get('Only-nodes'):
         combined_contents = []
         for sub_tag, contents in nodes.items():
