@@ -28,6 +28,9 @@ class Hysteria2Parser(ParserBase):
                 'server_name': netquery.get('sni', netquery.get('peer', ''))
             }
         }
+        if 'ports' in netquery:
+            node['ports'] = netquery['ports']
+
         if netquery.get('insecure') == '1' or netquery.get('allowInsecure') == '1':
             node['tls']['insecure'] = True
         if node['tls']['server_name'] == '':

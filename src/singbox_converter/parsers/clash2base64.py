@@ -258,20 +258,23 @@ def clash2v2ray(share_link):
         return link
         # TODO
     elif share_link['type'] == 'hysteria2':
-        link = "hysteria2://{auth}@{server}:{port}?insecure={allowInsecure}&obfs={obfs}&obfs-password={obfspassword}&pinSHA256={fingerprint}&sni={sni}&alpn={alpn}&upmbps={upmbps}&downmbps={downmbps}#{name}".format(
-        auth = share_link.get('password', share_link.get('auth', '')),
-        server = share_link['server'],
-        port = share_link['port'],
-        allowInsecure = '0' if share_link.get('skip-cert-verify', '') == False else '1',
-        obfs = share_link.get('obfs', 'none'),
-        obfspassword = share_link.get('obfs-password', ''),
-        fingerprint = share_link.get('fingerprint', ''),
-        sni = share_link.get('sni', ''),
-        alpn = quote(','.join(share_link.get('alpn', '')), 'utf-8'),
-        upmbps = share_link.get('up', ''),
-        downmbps = share_link.get('down', ''),
-        name = share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8')
+        ports = share_link.get('ports', '')
+        link = "hysteria2://{auth}@{server}:{port}?insecure={allowInsecure}&obfs={obfs}&obfs-password={obfspassword}&pinSHA256={fingerprint}&sni={sni}&alpn={alpn}&upmbps={upmbps}&downmbps={downmbps}".format(
+            auth=share_link.get('password', share_link.get('auth', '')),
+            server=share_link['server'],
+            port=share_link.get('port', share_link.get('server_port')),
+            allowInsecure='0' if share_link.get('skip-cert-verify', '') == False else '1',
+            obfs=share_link.get('obfs', 'none'),
+            obfspassword=share_link.get('obfs-password', ''),
+            fingerprint=share_link.get('fingerprint', ''),
+            sni=share_link.get('sni', ''),
+            alpn=quote(','.join(share_link.get('alpn', '')), 'utf-8'),
+            upmbps=share_link.get('up', ''),
+            downmbps=share_link.get('down', '')
         )
+        if ports:
+            link += f"&ports={ports}"
+        link += f"#{share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8')}"
         return link
         # TODO
     elif share_link['type'] == 'wireguard':
