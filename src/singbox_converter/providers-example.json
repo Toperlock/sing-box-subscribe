@@ -1,20 +1,24 @@
 {
-    "subscribes":[
-        {
-            "url": "URL",
-        },
-        {
-            "url": "URL",
-            "tag": "tag_2",
-            "enabled": false,
-            "emoji": 0,
-            "prefix": "❤️",
-            "User-Agent":"clashmeta"
-        }
-    ],
-    "auto_set_outbounds_dns":{
-        "proxy": "",
-        "direct": ""
-    },
-    "exclude_protocol":"ssr"
+  "providers": [
+    {"name": "sub1", "type": "auto", "url": "https://raw.githubusercontent.com/tepo18/sab-vip10/main/final.txt"},
+    {"name": "sub2", "type": "auto", "url": "https://raw.githubusercontent.com/Surfboardv2ray/TGParse/refs/heads/main/configtg.txt"},
+    {"name": "sub3", "type": "auto", "url": "https://raw.githubusercontent.com/Surfboardv2ray/Proxy-sorter/refs/heads/main/custom/ipv6.txt"},
+    {"name": "sub4", "type": "auto", "url": "https://raw.githubusercontent.com/Surfboardv2ray/Proxy-sorter/refs/heads/main/custom/udp.txt"},
+    {"name": "sub5", "type": "auto", "url": "https://raw.githubusercontent.com/Surfboardv2ray/Proxy-sorter/refs/heads/main/output/converted.txt"},
+    {"name": "sub6", "type": "auto", "url": "https://raw.githubusercontent.com/Surfboardv2ray/Proxy-sorter/refs/heads/main/output/IR.txt"},
+    {"name": "sub7", "type": "auto", "url": "https://raw.githubusercontent.com/Surfboardv2ray/TGParse/main/python/hy2"},
+    {"name": "sub8", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/config_lite.txt"},
+    {"name": "sub9", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/tuic.txt"},
+    {"name": "sub10", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/vmess.txt"},
+    {"name": "sub11", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/vless.txt"},
+    {"name": "sub12", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/reality.txt"},
+    {"name": "sub13", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/refs/heads/main/hysteria.txt"},
+    {"name": "sub14", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/ss.txt"},
+    {"name": "sub15", "type": "auto", "url": "https://raw.githubusercontent.com/Kolandone/v2raycollector/main/trojan.txt"},
+    {"name": "sub16", "type": "auto", "url": "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/refs/heads/main/protocols/trojan"},
+    {"name": "sub17", "type": "auto", "url": "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/refs/heads/main/protocols/vmess"},
+    {"name": "sub18", "type": "auto", "url": "https://raw.githubusercontent.com/Epodonios/v2ray-configs/refs/heads/main/Splitted-By-Protocol/vmess.txt"},
+    {"name": "sub19", "type": "auto", "url": "https://raw.githubusercontent.com/Epodonios/v2ray-configs/refs/heads/main/Config%20list10.txt"},
+    {"name": "sub20", "type": "auto", "url": "https://raw.githubusercontent.com/Epodonios/v2ray-configs/refs/heads/main/Config%20list1.txt"}
+  ]
 }
