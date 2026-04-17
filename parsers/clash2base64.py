@@ -6,6 +6,11 @@ def clash2v2ray(share_link):
     # 【新增拦截逻辑】如果节点字典中没有 port 或 server 字段，直接丢弃该节点
     if not share_link.get('port') or not share_link.get('server'):
         return ''
+    # 2. 协议兼容补丁：针对 Hysteria2/TUIC 只有 ports (端口跳跃) 无 port 的情况
+    if 'port' not in share_link and 'ports' in share_link:
+        # 从 "10000-20000" 或 "10000,10001" 中提取首个端口，防止下文硬读取抛出 KeyError
+        first_port = str(share_link['ports']).replace(',', '-').split('-')[0]
+        share_link['port'] = int(first_port) if first_port.isdigit() else 443
     if share_link['type'] == 'vmess':
         try:
             vmess_info = {
