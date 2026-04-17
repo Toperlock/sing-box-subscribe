@@ -3,6 +3,9 @@ from urllib.parse import quote, unquote
 
 def clash2v2ray(share_link):
     link = ''
+    # 【新增拦截逻辑】如果节点字典中没有 port 或 server 字段，直接丢弃该节点
+    if not share_link.get('port') or not share_link.get('server'):
+        return ''
     if share_link['type'] == 'vmess':
         try:
             vmess_info = {
