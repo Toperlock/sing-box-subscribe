@@ -3,9 +3,7 @@ from urllib.parse import quote, unquote
 
 def clash2v2ray(share_link):
     link = ''
-    # 【新增拦截逻辑】如果节点字典中没有 port 或 server 字段，直接丢弃该节点
-    if not share_link.get('port') or not share_link.get('server'):
-        return ''
+    # 【新增拦截逻辑】如果节点字典中没有 port 或 server 字段，直接丢弃该
     # 2. 协议兼容补丁：针对 Hysteria2/TUIC 只有 ports (端口跳跃) 无 port 的情况
     if 'port' not in share_link and 'ports' in share_link:
         first_port = str(share_link['ports']).replace(',', '-').split('-')[0]
