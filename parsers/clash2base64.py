@@ -8,7 +8,6 @@ def clash2v2ray(share_link):
         return ''
     # 2. 协议兼容补丁：针对 Hysteria2/TUIC 只有 ports (端口跳跃) 无 port 的情况
     if 'port' not in share_link and 'ports' in share_link:
-        # 从 "10000-20000" 或 "10000,10001" 中提取首个端口，防止下文硬读取抛出 KeyError
         first_port = str(share_link['ports']).replace(',', '-').split('-')[0]
         share_link['port'] = int(first_port) if first_port.isdigit() else 443
     if share_link['type'] == 'vmess':
@@ -268,21 +267,42 @@ def clash2v2ray(share_link):
         return link
         # TODO
     elif share_link['type'] == 'hysteria2':
-        link = "hysteria2://{auth}@{server}:{port}{ports}?insecure={allowInsecure}&obfs={obfs}&obfs-password={obfspassword}&pinSHA256={fingerprint}&sni={sni}&alpn={alpn}&upmbps={upmbps}&downmbps={downmbps}#{name}".format(
-        auth = share_link.get('password', share_link.get('auth', '')),
-        server = share_link['server'],
-        port = share_link['port'],
-        ports=",{}".format(share_link['ports']) if share_link.get('ports') else '',
-        allowInsecure = '0' if share_link.get('skip-cert-verify', '') == False else '1',
-        obfs = share_link.get('obfs', 'none'),
-        obfspassword = share_link.get('obfs-password', ''),
-        fingerprint = share_link.get('fingerprint', ''),
-        sni = share_link.get('sni', ''),
-        alpn = quote(','.join(share_link.get('alpn', '')), 'utf-8'),
-        upmbps = share_link.get('up', ''),
-        downmbps = share_link.get('down', ''),
-        name = share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8')
-        )
+        # 1. 端口与多端口 (mport) 规范化处理
+        base_port = share_link.get('port')
+        mport = share_link.get('ports', '')
+        if not base_port and mport:
+            first_port = str(mport).replace(',', '-').split('-')[0]
+            base_port = int(first_port) if first_port.isdigit() else 443
+            
+        # 2. ALPN 强健性处理 (兼容 List 和 String)
+        alpn_raw = share_link.get('alpn', '')
+        if isinstance(alpn_raw, list):
+            alpn_str = ','.join(alpn_raw)
+        else:
+            alpn_str = str(alpn_raw)
+            
+        # 3. 动态构建标准查询参数
+        params = {
+            "insecure": '1' if share_link.get('skip-cert-verify') else '0',
+            "obfs": share_link.get('obfs', ''),
+            "obfs-password": share_link.get('obfs-password', ''),
+            "pinSHA256": share_link.get('fingerprint', ''),
+            "sni": share_link.get('sni', ''),
+            "alpn": quote(alpn_str, 'utf-8'),
+            "mport": mport,
+            "upmbps": share_link.get('up', ''),
+            "downmbps": share_link.get('down', '')
+        }
+        
+        # 过滤掉空值和默认值(none)，保持 URI 纯净
+        query_string = '&'.join([f"{k}={v}" for k, v in params.items() if v and v != 'none'])
+        
+        auth = share_link.get('password', share_link.get('auth', ''))
+        server = share_link['server']
+        name = quote(share_link.get('name', 'Hysteria2_Node'), 'utf-8')
+        
+        # 4. 生成标准 Hysteria2 URI
+        link = f"hysteria2://{auth}@{server}:{base_port}?{query_string}#{name}"
         return link
         # TODO
     elif share_link['type'] == 'wireguard':
