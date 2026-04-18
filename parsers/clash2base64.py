@@ -1,7 +1,8 @@
 import base64,json,re
 from urllib.parse import quote, unquote
 
-def clash2v2ray(share_link):
+def clash2v2ray(original_share_link):
+    share_link = original_share_link.copy()
     link = ''
     # 2. 协议兼容补丁：针对 Hysteria2/TUIC 只有 ports (端口跳跃) 无 port 的情况
     if 'port' not in share_link and 'ports' in share_link:
