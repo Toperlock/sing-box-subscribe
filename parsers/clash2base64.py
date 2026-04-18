@@ -233,19 +233,18 @@ def clash2v2ray(original_share_link):
         return link
         # TODO
     elif share_link['type'] == 'tuic':
-        link = "tuic://{uuid}:{password}@{server}:{port}?alpn={alpn}&allow_insecure={allowInsecure}&disable_sni={disable_sni}&sni={sni}&udp_relay_mode={udp_relay_mode}&congestion_control={control}#{name}".format(
-        uuid = share_link['uuid'],
-        password = share_link['password'],
-        server = share_link['server'],
-        port = share_link['port'],
-        alpn = quote(','.join(share_link.get('alpn', '')), 'utf-8'),
-        allowInsecure = share_link.get('allowInsecure', '1'),
-        disable_sni = '0' if share_link.get('disable-sni', '') == False else '1',
-        sni = share_link.get('sni', ''),
-        udp_relay_mode = share_link.get('udp-relay-mode', 'native'),
-        control = share_link.get('congestion-controller', 'bbr'),
-        name = share_link['name'].encode('utf-8', 'surrogatepass').decode('utf-8')
-        )
+        # 提取原始多端口
+        mport = share_link.get('ports', '') 
+        params = {
+            "sni": share_link.get('sni', ''),
+            "alpn": ','.join(share_link.get('alpn', [])),
+            "allow_insecure": '1' if share_link.get('skip-cert-verify') else '0',
+            "congestion_control": share_link.get('congestion-controller', 'bbr'),
+            "udp_relay_mode": share_link.get('udp-relay-mode', 'native'),
+            "mport": mport  # 将多端口注入 URI 查询参数
+        }
+        query_string = '&'.join([f"{k}={v}" for k, v in params.items() if v])
+        link = f"tuic://{share_link['uuid']}:{share_link['password']}@{share_link['server']}:{share_link.get('port', 443)}?{query_string}#{share_link.get('name', '')}"
         return link
         # TODO
     elif share_link['type'] == 'hysteria':
