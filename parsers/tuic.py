@@ -40,5 +40,14 @@ def parse(data):
         sni_val = netquery.get('sni', netquery.get('peer', ''))
         if sni_val:
             node['tls']['server_name'] = sni_val
+    # ...原解析逻辑...
+    
+    # 承接 clash2base64 下发的 mport 多端口参数
+    if netquery.get('mport'):
+        node['server_ports'] = [str(netquery['mport']).replace('-', ':')]
+        if 'server_port' in node:
+            del node['server_port']
+            
+    return node
             
     return node
