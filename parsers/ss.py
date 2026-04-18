@@ -1,16 +1,17 @@
-import tool,json,re,urllib
+import tool, json, re, urllib
 from urllib.parse import parse_qs
+
 def parse(data):
     param = data[5:]
     if not param or param.isspace():
         return None
     node = {
-        'tag':tool.genName()+'_shadowsocks',
-        'type':'shadowsocks',
-        'server':None,
-        'server_port':0,
-        'method':None,
-        'password':None
+        'tag': tool.genName() + '_shadowsocks',
+        'type': 'shadowsocks',
+        'server': None,
+        'server_port': 0,
+        'method': None,
+        'password': None
     }
     flag = 0
     if param.find('uot') > -1:
@@ -28,6 +29,7 @@ def parse(data):
             remark = urllib.parse.unquote(param[param.find('?remarks=') + 9:])
             node['tag'] = remark
         param = param[:param.find('?remarks=')]
+        
     if param.find('plugin=obfs-local') > -1 or param.find('plugin=simple-obfs') > -1:
         if param.find('&', param.find('plugin')) > -1:
             plugin = urllib.parse.unquote(param[param.find('plugin'):param.find('&', param.find('plugin'))])
@@ -42,36 +44,41 @@ def parse(data):
             'obfs-host={};'.format(plugin_dict["obfs-host"]) if plugin_dict.get("obfs-host") else ''
         )
         node['plugin_opts'] = result_str
+        
     elif param.find('v2ray-plugin') > -1:
         if param.find('&', param.find('v2ray-plugin')) > -1:
-            try:
-                plugin = tool.b64Decode(param[param.find('v2ray-plugin')+13:param.find('&', param.find('v2ray-plugin'))]).decode('utf-8')
-            except:
-                plugin = urllib.parse.unquote(param[param.find('v2ray-plugin')+15:param.find('&', param.find('v2ray-plugin'))])
-                pairs = [pair.split('=') for pair in plugin.split(';') if '=' in pair and pair.count('=') == 1]
-                plugin = str({key: value for key, value in pairs})
+            plugin_raw = param[param.find('v2ray-plugin')+13:param.find('&', param.find('v2ray-plugin'))]
         else:
-            try:
-                plugin = tool.b64Decode(param[param.find('v2ray-plugin')+13:]).decode('utf-8')
-            except:
-                plugin = urllib.parse.unquote(param[param.find('v2ray-plugin')+15:])
-                pairs = [pair.split('=') for pair in plugin.split(';') if '=' in pair and pair.count('=') == 1]
-                plugin = str({key: value for key, value in pairs})
+            plugin_raw = param[param.find('v2ray-plugin')+13:]
+            
+        try:
+            plugin_str = tool.b64Decode(plugin_raw).decode('utf-8')
+            # 如果是 JSON 格式，直接解析
+            if plugin_str.startswith('{'):
+                plugin_dict = json.loads(plugin_str)
+            else:
+                pairs = [pair.split('=') for pair in plugin_str.split(';') if '=' in pair and pair.count('=') == 1]
+                plugin_dict = {key: value for key, value in pairs}
+        except:
+            plugin_str = urllib.parse.unquote(plugin_raw.lstrip('='))
+            pairs = [pair.split('=') for pair in plugin_str.split(';') if '=' in pair and pair.count('=') == 1]
+            plugin_dict = {key: value for key, value in pairs}
+            
         param = param[:param.find('?')]
         node['plugin'] = 'v2ray-plugin'
-        plugin = plugin.replace('true', '1').replace('false', '0')
-        plugin = eval(plugin)
+        
         result_str = "mode={};{}{}{}{}{}{}{}".format(
-            plugin.get("mode", ''),
-            'host={};'.format(plugin["host"]) if plugin.get("host") else '',
-            'path={};'.format(plugin["path"]) if plugin.get("path") else '',
-            'mux={};'.format(plugin["mux"]) if plugin.get("mux") == 1 else '',
-            'headers={};'.format(json.dumps(plugin["headers"])) if plugin.get("headers") else '',
-            'fingerprint={};'.format(plugin["fingerprint"]) if plugin.get("fingerprint") else '',
-            'skip-cert-verify={};'.format('true') if plugin.get("skip-cert-verify") == 1 else '',
-            '{};'.format('tls') if plugin.get("tls") == 1 else '',
+            plugin_dict.get("mode", ''),
+            'host={};'.format(plugin_dict["host"]) if plugin_dict.get("host") else '',
+            'path={};'.format(plugin_dict["path"]) if plugin_dict.get("path") else '',
+            'mux={};'.format(plugin_dict["mux"]) if str(plugin_dict.get("mux")).lower() in ['1', 'true'] else '',
+            'headers={};'.format(json.dumps(plugin_dict["headers"])) if plugin_dict.get("headers") else '',
+            'fingerprint={};'.format(plugin_dict["fingerprint"]) if plugin_dict.get("fingerprint") else '',
+            'skip-cert-verify={};'.format('true') if str(plugin_dict.get("skip-cert-verify")).lower() in ['1', 'true'] else '',
+            '{};'.format('tls') if str(plugin_dict.get("tls")).lower() in ['1', 'true'] else '',
         )
         node['plugin_opts'] = result_str
+        
     if data[5:].find('protocol') > -1:
         smux = data[5:][data[5:].find('protocol'):]
         smux_dict = parse_qs(smux.split('#')[0])
@@ -87,11 +94,13 @@ def parse(data):
             node['multiplex']['min_streams'] = int(smux_dict['min-streams'])
         if smux_dict.get('padding') == 'True':
             node['multiplex']['padding'] = True
-    try: #fuck
+            
+    try: 
         param = param.split('?')[0]
-        matcher = tool.b64Decode(param) #保留'/'测试能不能解码
+        matcher = tool.b64Decode(param) 
     except:
-        param = param.split('/')[0].split('?')[0] #不能解码说明'/'不是base64内容
+        param = param.split('/')[0].split('?')[0] 
+        
     if param.find('@') > -1:
         matcher = re.match(r'(.*?)@(.*):(.*)', param)
         if matcher:
@@ -123,43 +132,53 @@ def parse(data):
             node['server_port'] = matcher.group(4).split('&')[0]
         else:
             return None
+            
     node['server_port'] = int(re.search(r'\d+', node['server_port']).group())
     param2 = data[5:]
+    
     if param2.find('shadow-tls') > -1:
         flag = 1
         if param2.find('&', param2.find('shadow-tls')) > -1:
-            plugin = tool.b64Decode(param2[param2.find('shadow-tls')+11:param2.find('&', param2.find('shadow-tls'))].split('#')[0]).decode('utf-8')
+            plugin_str = tool.b64Decode(param2[param2.find('shadow-tls')+11:param2.find('&', param2.find('shadow-tls'))].split('#')[0]).decode('utf-8')
         else:
-            plugin = tool.b64Decode(param2[param2.find('shadow-tls')+11:].split('#')[0]).decode('utf-8')
-        plugin = eval(plugin.replace('true','True'))
+            plugin_str = tool.b64Decode(param2[param2.find('shadow-tls')+11:].split('#')[0]).decode('utf-8')
+            
+        # 安全解析 JSON，弃用 eval
+        try:
+            plugin_dict = json.loads(plugin_str)
+        except:
+            return None
+            
         node['detour'] = node['tag']+'_shadowtls'
         node_tls = {
-            'tag':node['detour'],
-            'type':'shadowtls',
-            'server':node['server'],
-            'server_port':node['server_port'],
-            'version':int(plugin.get('version', '1')),
-            'password':plugin.get('password', ''),
-            'tls':{
+            'tag': node['detour'],
+            'type': 'shadowtls',
+            'server': node['server'],
+            'server_port': node['server_port'],
+            'version': int(plugin_dict.get('version', '1')),
+            'password': plugin_dict.get('password', ''),
+            'tls': {
                 'enabled': True,
-                'server_name': plugin.get('host', '')
+                'server_name': plugin_dict.get('host', '')
             }
         }
-        if plugin.get('address'):
-            node_tls['server'] = plugin['address']
-        if plugin.get('port'):
-            node_tls['server_port'] = int(plugin['port'])
-        if plugin.get('fp'):
+        if plugin_dict.get('address'):
+            node_tls['server'] = plugin_dict['address']
+        if plugin_dict.get('port'):
+            node_tls['server_port'] = int(plugin_dict['port'])
+        if plugin_dict.get('fp'):
             node_tls['tls']['utls']={
                 'enabled': True,
-                'fingerprint': plugin.get('fp')
+                'fingerprint': plugin_dict.get('fp')
             }
         del node['server']
         del node['server_port']
+        
     if node['method'] == 'chacha20-poly1305':
         node['method'] = 'chacha20-ietf-poly1305'
     elif node['method'] == 'xchacha20-poly1305':
         node['method'] = 'xchacha20-ietf-poly1305'
+        
     if flag:
         return node,node_tls
     else:
