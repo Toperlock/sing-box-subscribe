@@ -14,7 +14,9 @@ def parse(data):
         'password': None
     }
     flag = 0
-    if param.find('uot') > -1:
+    # 替换原有的 if param.find('uot') > -1: 逻辑
+    query_part = param.split('?')[1].lower() if '?' in param else ''
+    if 'uot=1' in query_part or 'uot=true' in query_part:
         node["udp_over_tcp"] = {
             'enabled': True,
             'version': 2
