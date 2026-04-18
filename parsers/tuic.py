@@ -49,5 +49,3 @@ def parse(data):
             del node['server_port']
             
     return node
-            
-    return node
