@@ -20,15 +20,6 @@ def parse(data):
         'server': re.sub(r"\[|\]", "", server_info.netloc.split("@")[-1].rsplit(":", 1)[0]),
         'server_port': int(re.search(r'\d+', server_info.netloc.rsplit(":", 1)[-1].split(",")[0]).group()),
         "password": netquery['auth'] if netquery.get('auth') else server_info.netloc.split("@")[0].rsplit(":", 1)[-1],
-        # 在 node 字典初始化时先不写 up_mbps 和 down_mbps 字段
-        # 在字典外部增加条件判断注入
-        if netquery.get('upmbps'):
-            up_match = re.search(r'\d+', netquery['upmbps'])
-            if up_match: node['up_mbps'] = int(up_match.group())
-            
-        if netquery.get('downmbps'):
-            down_match = re.search(r'\d+', netquery['downmbps'])
-            if down_match: node['down_mbps'] = int(down_match.group())
         'tls': {
             'enabled': True,
             'server_name': netquery.get('sni', netquery.get('peer', '')),
@@ -38,6 +29,16 @@ def parse(data):
     
     # 【核心修复区】：双链路多端口兼容与数据清洗
     # 优先读取官方规范的逗号分隔端口
+    if netquery.get('upmbps'):
+        up_match = re.search(r'\d+', str(netquery['upmbps']))
+        if up_match: 
+            node['up_mbps'] = int(up_match.group())
+            
+    if netquery.get('downmbps'):
+        down_match = re.search(r'\d+', str(netquery['downmbps']))
+        if down_match: 
+            node['down_mbps'] = int(down_match.group())
+			
     if ports_match:
         node['server_ports'] = [ports_match.group(1).replace('-', ':')]
         if 'server_port' in node:
