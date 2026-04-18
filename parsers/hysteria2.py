@@ -20,8 +20,15 @@ def parse(data):
         'server': re.sub(r"\[|\]", "", server_info.netloc.split("@")[-1].rsplit(":", 1)[0]),
         'server_port': int(re.search(r'\d+', server_info.netloc.rsplit(":", 1)[-1].split(",")[0]).group()),
         "password": netquery['auth'] if netquery.get('auth') else server_info.netloc.split("@")[0].rsplit(":", 1)[-1],
-        'up_mbps': int(re.search(r'\d+', netquery.get('upmbps', '10')).group()),
-        'down_mbps': int(re.search(r'\d+', netquery.get('downmbps', '100')).group()),
+        # 在 node 字典初始化时先不写 up_mbps 和 down_mbps 字段
+        # 在字典外部增加条件判断注入
+        if netquery.get('upmbps'):
+            up_match = re.search(r'\d+', netquery['upmbps'])
+            if up_match: node['up_mbps'] = int(up_match.group())
+            
+        if netquery.get('downmbps'):
+            down_match = re.search(r'\d+', netquery['downmbps'])
+            if down_match: node['down_mbps'] = int(down_match.group())
         'tls': {
             'enabled': True,
             'server_name': netquery.get('sni', netquery.get('peer', '')),
