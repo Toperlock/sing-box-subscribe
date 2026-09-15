@@ -49,45 +49,6 @@ def _as_list(value):
     return [x.strip() for x in re.split(r"[,|]", value) if x.strip()]
 
 
-def _parse_server(netloc):
-    """
-    Parse:
-        uuid@host:port
-        uuid@[IPv6]:port
-
-    Return (uuid, server, port), or None.
-    """
-    if "@" not in netloc:
-        return None
-
-    uuid, address = netloc.rsplit("@", 1)
-    uuid = uuid.strip()
-    if not uuid:
-        return None
-
-    address = address.strip()
-
-    # [IPv6]:port
-    if address.startswith("["):
-        match = re.match(r"^\[([^\]]+)\]:(\d+)$", address)
-        if not match:
-            return None
-        server = match.group(1)
-        server_port = int(match.group(2))
-    else:
-        # Normal hostname/IPv4:port
-        match = re.match(r"^(.+):(\d+)$", address)
-        if not match:
-            return None
-        server = match.group(1)
-        server_port = int(match.group(2))
-
-    if not 1 <= server_port <= 65535:
-        return None
-
-    return uuid, server, server_port
-
-
 def _add_packet_encoding(node, query):
     packet_encoding = (_clean(_value(query, "packetEncoding")) or "").lower()
     if not packet_encoding:
