@@ -233,6 +233,108 @@ def _format_bandwidth(value):
         )
     )
 
+def _format_hop_interval(value):
+    """
+    将 Mihomo Hysteria2 的 hop-interval 统一转换成
+    sing-box 可使用的 duration。
+
+    支持：
+
+        30
+            -> ("30s", None)
+
+        "30"
+            -> ("30s", None)
+
+        "15-30"
+            -> ("15s", "30s")
+
+        "30s"
+            -> ("30s", None)
+
+        "1m"
+            -> ("1m", None)
+
+    返回：
+
+        (hop_interval, hop_interval_max)
+
+    非法值：
+        (None, None)
+    """
+    if value in (None, ""):
+        return None, None
+
+    if isinstance(value, bool):
+        return None, None
+
+    text = str(value).strip().lower()
+
+    if not text:
+        return None, None
+
+    # ------------------------------------------------------------
+    # 单个数字：
+    #
+    # Mihomo:
+    #   hop-interval: 30
+    #
+    # sing-box:
+    #   hop_interval: 30s
+    # ------------------------------------------------------------
+    if re.fullmatch(r"\d+", text):
+        seconds = int(text)
+
+        if seconds <= 0:
+            return None, None
+
+        return f"{seconds}s", None
+
+    # ------------------------------------------------------------
+    # 范围：
+    #
+    # Mihomo:
+    #   hop-interval: 15-30
+    #
+    # sing-box 1.14:
+    #   hop_interval: 15s
+    #   hop_interval_max: 30s
+    # ------------------------------------------------------------
+    match = re.fullmatch(
+        r"(\d+)\s*-\s*(\d+)",
+        text,
+    )
+
+    if match:
+        minimum = int(match.group(1))
+        maximum = int(match.group(2))
+
+        if minimum <= 0:
+            return None, None
+
+        if maximum < minimum:
+            return None, None
+
+        return (
+            f"{minimum}s",
+            f"{maximum}s",
+        )
+
+    # ------------------------------------------------------------
+    # 已经是 duration：
+    #
+    # 例如：
+    #   30s
+    #   1m
+    #   500ms
+    # ------------------------------------------------------------
+    if re.fullmatch(
+        r"(?:0|[1-9]\d*)(?:ns|us|µs|ms|s|m|h)",
+        text,
+    ):
+        return text, None
+
+    return None, None
 
 def _get_header_value(headers, target):
     """
@@ -1708,35 +1810,226 @@ def clash2v2ray(original_share_link):
         if alpn:
             params["alpn"] = alpn
 
+        # --------------------------------------------------------
+        # bandwidth
+        #
+        # Mihomo:
+        #   up: "30 Mbps"
+        #   down: "200 Mbps"
+        #
+        # 中间 URI:
+        #   upmbps=30
+        #   downmbps=200
+        # --------------------------------------------------------
         up_mbps = _format_bandwidth(
-            share_link.get("up")
+            share_link.get(
+                "upmbps",
+                share_link.get(
+                    "up"
+                ),
+            )
         )
 
         down_mbps = _format_bandwidth(
-            share_link.get("down")
+            share_link.get(
+                "downmbps",
+                share_link.get(
+                    "down"
+                ),
+            )
         )
 
         if up_mbps:
-            params["upmbps"] = up_mbps
-
-        if down_mbps:
-            params["downmbps"] = down_mbps
-
-        query_params = []
-
-        if auth not in (None, ""):
             query_params.append(
                 (
-                    "auth",
-                    auth,
+                    "upmbps",
+                    up_mbps,
                 )
             )
 
-        for key, value in params.items():
-            if value not in (None, ""):
+        if down_mbps:
+            query_params.append(
+                (
+                    "downmbps",
+                    down_mbps,
+                )
+            )
+
+        # --------------------------------------------------------
+        # hop_interval
+        #
+        # Mihomo:
+        #   hop-interval: 30
+        #   hop-interval: "15-30"
+        #
+        # 中间 URI:
+        #   hop_interval=30s
+        #
+        # 或：
+        #   hop_interval=15s
+        #   hop_interval_max=30s
+        # --------------------------------------------------------
+        hop_interval_value = None
+
+        for key in (
+            "hop_interval",
+            "hopInterval",
+        ):
+            value = share_link.get(key)
+
+            if value not in (
+                None,
+                "",
+            ):
+                hop_interval_value = value
+                break
+
+        if hop_interval_value is not None:
+            hop_interval, hop_interval_max = (
+                _format_hop_interval(
+                    hop_interval_value
+                )
+            )
+
+            if hop_interval is None:
+                return None
+
+            query_params.append(
+                (
+                    "hop_interval",
+                    hop_interval,
+                )
+            )
+
+            if hop_interval_max is not None:
                 query_params.append(
                     (
-                        key,
+                        "hop_interval_max",
+                        hop_interval_max,
+                    )
+                )
+
+        # --------------------------------------------------------
+        # 显式 hop_interval_max
+        #
+        # 只有 hop-interval 本身没有使用：
+        #
+        #   15-30
+        #
+        # 才读取单独的 hop_interval_max。
+        # --------------------------------------------------------
+        else:
+            explicit_hop_max = None
+
+            for key in (
+                "hop_interval_max",
+                "hopIntervalMax",
+            ):
+                value = share_link.get(key)
+
+                if value not in (
+                    None,
+                    "",
+                ):
+                    explicit_hop_max = value
+                    break
+
+            if explicit_hop_max is not None:
+                hop_interval_max, _ = (
+                    _format_hop_interval(
+                        explicit_hop_max
+                    )
+                )
+
+                if hop_interval_max is None:
+                    return None
+
+                query_params.append(
+                    (
+                        "hop_interval_max",
+                        hop_interval_max,
+                    )
+                )
+
+        # --------------------------------------------------------
+        # Compatibility extensions
+        # --------------------------------------------------------
+        extra_keys = (
+            (
+                "bbr_profile",
+                (
+                    "bbr_profile",
+                    "bbrProfile",
+                ),
+            ),
+            (
+                "brutal_debug",
+                (
+                    "brutal_debug",
+                    "brutalDebug",
+                ),
+            ),
+            (
+                "disable_chrome_parrot",
+                (
+                    "disable_chrome_parrot",
+                    "disableChromeParrot",
+                ),
+            ),
+            (
+                "network",
+                (
+                    "network",
+                ),
+            ),
+            (
+                "obfs-min-packet-size",
+                (
+                    "obfs-min-packet-size",
+                    "obfs_min_packet_size",
+                ),
+            ),
+            (
+                "obfs-max-packet-size",
+                (
+                    "obfs-max-packet-size",
+                    "obfs_max_packet_size",
+                ),
+            ),
+        )
+
+        for query_name, keys in extra_keys:
+            value = None
+
+            for key in keys:
+                if share_link.get(
+                    key
+                ) not in (
+                    None,
+                    "",
+                ):
+                    value = share_link.get(
+                        key
+                    )
+                    break
+
+            if value not in (
+                None,
+                "",
+            ):
+                if query_name in {
+                    "brutal_debug",
+                    "disable_chrome_parrot",
+                }:
+                    value = (
+                        "1"
+                        if _is_true(value)
+                        else "0"
+                    )
+
+                query_params.append(
+                    (
+                        query_name,
                         value,
                     )
                 )
