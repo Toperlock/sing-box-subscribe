@@ -28,21 +28,28 @@ def _is_true(value):
 
 def _quote_uri(value):
     """
-    对动态 URI 字段进行完整 percent-encoding。
+    对 URI 动态字段进行规范化的 percent-encoding。
 
-    适用于：
-        userinfo
-        query value
-        fragment
+    规则：
+    1. 先解码已有 percent-encoding，避免二次编码；
+       例如 %40 -> @ -> %40，而不是 %2540。
+    2. 再重新编码为标准 URI value。
+    3. 不用于 scheme / host / port 等结构字段。
     """
     if value is None:
         return ""
 
+    text = str(value)
+
+    try:
+        text = unquote(text)
+    except Exception:
+        pass
+
     return quote(
-        str(value),
+        text,
         safe="",
     )
-
 
 def _format_server(server):
     """
