@@ -1,4 +1,3 @@
-```python
 import base64
 import json
 import re
@@ -2516,4 +2515,3 @@ def clash2v2ray(original_share_link):
     # Unsupported
     # ============================================================
     return None
-```
