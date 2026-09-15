@@ -1276,11 +1276,11 @@ def clash2v2ray(original_share_link):
                 return None
 
             # Reality shortId 为十六进制，最大 8 字节。
-            if short_id and not re.fullmatch(
-                r"[0-9a-fA-F]{0,16}",
-                short_id,
-            ):
-                return None
+            if short_id:
+                if not re.fullmatch(r"[0-9a-fA-F]{0,16}", short_id):
+                    return False
+                if len(short_id) % 2 != 0:
+                    return False
 
             security = "reality"
 
