@@ -9,7 +9,7 @@ def parse(data):
         return None
 
     info = data.strip()
-    if not info.lower().startswith("tuic://"):
+    if not info.lower().startswith("trojan://"):
         return None
 
     try:
@@ -24,27 +24,13 @@ def parse(data):
         if "@" not in server_info.netloc:
             return None
 
+        # 从最后一个 @ 分割，避免 password 中存在编码后的 %40
         credentials, address = server_info.netloc.rsplit("@", 1)
 
         if not credentials or not address:
             return None
 
-        # 必须在 percent-decoding 前分割 :
-        # 防止密码中的 %3A 被误认为结构分隔符
-        credential_parts = credentials.split(":", 1)
-
-        uuid = unquote(
-            credential_parts[0]
-        ).strip()
-
-        password = (
-            unquote(credential_parts[1])
-            if len(credential_parts) > 1
-            else ""
-        )
-
-        if not uuid:
-            return None
+        password = unquote(credentials)
 
         # IPv6
         if address.startswith("["):
@@ -82,62 +68,118 @@ def parse(data):
         node = {
             "tag": (
                 unquote(server_info.fragment)
-                or tool.genName() + "_tuic"
+                or tool.genName() + "_trojan"
             ),
-            "type": "tuic",
+            "type": "trojan",
             "server": re.sub(r"\[|\]", "", server),
             "server_port": server_port,
-            "uuid": uuid,
-            "password": (
-                password
-                if password
-                else netquery.get("password", "")
-            ),
-            "congestion_control": netquery.get(
-                "congestion_control",
-                "bbr"
-            ),
-            "udp_relay_mode": netquery.get(
-                "udp_relay_mode",
-                "native"
-            ),
-            "zero_rtt_handshake": False,
-            "heartbeat": "10s",
+            "password": password,
             "tls": {
                 "enabled": True,
-                "alpn": (
-                    netquery.get("alpn") or "h3"
-                ).strip("{}").split(","),
                 "insecure": False
             }
         }
 
-        if str(
-            netquery.get("allow_insecure")
-        ).lower() in {
-            "1",
-            "true"
-        }:
+        if netquery.get("allowInsecure") == "1":
             node["tls"]["insecure"] = True
 
-        if str(
-            netquery.get("disable_sni")
-        ) != "1":
-            sni_val = netquery.get(
-                "sni",
-                netquery.get("peer", "")
+        if netquery.get("alpn"):
+            node["tls"]["alpn"] = (
+                netquery["alpn"]
+                .strip("{}")
+                .split(",")
             )
-            if sni_val:
-                node["tls"]["server_name"] = sni_val
 
-        if netquery.get("mport"):
-            node["server_ports"] = [
-                str(netquery["mport"]).replace(
-                    "-",
-                    ":"
+        if netquery.get("sni"):
+            node["tls"]["server_name"] = netquery["sni"]
+
+        if netquery.get("fp"):
+            node["tls"]["utls"] = {
+                "enabled": True,
+                "fingerprint": netquery["fp"]
+            }
+
+        if netquery.get("type"):
+            if netquery["type"] == "h2":
+                node["transport"] = {
+                    "type": "http",
+                    "path": netquery.get("path", "/")
+                }
+
+                host_val = netquery.get(
+                    "host",
+                    node["server"]
                 )
-            ]
-            node.pop("server_port", None)
+
+                if host_val:
+                    node["transport"]["host"] = (
+                        host_val.split(",")
+                        if isinstance(host_val, str)
+                        else host_val
+                    )
+
+            elif netquery["type"] == "ws":
+                ws_path = netquery.get("path", "/")
+
+                matches = re.search(
+                    r"\?ed=(\d+)$",
+                    ws_path
+                )
+
+                node["transport"] = {
+                    "type": "ws",
+                    "path": (
+                        ws_path.rsplit("?ed=", 1)[0]
+                        if matches
+                        else ws_path
+                    )
+                }
+
+                if netquery.get("host"):
+                    node["transport"]["headers"] = {
+                        "Host": netquery["host"]
+                    }
+
+            elif netquery["type"] == "grpc":
+                node["transport"] = {
+                    "type": "grpc",
+                    "service_name": netquery.get(
+                        "serviceName",
+                        ""
+                    )
+                }
+
+        if netquery.get("protocol") in {
+            "smux",
+            "yamux",
+            "h2mux"
+        }:
+            node["multiplex"] = {
+                "enabled": True,
+                "protocol": netquery["protocol"]
+            }
+
+            if netquery.get("max-streams"):
+                try:
+                    node["multiplex"]["max_streams"] = int(
+                        netquery["max-streams"]
+                    )
+                except (TypeError, ValueError):
+                    return None
+
+            else:
+                try:
+                    node["multiplex"]["max_connections"] = int(
+                        netquery["max-connections"]
+                    )
+                    node["multiplex"]["min_streams"] = int(
+                        netquery["min-streams"]
+                    )
+                except (TypeError, ValueError):
+                    return None
+
+            if netquery.get("padding") == "True":
+                node["multiplex"]["padding"] = True
 
         return node
 
