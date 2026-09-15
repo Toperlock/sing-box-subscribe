@@ -179,38 +179,85 @@ def _parse_positive_int(value, field_name, minimum=1, maximum=None):
 
 def _parse_bandwidth(value, field_name):
     """
-    解析 upmbps / downmbps。
+    解析 Hysteria2 bandwidth。
 
-    这里要求最终值必须是 Mbps 整数。
+    最终统一转换为 sing-box 所需的整数 Mbps。
 
     接受：
+
         100
         "100"
+        "100Mbps"
+        "100 Mbps"
+        "1Gbps"
+        "1 Gbps"
+        "500Kbps"
+        "500 kbps"
+        "1.5Mbps"
 
     不接受：
-        100Mbps
-        100.5
+
         abc100
+        100MB/s
+        100Mbit/s
+        -100
     """
     if value is None:
         return None
 
-    value = str(value).strip()
-
-    if not re.fullmatch(r"\d+", value):
+    if isinstance(value, bool):
         raise ValueError(
-            f"Invalid {field_name}: {value!r}; "
-            f"expected an integer Mbps value"
+            f"Invalid {field_name}: {value!r}"
         )
 
-    number = int(value)
+    text = str(value).strip().lower()
 
-    if number < 0:
+    if not text:
+        return None
+
+    match = re.fullmatch(
+        r"(\d+(?:\.\d+)?)\s*"
+        r"(gbps|gbit|g|mbps|mbit|m|kbps|k)?",
+        text,
+    )
+
+    if not match:
         raise ValueError(
-            f"Invalid {field_name}: {number}"
+            f"Invalid {field_name}: {value!r}"
         )
 
-    return number
+    number = float(
+        match.group(1)
+    )
+
+    unit = (
+        match.group(2)
+        or "mbps"
+    )
+
+    factor = {
+        "gbps": 1000,
+        "gbit": 1000,
+        "g": 1000,
+
+        "mbps": 1,
+        "mbit": 1,
+        "m": 1,
+
+        "kbps": 0.001,
+        "k": 0.001,
+    }[unit]
+
+    mbps = number * factor
+
+    if mbps < 0:
+        raise ValueError(
+            f"Invalid {field_name}: {value!r}"
+        )
+
+    return int(
+        round(mbps)
+    )
 
 
 def _split_host_port(netloc):
@@ -632,41 +679,224 @@ def _parse_network(query):
     return network
 
 
-def _parse_optional_duration(
-    query,
-    *keys
+def _parse_duration_value(
+    value,
+    field_name,
 ):
     """
-    duration 参数不自行解释单位。
+    将 duration 统一转换成 sing-box 可接受的格式。
 
-    例如：
+    接受：
+
+        30
+            -> 30s
+
         30s
         1m
         500ms
-
-    交给 sing-box 解析。
     """
-
-    value = _first(query, *keys)
-
     if value is None:
         return None
 
-    value = value.strip()
+    value = str(value).strip().lower()
 
     if not value:
         return None
 
-    # 防止把任意垃圾字符串写进 sing-box。
-    if not re.fullmatch(
-        r"(?:0|[1-9]\d*)(?:ns|us|µs|ms|s|m|h)",
-        value
+    # Mihomo Hysteria2:
+    # hop-interval: 30
+    #
+    # 单位默认为秒。
+    if re.fullmatch(
+        r"\d+",
+        value,
     ):
-        raise ValueError(
-            f"Invalid duration for {keys[0]}: {value!r}"
+        seconds = int(value)
+
+        if seconds <= 0:
+            raise ValueError(
+                f"Invalid {field_name}: {value!r}"
+            )
+
+        return f"{seconds}s"
+
+    # 已经是标准 duration。
+    if re.fullmatch(
+        r"(?:0|[1-9]\d*)"
+        r"(?:ns|us|µs|ms|s|m|h)",
+        value,
+    ):
+        return value
+
+    raise ValueError(
+        f"Invalid {field_name}: {value!r}"
+    )
+
+
+def _parse_hop_interval(query):
+    """
+    解析 Hysteria2 hop-interval。
+
+    支持：
+
+        hop_interval=30
+            -> 30s
+
+        hop_interval=30s
+            -> 30s
+
+        hop_interval=15-30
+            -> 15s + 30s
+
+        hop_interval=15s
+        hop_interval_max=30s
+            -> 15s + 30s
+    """
+    value = _first(
+        query,
+        "hop_interval",
+        "hopInterval",
+    )
+
+    explicit_max = _first(
+        query,
+        "hop_interval_max",
+        "hopIntervalMax",
+        "maxHopInterval",
+    )
+
+    hop_interval = None
+    hop_interval_max = None
+
+    # --------------------------------------------------------
+    # hop-interval
+    # --------------------------------------------------------
+    if value is not None:
+        value = value.strip()
+
+        # Mihomo:
+        #   15-30
+        range_match = re.fullmatch(
+            r"(\d+)\s*-\s*(\d+)",
+            value,
         )
 
-    return value
+        if range_match:
+            minimum = int(
+                range_match.group(1)
+            )
+            maximum = int(
+                range_match.group(2)
+            )
+
+            if minimum <= 0:
+                raise ValueError(
+                    f"Invalid hop_interval: {value!r}"
+                )
+
+            if maximum < minimum:
+                raise ValueError(
+                    f"Invalid hop_interval range: "
+                    f"{value!r}"
+                )
+
+            hop_interval = (
+                f"{minimum}s"
+            )
+            hop_interval_max = (
+                f"{maximum}s"
+            )
+
+        else:
+            hop_interval = _parse_duration_value(
+                value,
+                "hop_interval",
+            )
+
+    # --------------------------------------------------------
+    # 显式 hop_interval_max
+    # --------------------------------------------------------
+    if explicit_max is not None:
+        explicit_max = _parse_duration_value(
+            explicit_max,
+            "hop_interval_max",
+        )
+
+        if hop_interval_max is not None:
+            # 同时存在：
+            #
+            # hop_interval=15-30
+            # hop_interval_max=40
+            #
+            # 这是冲突配置，避免静默覆盖。
+            raise ValueError(
+                "hop_interval range conflicts "
+                "with hop_interval_max"
+            )
+
+        hop_interval_max = explicit_max
+
+    # --------------------------------------------------------
+    # 校验上下限
+    # --------------------------------------------------------
+    if (
+        hop_interval is not None
+        and hop_interval_max is not None
+    ):
+        def _duration_to_seconds(
+            duration
+        ):
+            match = re.fullmatch(
+                r"(\d+)(ns|us|µs|ms|s|m|h)",
+                duration,
+            )
+
+            if not match:
+                return None
+
+            value = int(
+                match.group(1)
+            )
+            unit = match.group(2)
+
+            factor = {
+                "ns": 1e-9,
+                "us": 1e-6,
+                "µs": 1e-6,
+                "ms": 1e-3,
+                "s": 1,
+                "m": 60,
+                "h": 3600,
+            }[unit]
+
+            return value * factor
+
+        minimum_seconds = (
+            _duration_to_seconds(
+                hop_interval
+            )
+        )
+
+        maximum_seconds = (
+            _duration_to_seconds(
+                hop_interval_max
+            )
+        )
+
+        if (
+            minimum_seconds is not None
+            and maximum_seconds is not None
+            and maximum_seconds < minimum_seconds
+        ):
+            raise ValueError(
+                "hop_interval_max cannot be "
+                "smaller than hop_interval"
+            )
+
+    return (
+        hop_interval,
+        hop_interval_max,
+    )
 
 
 def parse(data):
@@ -911,29 +1141,38 @@ def parse(data):
     # port hopping interval
     # sing-box 1.11+
     # --------------------------------------------------------
-    hop_interval = _parse_optional_duration(
-        query,
-        "hop_interval",
-        "hopInterval"
+    # --------------------------------------------------------
+    # port hopping interval
+    #
+    # 支持：
+    #
+    #   hop_interval=30
+    #   hop_interval=30s
+    #
+    # 以及 Mihomo：
+    #
+    #   hop_interval=15-30
+    #
+    # 最终：
+    #
+    #   hop_interval=15s
+    #   hop_interval_max=30s
+    # --------------------------------------------------------
+    hop_interval, hop_interval_max = (
+        _parse_hop_interval(
+            query
+        )
     )
 
     if hop_interval:
-        node["hop_interval"] = hop_interval
-
-    # --------------------------------------------------------
-    # random port hopping upper bound
-    # sing-box 1.14.0
-    # --------------------------------------------------------
-    hop_interval_max = _parse_optional_duration(
-        query,
-        "hop_interval_max",
-        "hopIntervalMax",
-        "maxHopInterval"
-    )
+        node["hop_interval"] = (
+            hop_interval
+        )
 
     if hop_interval_max:
-        node["hop_interval_max"] = hop_interval_max
-
+        node["hop_interval_max"] = (
+            hop_interval_max
+        )
     # --------------------------------------------------------
     # bbr_profile
     # sing-box 1.14.0
