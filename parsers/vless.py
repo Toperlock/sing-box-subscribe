@@ -154,7 +154,7 @@ def _add_tls(node, query):
     if reality_requested:
         if not public_key:
             return False
-        if short_id is not None and not re.fullmatch(r"[0-9a-fA-F]{0,8}", short_id):
+        if short_id is not None and not re.fullmatch(r"[0-9a-fA-F]{0,16}", short_id):
             return False
         reality = {
             "enabled": True,
