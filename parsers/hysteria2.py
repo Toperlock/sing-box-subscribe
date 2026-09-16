@@ -510,7 +510,7 @@ def _get_auth(userinfo, query):
     query_auth = _first(query, "auth")
 
     if query_auth is not None:
-        return unquote(query_auth)
+        return query_auth
 
     if userinfo is None:
         return ""
@@ -586,7 +586,7 @@ def _parse_obfs(query):
             f"requires obfs-password"
         )
 
-    obfs_password = unquote(obfs_password)
+    obfs_password = str(obfs_password)
 
     if not obfs_password:
         raise ValueError(
@@ -899,6 +899,44 @@ def _parse_hop_interval(query):
     )
 
 
+def _parse_query(query_string):
+    """
+    RFC3986 风格 Query 解析。
+
+    只进行 percent-decoding：
+        %2B -> +
+        %40 -> @
+
+    不执行 application/x-www-form-urlencoded 的：
+        + -> space
+
+    支持：
+        a=1
+        a=1&b=2
+        a=1&a=2
+        a=
+    """
+    result = {}
+
+    if not query_string:
+        return result
+
+    for item in query_string.split("&"):
+        if not item:
+            continue
+
+        if "=" in item:
+            key, value = item.split("=", 1)
+        else:
+            key, value = item, ""
+
+        key = unquote(key)
+        value = unquote(value)
+
+        result.setdefault(key, []).append(value)
+
+    return result
+
 def parse(data):
     """
     Hysteria2 URI -> sing-box 1.14.0 outbound
@@ -941,10 +979,7 @@ def parse(data):
     # 能正确识别：
     #   ?sni=
     # --------------------------------------------------------
-    query = parse_qs(
-        parsed.query,
-        keep_blank_values=True
-    )
+    query = _parse_query(parsed.query)
 
     # --------------------------------------------------------
     # host / port
@@ -1007,9 +1042,7 @@ def parse(data):
     )
 
     if server_name:
-        server_name = unquote(
-            server_name
-        ).strip()
+        server_name = server_name.strip()
 
         if server_name.lower() not in {
             "none",
