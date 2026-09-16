@@ -2363,6 +2363,8 @@ def clash2v2ray(original_share_link):
                 )
             ],
             doseq=True,
+            quote_via=quote,
+            safe="",
         )
 
         auth = share_link.get(
