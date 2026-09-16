@@ -27,26 +27,24 @@ def _is_true(value):
 
 def _quote_uri(value):
     """
-    对 URI 动态字段进行规范化的 percent-encoding。
+    对结构化字段值做一次 URI percent-encoding。
 
-    规则：
-    1. 先解码已有 percent-encoding，避免二次编码；
-       例如 %40 -> @ -> %40，而不是 %2540。
-    2. 再重新编码为标准 URI value。
-    3. 不用于 scheme / host / port 等结构字段。
+    重要：
+    这里的 value 来自 Clash / Mihomo YAML 的结构化字段，
+    应视为原始字符串，绝不能先 unquote()。
+
+    例如：
+        abc@123      -> abc%40123
+        abc%40123    -> abc%2540123
+
+    第二种情况是正确的：
+    因为输入值本身包含字面量 "%40"。
     """
     if value is None:
         return ""
 
-    text = str(value)
-
-    try:
-        text = unquote(text)
-    except Exception:
-        pass
-
     return quote(
-        text,
+        str(value),
         safe="",
     )
 
