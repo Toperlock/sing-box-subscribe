@@ -2210,7 +2210,41 @@ def clash2v2ray(original_share_link):
                     alpn,
                 )
             )
+            
 
+                # --------------------------------------------------------
+        # bandwidth
+        # --------------------------------------------------------
+        up_mbps = _format_bandwidth(
+            share_link.get(
+                "upmbps",
+                share_link.get("up")
+            )
+        )
+        
+        down_mbps = _format_bandwidth(
+            share_link.get(
+                "downmbps",
+                share_link.get("down")
+            )
+        )
+        
+        if up_mbps:
+            query_params.append(
+                (
+                    "upmbps",
+                    up_mbps,
+                )
+            )
+        
+        if down_mbps:
+            query_params.append(
+                (
+                    "downmbps",
+                    down_mbps,
+                )
+            )
+            
         if ports:
             query_params.append(
                 (
